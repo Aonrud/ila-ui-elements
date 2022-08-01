@@ -1,0 +1,22 @@
+@use 'sass:color';
+/**
+ * General use colours
+ */
+
+$colour-primary:                #428bca !default;
+$colour-secondary:              #555 !default;
+$colour-text:                   #fff !default;
+
+$colour-link:                   $colour-primary !default;
+
+$colour-bg:                     $colour-secondary !default;
+$colour-border:                 color.adjust($colour-bg, $lightness: -5%);
+
+$colour-button-bg:              color.adjust($colour-bg, $lightness: -10%) !default;
+$colour-button-border:          color.adjust($colour-bg, $lightness: -15%) !default;
+$colour-button-text:            #fff !default;
+$colour-button-disabled-text:   $colour-secondary !default;
+
+$colour-caption-bg:             color.adjust($colour-bg, $lightness: -5%) !default;
+$colour-caption-text:           #fff !default;
+

@@ -1,0 +1,20 @@
+@use 'variables' as *;
+
+@mixin ila-button {
+    background: $colour-button-bg;
+    border-color: $colour-button-border;
+    color: $colour-button-text;
+    box-sizing: border-box;
+    &:hover {
+        color: $colour-link;
+    }
+    &:disabled {
+        color: $colour-button-disabled-text;
+    }
+}
+
+@mixin ila-caption {
+    background-color: $colour-caption-bg;
+    color: $colour-caption-text;
+    box-sizing: border-box;
+} 

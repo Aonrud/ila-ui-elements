@@ -1,0 +1,87 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+$colour-shadow: #ccc;
+
+.scroller {
+	background: $colour-bg;
+	position: relative;
+	max-width: 100%;
+	-webkit-transition: left 0.5s ease;
+	-moz-transition: left 0.5s ease;
+	-o-transition: left 0.5s ease;
+	transition: left 0.5s ease;
+	
+	ul {
+		list-style: none;
+		display: flex;
+		margin: 0;
+		padding: 0;
+		white-space: nowrap;
+		li {
+			box-sizing: border-box;
+			display: flex;
+			flex: 1 0 12.5%;
+			border: 1px solid $colour-border;
+			background: $colour-bg;
+			white-space: normal;
+			a {
+				width: 100%;
+				height: 100%;
+				position: relative;
+			}
+			a img:hover, a:hover .caption {
+				opacity: 1;
+			}
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
+	
+	.caption {
+		@include ila-caption;
+		position: absolute;
+		width: 100%;
+		bottom: 0;
+		padding: 10px;
+		-moz-transition: opacity 0.2s linear;
+		-webkit-transition: opacity 0.2s linear;
+		-o-transition: opacity 0.2s linear;
+		transition: opacity 0.2s linear;
+		opacity: 0;
+		&:hover {
+			opacity: 1;
+		}
+	}
+}
+
+.scroller-wrapper {
+	position: relative;
+	padding: 0 1.5em;
+	button {
+		@include ila-button;
+		position: absolute;
+		width: 1em;
+		z-index: 10;
+		height: 100%;
+		font-size: 1.5em;
+		padding: 0;
+		cursor: pointer;
+	}
+}
+
+button.scroller-left {
+	top: 0;
+	left: 0;
+	box-shadow: -5px 0px 2px 0px $colour-shadow;
+	border-radius: 4px 0 0 4px;
+}
+
+button.scroller-right {
+	top: 0;
+	right: 0;
+	box-shadow: 5px 0px 2px 0px $colour-shadow;
+	border-radius: 0 4px 4px 0;
+}
