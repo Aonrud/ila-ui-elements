@@ -1,0 +1,14 @@
+pages:
+  stage: deploy
+  script:
+    - mkdir .public
+    - cp -r ./demo/* .public
+    - cp -r ./dist/* .public
+    - sed -i 's/..\/dist\///g' .public/index.html
+    - rm -rf public
+    - mv .public public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
