@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="../dist/ila-ui.min.css" />
+		<style type="text/css">
+			main {
+				max-width: 1200px;
+				margin: auto;
+			}
+			img {
+				display: block;
+				max-width: 100%;
+				margin: 0 auto;
+			}
+			figcaption {
+				text-align: center;
+			}
+		</style>
+		<title>ILA UI Elements Demo</title>
+	</head>
+	<body>
+	<main>
+		<header>
+			<h1>ILA UI Elements Demo</h1>
+			<p>Each element in the package is demonstrated below. Please refer to the README.md file for instructions for use.</p>
+		</header>
+		<nav>
+			<ul>
+				<li><a href="#scroller">Scroller</a></li>
+				<li><a href="#image-viewer">Image Viewer</a></li>
+			</ul>
+		</nav>
+		
+		<section id="scroller">
+			<h2>Scroller</h2>
+			<button id="create">Create</button>
+			<button id="destroy">Destroy</button>
+			
+			<div class="scroller">
+				<ul class="list-inline">
+					<li><a href="#"><img src="sample_200x300.png" alt=""><div class="caption">1st scroller image</div></a></li>
+					
+					<li><a href="#"><img src="sample_200x300_alt1.png" alt=""><div class="caption">2nd scroller image has a longer caption taking up more space</div></a></li>
+					
+					<li><a href="#"><img src="sample_200x300_alt2.png" alt=""><div class="caption">3rd scroller image</div></a></li>
+					
+					<li><a href="#"><img src="sample_200x250.png" alt=""><div class="caption">4th scroller image, shorter than the rest.</div></a></li>
+					
+					<li><a href="#"><img src="sample_200x300_alt1.png" alt=""><div class="caption">5th scroller image</div></a></li>
+					
+					<li><a href="#"><img src="sample_200x300_alt2.png" alt=""><div class="caption">6th scroller image</div></a></li>
+					
+					<li><a href="#"><img src="sample_200x300.png" alt=""><div class="caption">7th scroller image</div></a></li>
+					
+					<li><a href="#"><img src="sample_200x300_alt1.png" alt=""><div class="caption">8th scroller image</div></a></li>
+					
+					<li><a href="#"><img src="sample_200x300_alt2.png" alt=""><div class="caption">9th scroller image</div></a></li>
+					
+					<li><a href="#"><img src="sample_200x300.png" alt=""><div class="caption">10th scroller image</div></a></li>
+					
+					<li><a href="#"><img src="sample_200x300_alt1.png" alt=""><div class="caption">11th scroller image</div></a></li>
+					
+					<li><a href="#"><img src="sample_200x300_alt2.png" alt=""><div class="caption">12th scroller image</div></a></li>
+				</ul>
+			</div>
+		</section>
+		
+		<section id="image-viewer">
+			<h2>Image Viewer</h2>
+			<p>
+			Dolore necessitatibus sit voluptate. Cupiditate blanditiis eveniet autem voluptatem ut dignissimos. Veniam eum amet aut nemo earum at optio est.
+			</p>
+			<figure>
+				<a href="https://www.example.com/">
+					<img class="viewer" alt="This is the image alt" data-full="sample_1920x1080.png" src="sample_600x338.png" />
+				</a>
+			</figure>
+			<p>
+			Similique dolorum ut repellat at ut. Omnis illum aut fuga neque tempore doloribus rem. Amet rerum molestiae facilis consequatur possimus dolores sint quia. Assumenda blanditiis sint vel est. Quia quo eveniet perferendis asperiores recusandae qui blanditiis.
+			</p>
+			<figure>
+				<img class="viewer" alt="This is the image alt" data-full="sample_200x300_alt2.png" src="sample_600x338.png" />
+				<figcaption class="caption">This one isn't wrapped in an anchor.</figcaption>
+			</figure>
+			<p>
+			Similique dolorum ut repellat at ut. Omnis illum aut fuga neque tempore doloribus rem. Amet rerum molestiae facilis consequatur possimus dolores sint quia. Assumenda blanditiis sint vel est. Quia quo eveniet perferendis asperiores recusandae qui blanditiis.
+			</p>
+			<figure>
+				<img class="viewer" alt="This is the image alt" data-full="sample_2500x500.png" src="sample_1000x200.png" />
+				<figcaption class="caption">This image is an awkward size.</figcaption>
+			</figure>
+			<p>
+			Similique dolorum ut repellat at ut. Omnis illum aut fuga neque tempore doloribus rem. Amet rerum molestiae facilis consequatur possimus dolores sint quia. Assumenda blanditiis sint vel est. Quia quo eveniet perferendis asperiores recusandae qui blanditiis.
+			</p>
+		</section>
+		
+		<script src="../dist/ila-ui.js"></script>
+		<script>
+			//Scroller
+			const s = new ila.Scroller(document.querySelector(".scroller"));
+			document.getElementById("create").addEventListener("click", () => s.create());
+			document.getElementById("destroy").addEventListener("click", () => s.destroy());
+			
+			//Image Viewer
+			const iv = new ila.ImageViewer({
+				showDownload: true
+			});
+			iv.create();
+		</script>
+	</main>
+	</body>
+</html>

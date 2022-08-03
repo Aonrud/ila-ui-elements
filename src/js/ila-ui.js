@@ -1,3 +1,4 @@
 import Scroller from './scroller.js';
+import ImageViewer from './ImageViewer.js';
 
-export { Scroller };
+export { Scroller, ImageViewer }

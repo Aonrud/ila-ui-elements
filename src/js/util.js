@@ -9,11 +9,7 @@ function applyConfig(defaults, conf) {
 	let c = {};
 	
 	for (const prop in defaults) {
-		if(conf.hasOwnProperty(prop)) {
-			c[prop] = conf[prop];
-		} else {
-			c[prop] = defaults[prop];
-		}
+		c[prop] = conf[prop] ?? defaults[prop];
 	}
 	return c;
 }

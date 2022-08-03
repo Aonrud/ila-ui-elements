@@ -3,8 +3,8 @@ import {applyConfig} from './util.js';
 const scrollerConfig = {
 	leftButtonClass: 'scroller-left btn btn-scroller',
 	rightButtonClass: 'scroller-right btn btn-scroller',
-	leftButtonContent: '←',
-	rightButtonContent: '→',
+	leftButtonContent: '⮈',
+	rightButtonContent: '⮊',
 	breakpoints: [ [0, 4], [768, 4], [992, 6], [1200, 8] ]
 }
 
