@@ -84,7 +84,7 @@
 }
 .scroller-wrapper button:disabled, .scroller-wrapper button.disabled {
   color: #555;
-  cursor: not-allowed;
+  cursor: auto;
 }
 
 button.scroller-left {
@@ -176,7 +176,7 @@ button.scroller-right {
 }
 .image-viewer-controls a:disabled, .image-viewer-controls a.disabled, .image-viewer-controls button:disabled, .image-viewer-controls button.disabled {
   color: #555;
-  cursor: not-allowed;
+  cursor: auto;
 }
 
 @media screen and (min-width: 768px) {

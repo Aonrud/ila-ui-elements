@@ -15,7 +15,7 @@
     }
     &:disabled, &.disabled {
         color: $colour-button-disabled-text;
-        cursor: not-allowed;
+        cursor: auto;
     }
 }
 
