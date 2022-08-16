@@ -1,6 +1,19 @@
 import {applyConfig} from './util.js';
 
-const scrollerConfig = {
+
+/**
+ * @typedef {Object} scrollerConfig
+ * @property {string} [leftButtonClass = "scroller-left btn btn-scroller"]
+ * @property {string} [rightButtonClass = "scroller-right btn btn-scroller"]
+ * @property {string} [leftButtonContent = "⮈"]
+ * @property {string} [rightButtonContent = "⮊"]
+ * @property {[number, number][]} [breakpoints = [ [0, 4], [768, 4], [992, 6], [1200, 8] ]]
+ */
+
+/**
+ * @type scrollerConfig
+ */
+const defaultScrollerConfig = {
 	leftButtonClass: 'scroller-left btn btn-scroller',
 	rightButtonClass: 'scroller-right btn btn-scroller',
 	leftButtonContent: '⮈',
@@ -10,9 +23,13 @@ const scrollerConfig = {
 
 class Scroller {
 	
+	/**
+	 * @param {HTMLElement} el
+	 * @param {scrollerConfig} [config = {}]
+	 */
 	constructor(el, config = {} ) {
 		this._container = el;
-		this._config = applyConfig(scrollerConfig, config);
+		this._config = applyConfig(defaultScrollerConfig, config);
 		
 		this._sizes();
 		this._timer = null;

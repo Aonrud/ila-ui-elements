@@ -30,7 +30,19 @@ function applyConfig(defaults, conf) {
 	return c;
 }
 
-const scrollerConfig = {
+/**
+ * @typedef {Object} scrollerConfig
+ * @property {string} [leftButtonClass = "scroller-left btn btn-scroller"]
+ * @property {string} [rightButtonClass = "scroller-right btn btn-scroller"]
+ * @property {string} [leftButtonContent = "⮈"]
+ * @property {string} [rightButtonContent = "⮊"]
+ * @property {[number, number][]} [breakpoints = [ [0, 4], [768, 4], [992, 6], [1200, 8] ]]
+ */
+
+/**
+ * @type scrollerConfig
+ */
+const defaultScrollerConfig = {
 	leftButtonClass: 'scroller-left btn btn-scroller',
 	rightButtonClass: 'scroller-right btn btn-scroller',
 	leftButtonContent: '⮈',
@@ -40,9 +52,13 @@ const scrollerConfig = {
 
 class Scroller {
 	
+	/**
+	 * @param {HTMLElement} el
+	 * @param {scrollerConfig} [config = {}]
+	 */
 	constructor(el, config = {} ) {
 		this._container = el;
-		this._config = applyConfig(scrollerConfig, config);
+		this._config = applyConfig(defaultScrollerConfig, config);
 		
 		this._sizes();
 		this._timer = null;
@@ -187,7 +203,31 @@ class Scroller {
 
 //TODO: No need to add all image elements to the overlay.  Probably better to switch the src.
 
-const defaultConfig = {
+
+/**
+ * @typedef imageViewerConfig
+ * @property {string} [targetClass = "viewer"]
+ * @property {boolean} [panzoom = false] TODO: Not implemented
+ * @property {boolean} [showDownload = false]
+ * @property {boolean} [showLink = true]
+ * @property {string} [btnCueText = "⨁"]
+ * @property {string} [btnHideText = "ⓧ"]
+ * @property {string} [btnDownloadText = "⮋"]
+ * @property {string} [btnPrevText = "⮈"]
+ * @property {string} [btnNextText = "⮊"]
+ * @property {string} [btnLinkText = "⛓"]
+ * @property {string} [btnCueIcon = ""]
+ * @property {string} [btnHideIcon = ""]
+ * @property {string} [btnDownloadIcon = ""]
+ * @property {string} [btnPrevIcon = ""]
+ * @property {string} [btnNextIcon = ""]
+ * @property {string} [btnLinkIcon = ""]
+ */
+
+/**
+ * @type imageViewerConfig
+ */
+const defaultImageViewerConfig = {
 	targetClass: "viewer",
 	panzoom: false,
 	showDownload: false,
@@ -212,7 +252,7 @@ class ImageViewer {
 	 * @param {Object} [config = {}] The css class of images to which the viewer should be applied.
 	 */
 	constructor(config = {}) {
-		this._config = applyConfig(defaultConfig, config);
+		this._config = applyConfig(defaultImageViewerConfig, config);
 		this._sourceImages = document.querySelectorAll('img.' + this._config.targetClass);
 	}
 	
