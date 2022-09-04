@@ -1,6 +1,6 @@
 {
   "name": "ila_ui_elements",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "UI elements for the Irish Left Archive website",
   "main": "dist/ila-ui.js",
   "scripts": {
@@ -13,6 +13,7 @@
   "author": "Aonghus Storey",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
+    "@panzoom/panzoom": "^4.5.0",
     "npm-run-all": "^4.1.5",
     "rollup": "^2.53.3",
     "rollup-plugin-terser": "^7.0.2"

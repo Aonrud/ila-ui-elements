@@ -96,6 +96,7 @@
 		</section>
 		
 		<script src="../dist/ila-ui.js"></script>
+		<script src="https://unpkg.com/@panzoom/panzoom@4.5.0/dist/panzoom.min.js"></script>
 		<script>
 			//Scroller
 			const s = new ila.Scroller(document.querySelector(".scroller"));
@@ -104,7 +105,8 @@
 			
 			//Image Viewer
 			const iv = new ila.ImageViewer({
-				showDownload: true
+				showDownload: true,
+				panzoom: true
 			});
 			iv.create();
 		</script>
