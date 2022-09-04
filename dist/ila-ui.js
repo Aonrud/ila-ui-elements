@@ -283,36 +283,6 @@
 			this._createOverlay();
 		}
 		
-		_setupImages() {
-			for (const [i, img] of this._images.entries()) {
-				
-				let wrap = img.parentElement;
-				
-				if (wrap.tagName !== "A") {
-					wrap = document.createElement("a");
-					img.parentElement.insertBefore(wrap, img);
-					wrap.append(img);
-				}
-				
-				wrap.classList.add("viewer-wrap");
-				
-				const cue = document.createElement("div");
-				cue.classList.add("cue");
-				cue.textContent = this._config.btnCueText;
-				if (this._config.btnCueIcon) {
-					this._insertIcon(this._config.btnCueIcon, cue);
-				}
-				wrap.append(cue);
-				
-				wrap.addEventListener("click",
-					e => {
-						e.preventDefault();
-						this.show(i);
-					}
-				);
-			}
-		}
-			
 		next() {
 			const n = this._activeIndex === this._images.length - 1 ? 0 : this._activeIndex + 1;
 			this.show(n);
@@ -333,14 +303,14 @@
 		}
 		
 		/**
-		 * @param {number} [n] Index of image to show
+		 * @param {number} [n = 0] Index of image to show
 		 */
-		show(n) {
+		show(n = 0) {
 			
 			//If this is the first run, insert the overlay into the document
-			if(!document.getElementById("overlay")) {
-				document.body.append(this._overlay);
-			}
+			if(!document.getElementById("overlay")) document.body.append(this._overlay);
+			//Instantiate panzoom if needed
+			if (this._config.panzoom) this._pzInstance = this._pzInstance ?? Panzoom(this._imgDisplay, { disableZoom: true, noBind: true });
 			
 			if (!this._active) {
 				this._overlay.style.display = "block";
@@ -376,56 +346,37 @@
 		 * @param {Event} e
 		 */
 		zoom(e) {
-			this._pzInstance = this._pzInstance ?? Panzoom(this._imgDisplay, { disableZoom: true });
-			
 			if (e.target.classList.contains("zoomed")) {
-				this._imgDisplay.classList.remove("pan");
-				this._pzInstance.reset({ animate: false });
+				this.zoomToggle(false);
 				e.target.textContent = this._config.btnZoomText;
 				if (this._config.btnZoomIcon) e.target.querySelector("span").className = this._config.btnZoomIcon;
 				e.target.setAttribute("title", this.strings.titleZoom);
-				e.target.classList.remove("zoomed");
+				
 			} else {
-				e.target.classList.add("zoomed");
-				this._imgDisplay.classList.add("pan");
+				this.zoomToggle(true);
 				e.target.textContent = this._config.btnZoomTextActive;
 				if (this._config.btnZoomIconActive) e.target.querySelector("span").className = this._config.btnZoomIconActive;
-				e.target.classList.add("zoomed");
 				e.target.setAttribute("title", this.strings.titleZoomActive);
 			}
+			
+			e.target.classList.toggle("zoomed");
 		}
-
-		_updateControls() {
-			const img = this._imgDisplay;
-			const i = this._activeIndex;
+		
+		/**
+		 * @param {boolean} [switchOn = true]
+		 */
+		zoomToggle(switchOn = true) {
+			const pz = this._pzInstance;
+			this._imgDisplay.classList.toggle("pan");
 			
-			if (this._config.showDownload) {
-				const dl = document.getElementById("btnDownload");
-				dl.href = img.src;
-				dl.setAttribute("download", "");
+			if (switchOn) {
+				pz.bind();
+				pz.setStyle("cursor", "move");
+				return;
 			}
-			
-			if (this._config.showLink) {
-				const btnLink = document.getElementById("btnLink");
-				if (this._images[i].dataset.link) {
-					btnLink.href = this._images[i].dataset.link;
-					btnLink.style.display = "block";
-				} else {
-					btnLink.removeAttribute("href");
-					btnLink.style.display = "none";
-				}
-			}
-			
-			if (this._config.panzoom) {
-				const btnZoom = document.getElementById("btnZoom");
-				if(img.width < img.naturalWidth) {
-					btnZoom.disabled = false;
-					btnZoom.setAttribute("title", this.strings.titleZoom);
-				} else {
-					btnZoom.disabled = true;
-					btnZoom.setAttribute("title", this.strings.titleZoomDisabled);
-				}
-			}
+			pz.reset({ animate: false });
+			pz.setStyle("cursor", "auto");
+			pz.destroy();
 		}
 
 		/**
@@ -453,6 +404,36 @@
 			
 			this._overlay = overlay;
 			this._imgDisplay = activeImg;
+		}
+		
+		_setupImages() {
+			for (const [i, img] of this._images.entries()) {
+				
+				let wrap = img.parentElement;
+				
+				if (wrap.tagName !== "A") {
+					wrap = document.createElement("a");
+					img.parentElement.insertBefore(wrap, img);
+					wrap.append(img);
+				}
+				
+				wrap.classList.add("viewer-wrap");
+				
+				const cue = document.createElement("div");
+				cue.classList.add("cue");
+				cue.textContent = this._config.btnCueText;
+				if (this._config.btnCueIcon) {
+					this._insertIcon(this._config.btnCueIcon, cue);
+				}
+				wrap.append(cue);
+				
+				wrap.addEventListener("click",
+									  e => {
+										  e.preventDefault();
+										  this.show(i);
+									  }
+				);
+			}
 		}
 		
 		/**
@@ -485,16 +466,47 @@
 				if (this._config[`${el.id}Icon`]) {
 					this._insertIcon(this._config[`${el.id}Icon`], el);
 				}
-				if (this.strings[`title${el.id.replace("btn", "")}`]) { 
+				if (this.strings[`title${el.id.replace("btn", "")}`]) {
 					el.setAttribute("title", this.strings[`title${el.id.replace("btn", "")}`]);
-				} else {
-					console.log(`this.strings[title${el.id.replace("btn", "")}] doesn't exist.`);
 				}
 			}
 			
 			return controls;
 		}
 		
+		_updateControls() {
+			const img = this._imgDisplay;
+			const i = this._activeIndex;
+			
+			if (this._config.showDownload) {
+				const dl = document.getElementById("btnDownload");
+				dl.href = img.src;
+				dl.setAttribute("download", "");
+			}
+			
+			if (this._config.showLink) {
+				const btnLink = document.getElementById("btnLink");
+				if (this._images[i].dataset.link) {
+					btnLink.href = this._images[i].dataset.link;
+					btnLink.style.display = "block";
+				} else {
+					btnLink.removeAttribute("href");
+					btnLink.style.display = "none";
+				}
+			}
+			
+			if (this._config.panzoom) {
+				const btnZoom = document.getElementById("btnZoom");
+				if(img.width < img.naturalWidth) {
+					btnZoom.disabled = false;
+					btnZoom.setAttribute("title", this.strings.titleZoom);
+				} else {
+					btnZoom.disabled = true;
+					btnZoom.setAttribute("title", this.strings.titleZoomDisabled);
+				}
+			}
+		}
+			
 		/**
 		 * @param {string} b
 		 * @return {HTMLButtonElement}
