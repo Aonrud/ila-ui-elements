@@ -259,6 +259,17 @@
 
 	class ImageViewer {
 		
+		strings = {
+			titleHide: "Close",
+			titlePrev: "Previous image",
+			titleNext: "Next image",
+			titleZoom: "Enlarge image (drag to move the image around)",
+			titleZoomActive: "Reset image to fit screen",
+			titleZoomDisabled: "Zoom disabled (the image is already full size)",
+			titleDownload: "Download this image",
+			titleLink: "More information"
+		}
+		
 		/**
 		 * @param {imageViewerConfig} [config = defaultImageViewerConfig]
 		 */
@@ -372,6 +383,7 @@
 				this._pzInstance.reset({ animate: false });
 				e.target.textContent = this._config.btnZoomText;
 				if (this._config.btnZoomIcon) e.target.querySelector("span").className = this._config.btnZoomIcon;
+				e.target.setAttribute("title", this.strings.titleZoom);
 				e.target.classList.remove("zoomed");
 			} else {
 				e.target.classList.add("zoomed");
@@ -379,6 +391,7 @@
 				e.target.textContent = this._config.btnZoomTextActive;
 				if (this._config.btnZoomIconActive) e.target.querySelector("span").className = this._config.btnZoomIconActive;
 				e.target.classList.add("zoomed");
+				e.target.setAttribute("title", this.strings.titleZoomActive);
 			}
 		}
 
@@ -407,8 +420,10 @@
 				const btnZoom = document.getElementById("btnZoom");
 				if(img.width < img.naturalWidth) {
 					btnZoom.disabled = false;
+					btnZoom.setAttribute("title", this.strings.titleZoom);
 				} else {
 					btnZoom.disabled = true;
+					btnZoom.setAttribute("title", this.strings.titleZoomDisabled);
 				}
 			}
 		}
@@ -469,6 +484,11 @@
 				el.textContent = this._config[`${el.id}Text`];
 				if (this._config[`${el.id}Icon`]) {
 					this._insertIcon(this._config[`${el.id}Icon`], el);
+				}
+				if (this.strings[`title${el.id.replace("btn", "")}`]) { 
+					el.setAttribute("title", this.strings[`title${el.id.replace("btn", "")}`]);
+				} else {
+					console.log(`this.strings[title${el.id.replace("btn", "")}] doesn't exist.`);
 				}
 			}
 			
