@@ -6,22 +6,34 @@ import {applyConfig} from './util.js';
  * @property {boolean} [panzoom = false]
  * @property {boolean} [showDownload = false]
  * @property {boolean} [showLink = true]
- * @property {string} [btnCueText = "⨁"]
- * @property {string} [btnHideText = "ⓧ"]
- * @property {string} [btnDownloadText = "⮋"]
- * @property {string} [btnPrevText = "⮈"]
- * @property {string} [btnNextText = "⮊"]
- * @property {string} [btnLinkText = "⛓"]
- * @property {string} [btnZoomText = "🞕"]
- * @property {string} [btnZoomTextActive = "🞔"]
- * @property {string} [btnCueIcon = ""]
- * @property {string} [btnHideIcon = ""]
- * @property {string} [btnDownloadIcon = ""]
- * @property {string} [btnPrevIcon = ""]
- * @property {string} [btnNextIcon = ""]
- * @property {string} [btnLinkIcon = ""]
- * @property {string} [btnZoomIcon = ""]
- * @property {string} [btnZoomIconActive = ""]
+ * @property {object} [texts = {}]
+ * @property {string} [texts.cue = "⨁"]
+ * @property {string} [texts.hide = "ⓧ"]
+ * @property {string} [texts.download = "⮋"]
+ * @property {string} [texts.prev = "⮈"]
+ * @property {string} [texts.next = "⮊"]
+ * @property {string} [texts.link = "⛓"]
+ * @property {string} [texts.zoom = "🞕"]
+ * @property {string} [texts.zoomActive = "🞔"]
+ * @property {object} [icons = {}]
+ * @property {string} [icons.cue = ""]
+ * @property {string} [icons.hide = ""]
+ * @property {string} [icons.download = ""]
+ * @property {string} [icons.prev = ""]
+ * @property {string} [icons.next = ""]
+ * @property {string} [icons.link = ""]
+ * @property {string} [icons.zoom = ""]
+ * @property {string} [icons.zoomActive = ""]
+ * @property {object} [titles = {}]
+ * @property {string} [titles.cue = ""]
+ * @property {string} [titles.hide = "Close"]
+ * @property {string} [titles.download = "Download this image"]
+ * @property {string} [titles.prev = "Previous image"]
+ * @property {string} [titles.next = "Next image"]
+ * @property {string} [titles.link = "More information"]
+ * @property {string} [titles.zoom = "Enlarge image (drag to move the image around)"]
+ * @property {string} [titles.zoomActive = "Reset image to fit screen"] 
+ * @property {string} [titles.zoomDisabled = "Zoom disabled (the image is already full size)]
  */
 
 /**
@@ -32,36 +44,40 @@ const defaultImageViewerConfig = {
 	panzoom: false,
 	showDownload: false,
 	showLink: true,
-	btnCueText: "⨁",
-	btnHideText: "ⓧ",
-	btnDownloadText: "⮋",
-	btnPrevText: "⮈",
-	btnNextText: "⮊",
-	btnLinkText: "⛓",
-	btnZoomText: "🞕",
-	btnZoomTextActive: "🞔",
-	btnCueIcon: "",
-	btnHideIcon: "",
-	btnDownloadIcon: "",
-	btnPrevIcon: "",
-	btnNextIcon: "",
-	btnLinkIcon: "",
-	btnZoomIcon: "",
-	btnZoomIconActive: ""
+	texts: {
+		cue: "⨁",
+		hide: "ⓧ",
+		download: "⮋",
+		prev: "⮈",
+		next: "⮊",
+		link: "⛓",
+		zoom: "🞕",
+		zoomActive: "🞔",
+	},
+	icons: {
+		cue: "",
+		hide: "",
+		download: "",
+		prev: "",
+		next: "",
+		link: "",
+		zoom: "",
+		zoomActive: "",
+	},
+	titles: {
+		cue: "",
+		hide: "Close",
+		download: "Download this image",
+		prev: "Previous image",
+		next: "Next image",
+		link:  "More information",
+		zoom: "Enlarge image (drag to move the image around)",
+		zoomActive: "Reset image to fit screen",
+		zoomDisabled: "Zoom disabled (the image is already full size)",
+	}
 }
 
 class ImageViewer {
-	
-	strings = {
-		titleHide: "Close",
-		titlePrev: "Previous image",
-		titleNext: "Next image",
-		titleZoom: "Enlarge image (drag to move the image around)",
-		titleZoomActive: "Reset image to fit screen",
-		titleZoomDisabled: "Zoom disabled (the image is already full size)",
-		titleDownload: "Download this image",
-		titleLink: "More information"
-	}
 	
 	/**
 	 * @param {imageViewerConfig} [config = defaultImageViewerConfig]
@@ -150,10 +166,11 @@ class ImageViewer {
 	 * @param {boolean} [switchOn = true]
 	 */
 	btnToggle(btn, switchOn = true) {
+		const btnName = btn.id.replace("btn", "").toLowerCase();
 		const btnTextNode = [...btn.childNodes].filter( n => n.nodeType === Node.TEXT_NODE)[0];
-		const txt = switchOn ? this._config[`${btn.id}TextActive`] : this._config[`${btn.id}Text`];
-		const icon = switchOn ? this._config[`${btn.id}IconActive`] : this._config[`${btn.id}Icon`];
-		const title = switchOn ? this.strings[`${btn.id.replace("btn", "title")}Active`] : this.strings[btn.id.replace("btn", "title")];
+		const txt = switchOn ? this._config.texts[`${btnName}Active`] : this._config.texts[btnName];
+		const icon = switchOn ? this._config.icons[`${btnName}Active`] : this._config[btnName];
+		const title = switchOn ? this._config.titles[`${btnName}Active`] : this._config.titles[btnName];
 		
 		if (txt) {
 			if(!btnTextNode) {
@@ -238,9 +255,9 @@ class ImageViewer {
 			
 			const cue = document.createElement("div");
 			cue.classList.add("cue");
-			cue.textContent = this._config.btnCueText;
-			if (this._config.btnCueIcon) {
-				this._insertIcon(this._config.btnCueIcon, cue);
+			cue.textContent = this._config.texts.cue;
+			if (this._config.icons.cue) {
+				this._insertIcon(this._config.icons.cue, cue);
 			}
 			wrap.append(cue);
 			
@@ -279,12 +296,14 @@ class ImageViewer {
 		}
 		
 		for (const el of controls.children) {
-			el.textContent = this._config[`${el.id}Text`];
-			if (this._config[`${el.id}Icon`]) {
-				this._insertIcon(this._config[`${el.id}Icon`], el);
+			const btnName = el.id.replace("btn", "").toLowerCase();
+			console.log(this._config.titles[btnName]);
+			el.textContent = this._config.texts[btnName];
+			if (this._config.icons[btnName]) {
+				this._insertIcon(this._config.icons[btnName], el);
 			}
-			if (this.strings[`title${el.id.replace("btn", "")}`]) {
-				el.setAttribute("title", this.strings[`title${el.id.replace("btn", "")}`]);
+			if (this._config.titles[btnName]) {
+				el.setAttribute("title", this._config.titles[btnName]);
 			}
 		}
 		
@@ -318,10 +337,10 @@ class ImageViewer {
 			const btnZoom = document.getElementById("btnZoom");
 			if(img.width < img.naturalWidth) {
 				btnZoom.disabled = false;
-				btnZoom.setAttribute("title", this.strings.titleZoom);
+				btnZoom.setAttribute("title", this._config.titles.zoom);
 			} else {
 				btnZoom.disabled = true;
-				btnZoom.setAttribute("title", this.strings.titleZoomDisabled);
+				btnZoom.setAttribute("title", this._config.titles.zoomDisabled);
 			}
 		}
 	}
@@ -365,3 +384,5 @@ class ImageViewer {
 }
 
 export default ImageViewer
+
+
