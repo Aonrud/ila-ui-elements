@@ -346,20 +346,23 @@
 		 * @param {Event} e
 		 */
 		zoom(e) {
-			if (e.target.classList.contains("zoomed")) {
+			const target = e.currentTarget;
+			const targetTextNode = [...target.childNodes].filter( n => n.nodeType === Node.TEXT_NODE)[0];
+			console.log(targetTextNode);
+			if (target.classList.contains("zoomed")) {
 				this.zoomToggle(false);
-				e.target.textContent = this._config.btnZoomText;
-				if (this._config.btnZoomIcon) e.target.querySelector("span").className = this._config.btnZoomIcon;
-				e.target.setAttribute("title", this.strings.titleZoom);
+				targetTextNode.textContent = this._config.btnZoomText;
+				if (this._config.btnZoomIcon) target.querySelector("span").className = this._config.btnZoomIcon;
+				target.setAttribute("title", this.strings.titleZoom);
 				
 			} else {
 				this.zoomToggle(true);
-				e.target.textContent = this._config.btnZoomTextActive;
-				if (this._config.btnZoomIconActive) e.target.querySelector("span").className = this._config.btnZoomIconActive;
-				e.target.setAttribute("title", this.strings.titleZoomActive);
+				targetTextNode.textContent = this._config.btnZoomTextActive;
+				if (this._config.btnZoomIconActive) target.querySelector("span").className = this._config.btnZoomIconActive;
+				target.setAttribute("title", this.strings.titleZoomActive);
 			}
 			
-			e.target.classList.toggle("zoomed");
+			target.classList.toggle("zoomed");
 		}
 		
 		/**
