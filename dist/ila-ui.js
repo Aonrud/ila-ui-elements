@@ -306,12 +306,6 @@
 		 * @param {number} [n = 0] Index of image to show
 		 */
 		show(n = 0) {
-			
-			//If this is the first run, insert the overlay into the document
-			if(!document.getElementById("overlay")) document.body.append(this._overlay);
-			//Instantiate panzoom if needed
-			if (this._config.panzoom) this._pzInstance = this._pzInstance ?? Panzoom(this._imgDisplay, { disableZoom: true, noBind: true });
-			
 			if (!this._active) {
 				this._overlay.style.display = "block";
 				document.body.style.overflow = "hidden";
@@ -329,6 +323,12 @@
 			const img = this._images[n];
 			this._activeIndex = n;
 			
+			//If panzoom is still on for last image, switch it off
+			if (this._config.panzoom && this._imgDisplay.classList.contains("pan")) { 
+				this.btnToggle(document.getElementById("btnZoom"), false);
+				this.zoomToggle(false);
+			}
+			
 			this._imgDisplay.src = img.dataset.full ?? img.src;
 			this._imgDisplay.setAttribute("alt", img.getAttribute("alt"));
 			
@@ -343,26 +343,28 @@
 		}
 		
 		/** 
-		 * @param {Event} e
+		 * @param {HTMLElement} e The click event
 		 */
 		zoom(e) {
-			const target = e.currentTarget;
-			const targetTextNode = [...target.childNodes].filter( n => n.nodeType === Node.TEXT_NODE)[0];
+			const state = !this._imgDisplay.classList.contains("pan");
 			
-			if (target.classList.contains("zoomed")) {
-				this.zoomToggle(false);
-				targetTextNode.textContent = this._config.btnZoomText;
-				if (this._config.btnZoomIcon) target.querySelector("span").className = this._config.btnZoomIcon;
-				target.setAttribute("title", this.strings.titleZoom);
-				
-			} else {
-				this.zoomToggle(true);
-				targetTextNode.textContent = this._config.btnZoomTextActive;
-				if (this._config.btnZoomIconActive) target.querySelector("span").className = this._config.btnZoomIconActive;
-				target.setAttribute("title", this.strings.titleZoomActive);
-			}
-			
-			target.classList.toggle("zoomed");
+			this.zoomToggle(state);
+			this.btnToggle(e.target, state);		
+			e.target.classList.toggle("zoomed");
+		}
+		
+		/**
+		 * @param {boolean} [switchOn = true]
+		 */
+		btnToggle(btn, switchOn = true) {
+			const btnTextNode = [...btn.childNodes].filter( n => n.nodeType === Node.TEXT_NODE)[0];
+			const txt = switchOn ? this._config[`${btn.id}TextActive`] : this._config[`${btn.id}Text`];
+			const icon = switchOn ? this._config[`${btn.id}IconActive`] : this._config[`${btn.id}Icon`];
+			const title = switchOn ? this.strings[`${btn.id.replace("btn", "title")}Active`] : this.strings[btn.id.replace("btn", "title")];
+					
+			btnTextNode.textContent = txt;
+			if (icon) btn.querySelector("span").className = icon;
+			btn.setAttribute("title", title);
 		}
 		
 		/**
@@ -370,13 +372,14 @@
 		 */
 		zoomToggle(switchOn = true) {
 			const pz = this._pzInstance;
-			this._imgDisplay.classList.toggle("pan");
 			
 			if (switchOn) {
+				this._imgDisplay.classList.add("pan");
 				pz.bind();
 				pz.setStyle("cursor", "move");
 				return;
 			}
+			this._imgDisplay.classList.remove("pan");
 			pz.reset({ animate: false });
 			pz.setStyle("cursor", "auto");
 			pz.destroy();
@@ -399,6 +402,7 @@
 			
 			const overlay = document.createElement("div");
 			overlay.id = "overlay";
+			overlay.style.display = "none";
 			overlay.setAttribute("tabindex", -1);
 			overlay.append(imgWrap);
 			overlay.append(caption);
@@ -407,6 +411,16 @@
 			
 			this._overlay = overlay;
 			this._imgDisplay = activeImg;
+			this._active = false;
+					
+			document.body.append(this._overlay);
+			
+			//Instantiate panzoom if needed
+			if (this._config.panzoom) {
+				this._pzInstance = this._pzInstance ?? Panzoom(this._imgDisplay, { disableZoom: true, noBind: true });
+				//Even though only instantiated, the classes are set so we do a full switch off for the initial state
+				this.zoomToggle(false);
+			}
 		}
 		
 		_setupImages() {
