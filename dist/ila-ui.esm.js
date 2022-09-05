@@ -342,7 +342,7 @@ class ImageViewer {
 	zoom(e) {
 		const target = e.currentTarget;
 		const targetTextNode = [...target.childNodes].filter( n => n.nodeType === Node.TEXT_NODE)[0];
-		console.log(targetTextNode);
+		
 		if (target.classList.contains("zoomed")) {
 			this.zoomToggle(false);
 			targetTextNode.textContent = this._config.btnZoomText;
