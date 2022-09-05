@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="stylesheet" href="../dist/ila-ui.min.css" />
+		<link rel="stylesheet" href="https://unpkg.com/microns@1.0.11/fonts/microns.css" />
 		<style type="text/css">
 			main {
 				max-width: 1200px;
@@ -106,10 +107,35 @@
 			//Image Viewer
 			const iv = new ila.ImageViewer({
 				showDownload: true,
-				panzoom: true
+				panzoom: true,
+				texts: {
+					cue: "",
+					hide: "",
+					download: "",
+					prev: "",
+					next: "",
+					link: "",
+					zoom: "",
+					zoomActive: "",
+				},
+				icons: {
+					cue: "mu mu-i-plus",
+					hide: "mu mu-cancel",
+					download: "mu mu-download",
+					prev: "mu mu-arrow-left",
+					next: "mu mu-arrow-right",
+					link: "mu mu-link",
+					zoom: "mu mu-expand",
+					zoomActive: "mu mu-contract",
+				},
+				titles: {
+					hide: "Close this image"
+				}
 			});
 			iv.create();
 		</script>
 	</main>
 	</body>
 </html>
+
+
