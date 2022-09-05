@@ -92,8 +92,6 @@ class Scroller {
 		this._container.style.left = scrollTo + "px";
 		this._rightBtn.disabled = false;
 		this._rightBtn.classList.remove("disabled");
-		
-		console.log(`Moving from ${current} to ${scrollTo}`);
 	}
 	
 	scrollRight() {
@@ -109,8 +107,6 @@ class Scroller {
 		this._container.style.left = scrollTo + "px";
 		this._leftBtn.disabled = false;
 		this._leftBtn.classList.remove("disabled");
-		
-		console.log(`Moving from ${current} to ${scrollTo}`);
 	}
 	
 	_wrap() {
@@ -144,8 +140,6 @@ class Scroller {
 		this._perStep = Math.floor(this._displayWidth / this._itemWidth);
 		this._step = this._itemWidth * this._perStep;
 		this._maxScroll = this._contentWidth - this._displayWidth;
-		
-		console.log(`Content: ${this._contentWidth}; Display: ${this._displayWidth}.`);
 	}
 	
 	_checkBreakpoint(w, breakpoints) {		
@@ -157,7 +151,6 @@ class Scroller {
 	_setFlexBasis(x) {
 		if (isNaN(x)) throw new Error(`Invalid number provided for row count: ${x}`);
 		
-		console.log(`Setting row count to ${x}`)
 		const items = this._container.querySelectorAll(".scroller li");
 		const basis = 100/x + "%";
 		

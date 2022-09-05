@@ -297,7 +297,6 @@ class ImageViewer {
 		
 		for (const el of controls.children) {
 			const btnName = el.id.replace("btn", "").toLowerCase();
-			console.log(this._config.titles[btnName]);
 			el.textContent = this._config.texts[btnName];
 			if (this._config.icons[btnName]) {
 				this._insertIcon(this._config.icons[btnName], el);
@@ -323,7 +322,6 @@ class ImageViewer {
 		if (this._config.showLink) {
 			const btnLink = document.getElementById("btnLink");
 			const link = this._images[i].dataset.link ? this._images[i].dataset.link : this._images[i].parentElement.href;
-			console.log(link);
 			if (link) {
 				btnLink.href = link;
 				btnLink.style.display = "block";

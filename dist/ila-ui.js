@@ -135,8 +135,6 @@
 			this._container.style.left = scrollTo + "px";
 			this._rightBtn.disabled = false;
 			this._rightBtn.classList.remove("disabled");
-			
-			console.log(`Moving from ${current} to ${scrollTo}`);
 		}
 		
 		scrollRight() {
@@ -152,8 +150,6 @@
 			this._container.style.left = scrollTo + "px";
 			this._leftBtn.disabled = false;
 			this._leftBtn.classList.remove("disabled");
-			
-			console.log(`Moving from ${current} to ${scrollTo}`);
 		}
 		
 		_wrap() {
@@ -187,8 +183,6 @@
 			this._perStep = Math.floor(this._displayWidth / this._itemWidth);
 			this._step = this._itemWidth * this._perStep;
 			this._maxScroll = this._contentWidth - this._displayWidth;
-			
-			console.log(`Content: ${this._contentWidth}; Display: ${this._displayWidth}.`);
 		}
 		
 		_checkBreakpoint(w, breakpoints) {		
@@ -200,7 +194,6 @@
 		_setFlexBasis(x) {
 			if (isNaN(x)) throw new Error(`Invalid number provided for row count: ${x}`);
 			
-			console.log(`Setting row count to ${x}`);
 			const items = this._container.querySelectorAll(".scroller li");
 			const basis = 100/x + "%";
 			
@@ -512,7 +505,6 @@
 			
 			for (const el of controls.children) {
 				const btnName = el.id.replace("btn", "").toLowerCase();
-				console.log(this._config.titles[btnName]);
 				el.textContent = this._config.texts[btnName];
 				if (this._config.icons[btnName]) {
 					this._insertIcon(this._config.icons[btnName], el);
@@ -538,7 +530,6 @@
 			if (this._config.showLink) {
 				const btnLink = document.getElementById("btnLink");
 				const link = this._images[i].dataset.link ? this._images[i].dataset.link : this._images[i].parentElement.href;
-				console.log(link);
 				if (link) {
 					btnLink.href = link;
 					btnLink.style.display = "block";
