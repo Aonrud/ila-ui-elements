@@ -378,7 +378,7 @@ class ImageViewer {
 		const btnName = btn.id.replace("btn", "").toLowerCase();
 		const btnTextNode = [...btn.childNodes].filter( n => n.nodeType === Node.TEXT_NODE)[0];
 		const txt = switchOn ? this._config.texts[`${btnName}Active`] : this._config.texts[btnName];
-		const icon = switchOn ? this._config.icons[`${btnName}Active`] : this._config[btnName];
+		const icon = switchOn ? this._config.icons[`${btnName}Active`] : this._config.icons[btnName];
 		const title = switchOn ? this._config.titles[`${btnName}Active`] : this._config.titles[btnName];
 		
 		if (txt) {
