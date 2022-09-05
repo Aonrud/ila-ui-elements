@@ -142,8 +142,8 @@ class ImageViewer {
 		const state = !this._imgDisplay.classList.contains("pan");
 		
 		this.zoomToggle(state);
-		this.btnToggle(e.target, state);		
-		e.target.classList.toggle("zoomed");
+		this.btnToggle(e.currentTarget, state);		
+		e.currentTarget.classList.toggle("zoomed");
 	}
 	
 	/**
@@ -154,8 +154,15 @@ class ImageViewer {
 		const txt = switchOn ? this._config[`${btn.id}TextActive`] : this._config[`${btn.id}Text`];
 		const icon = switchOn ? this._config[`${btn.id}IconActive`] : this._config[`${btn.id}Icon`];
 		const title = switchOn ? this.strings[`${btn.id.replace("btn", "title")}Active`] : this.strings[btn.id.replace("btn", "title")];
-				
-		btnTextNode.textContent = txt;
+		
+		if (txt) {
+			if(!btnTextNode) {
+				btnTextNode = document.createTextNode();
+				btn.append(btnTextNode);
+			}
+			btnTextNode.textContent = txt;
+		}
+		
 		if (icon) btn.querySelector("span").className = icon;
 		btn.setAttribute("title", title);
 	}
