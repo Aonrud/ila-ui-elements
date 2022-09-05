@@ -510,8 +510,10 @@
 			
 			if (this._config.showLink) {
 				const btnLink = document.getElementById("btnLink");
-				if (this._images[i].dataset.link) {
-					btnLink.href = this._images[i].dataset.link;
+				const link = this._images[i].dataset.link ? this._images[i].dataset.link : this._images[i].parentElement.href;
+				console.log(link);
+				if (link) {
+					btnLink.href = link;
 					btnLink.style.display = "block";
 				} else {
 					btnLink.removeAttribute("href");
