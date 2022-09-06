@@ -68,30 +68,23 @@
 		<section id="image-viewer">
 			<h2>Image Viewer</h2>
 			<p>
-			Dolore necessitatibus sit voluptate. Cupiditate blanditiis eveniet autem voluptatem ut dignissimos. Veniam eum amet aut nemo earum at optio est.
+			The image below is in a <code>figure</code> element and has a link around it. It uses the <code>data-full</code> attribute to specify a different image source for the full screen view.
 			</p>
 			<figure>
 				<a href="https://www.example.com/">
 					<img class="viewer" alt="This is the image alt" data-full="sample_1920x1080.png" src="sample_600x338.png" />
 				</a>
+				<figcaption>This is the image caption.</figcaption>
 			</figure>
 			<p>
-			Similique dolorum ut repellat at ut. Omnis illum aut fuga neque tempore doloribus rem. Amet rerum molestiae facilis consequatur possimus dolores sint quia. Assumenda blanditiis sint vel est. Quia quo eveniet perferendis asperiores recusandae qui blanditiis.
+			This image is a bare <code>img</code> element - no figure, caption, link or alternative full-size image.
 			</p>
-			<figure>
-				<img class="viewer" alt="This is the image alt" data-full="sample_200x300_alt2.png" src="sample_600x338.png" />
-				<figcaption class="caption">This one isn't wrapped in an anchor.</figcaption>
-			</figure>
+			<img class="viewer" alt="This is the image alt" src="sample_600x338.png" />
 			<p>
-			Similique dolorum ut repellat at ut. Omnis illum aut fuga neque tempore doloribus rem. Amet rerum molestiae facilis consequatur possimus dolores sint quia. Assumenda blanditiis sint vel est. Quia quo eveniet perferendis asperiores recusandae qui blanditiis.
+			Another example using no <code>figure</code> and a <code>div</code> caption, with an awkward sized image to demonstrate scaling and panning in the viewer.
 			</p>
-			<figure>
-				<img class="viewer" alt="This is the image alt" data-full="sample_2500x500.png" src="sample_1000x200.png" />
-				<figcaption class="caption">This image is an awkward size.</figcaption>
-			</figure>
-			<p>
-			Similique dolorum ut repellat at ut. Omnis illum aut fuga neque tempore doloribus rem. Amet rerum molestiae facilis consequatur possimus dolores sint quia. Assumenda blanditiis sint vel est. Quia quo eveniet perferendis asperiores recusandae qui blanditiis.
-			</p>
+			<img class="viewer" alt="This is the image alt" data-full="sample_2500x500.png" src="sample_1000x200.png" />
+			<div class="caption">This image is an awkward size.</div>
 		</section>
 		
 		<script src="../dist/ila-ui.js"></script>
