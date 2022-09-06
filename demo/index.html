@@ -35,34 +35,32 @@
 		
 		<section id="scroller">
 			<h2>Scroller</h2>
-			<button id="create">Create</button>
-			<button id="destroy">Destroy</button>
 			
 			<div class="scroller">
 				<ul class="list-inline">
-					<li><a href="#"><img src="sample_200x300.png" alt=""><div class="caption">1st scroller image</div></a></li>
+					<li><a href="#"><img src="1.png" alt=""><div class="caption">1st scroller image</div></a></li>
 					
-					<li><a href="#"><img src="sample_200x300_alt1.png" alt=""><div class="caption">2nd scroller image has a longer caption taking up more space</div></a></li>
+					<li><a href="#"><img src="2.png" alt=""><div class="caption">2nd scroller image has a longer caption taking up more space</div></a></li>
 					
-					<li><a href="#"><img src="sample_200x300_alt2.png" alt=""><div class="caption">3rd scroller image</div></a></li>
+					<li><a href="#"><img src="3.png" alt=""><div class="caption">3rd scroller image</div></a></li>
 					
-					<li><a href="#"><img src="sample_200x250.png" alt=""><div class="caption">4th scroller image, shorter than the rest.</div></a></li>
+					<li><a href="#"><img src="4.png" alt=""><div class="caption">4th scroller image has shorter height</div></a></li>
 					
-					<li><a href="#"><img src="sample_200x300_alt1.png" alt=""><div class="caption">5th scroller image</div></a></li>
+					<li><a href="#"><img src="5.png" alt=""><div class="caption">5th scroller image</div></a></li>
 					
-					<li><a href="#"><img src="sample_200x300_alt2.png" alt=""><div class="caption">6th scroller image</div></a></li>
+					<li><a href="#"><img src="6.png" alt=""><div class="caption">6th scroller image is scaled from a bigger width</div></a></li>
 					
-					<li><a href="#"><img src="sample_200x300.png" alt=""><div class="caption">7th scroller image</div></a></li>
+					<li><a href="#"><img src="7.png" alt=""><div class="caption">7th scroller image</div></a></li>
 					
-					<li><a href="#"><img src="sample_200x300_alt1.png" alt=""><div class="caption">8th scroller image</div></a></li>
+					<li><a href="#"><img src="8.png" alt=""><div class="caption">8th scroller image</div></a></li>
 					
-					<li><a href="#"><img src="sample_200x300_alt2.png" alt=""><div class="caption">9th scroller image</div></a></li>
+					<li><a href="#"><img src="9.png" alt=""><div class="caption">9th scroller image</div></a></li>
 					
-					<li><a href="#"><img src="sample_200x300.png" alt=""><div class="caption">10th scroller image</div></a></li>
+					<li><a href="#"><img src="10.png" alt=""><div class="caption">10th scroller image</div></a></li>
 					
-					<li><a href="#"><img src="sample_200x300_alt1.png" alt=""><div class="caption">11th scroller image</div></a></li>
+					<li><a href="#"><img src="11.png" alt=""><div class="caption">11th scroller image</div></a></li>
 					
-					<li><a href="#"><img src="sample_200x300_alt2.png" alt=""><div class="caption">12th scroller image</div></a></li>
+<!-- 					<li><a href="#"><img src="12.png" alt=""><div class="caption">12th scroller image</div></a></li> -->
 				</ul>
 			</div>
 		</section>
@@ -101,8 +99,6 @@
 		<script>
 			//Scroller
 			const s = new ila.Scroller(document.querySelector(".scroller"));
-			document.getElementById("create").addEventListener("click", () => s.create());
-			document.getElementById("destroy").addEventListener("click", () => s.destroy());
 			
 			//Image Viewer
 			const iv = new ila.ImageViewer({
