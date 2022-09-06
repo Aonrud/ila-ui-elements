@@ -136,8 +136,8 @@
 			this._rightBtn = makeButton("right", this._config.classes.right, this._config.texts.right, this._config.titles.right, this._config.icons.right, this);
 			
 			this._wrap();
-			
 			this._wrapper.style.overflow = "hidden";
+			this._leftBtn.disabled = true;
 			this._wrapper.append(this._leftBtn, this._rightBtn);
 			this._container.style.left = "0px";
 
