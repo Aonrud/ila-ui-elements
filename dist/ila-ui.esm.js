@@ -247,7 +247,7 @@ class Scroller {
 		if (isNaN(x)) throw new Error(`Invalid number provided for row count: ${x}`);
 		
 		const items = this._container.querySelectorAll(".scroller li");
-		const basis = Math.round(10000 * 100/(x+0.5) / 10000);
+		const basis = Math.round(10000 * 100/(x+0.25) / 10000);
 		
 		for (const item of items) {
 			item.style.flexBasis = basis + "%";
