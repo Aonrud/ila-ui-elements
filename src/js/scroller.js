@@ -1,4 +1,5 @@
-import {applyConfig} from './util.js';
+import {applyConfig} from './utils/applyConfig.js';
+import {makeButton} from './utils/makeButton.js';
 
 /**
  * @typedef {Object} scrollerConfig
@@ -9,8 +10,11 @@ import {applyConfig} from './util.js';
  * @property {string} [texts.left = '⮈']
  * @property {string} [texts.right = '⮊']
  * @property {object} [icons = {}]
- * @property {string} [icons.left = ''] !TODO: not implemented
- * @property {string} [icons.right = ''] !TODO: not implemented
+ * @property {string} [icons.left = '']
+ * @property {string} [icons.right = '']
+ * @property {object} [titles = {}]
+ * @property {string} [titles.left = '']
+ * @property {string} [titles.right = '']
  * @property {[number, number][]} [breakpoints = [ [0, 4], [768, 4], [992, 6], [1200, 8] ]]
  */
 
@@ -29,6 +33,10 @@ const defaultScrollerConfig = {
 	icons: {
 		left: "",
 		right: "",
+	},
+	titles: {
+		left: "Scroll back",
+		right: "Scroll forward"
 	},
 	breakpoints: [ [0, 4], [768, 4], [992, 6], [1200, 8] ]
 }
@@ -54,28 +62,24 @@ class Scroller {
 	create() {
 		if (this._container.parentNode == this._wrapper && this._wrapper.style.overflow == 'hidden') return;		
 		
-		const left = document.createElement("button");
-		left.className = this._config.classes.left;
-		left.textContent = this._config.texts.left;
-		left.disabled = true;
-		left.addEventListener("click", () => this.left())
-		
-		const right = document.createElement("button");
-		right.className = this._config.classes.right;
-		right.textContent = this._config.texts.right;
-		right.addEventListener("click", () => this.right())
+		this._leftBtn = makeButton("left", this._config.classes.left, this._config.texts.left, this._config.titles.left, this._config.icons.left, this);
+		this._rightBtn = makeButton("right", this._config.classes.right, this._config.texts.right, this._config.titles.right, this._config.icons.right, this);
 		
 		this._wrap();
 		
 		this._wrapper.style.overflow = "hidden";
-		this._wrapper.append(left, right);
+		this._wrapper.append(this._leftBtn, this._rightBtn);
+		this._container.style.left = "0px";
 
 		window.addEventListener('resize', e => this._resizeHandler());
-		
-		this._leftBtn = left;
-		this._rightBtn = right;
-		
-		this._container.style.left = "0px";
+	}
+	
+	handleEvent(e) {
+		if (e.type === "click") this[e.currentTarget.id.replace("btn-","")](e);
+		if (e.type === "resize") {
+			console.debug(e.target);
+			this._resizeHandler();
+		}
 	}
 	
 	_resizeHandler() {

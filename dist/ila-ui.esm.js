@@ -39,6 +39,33 @@ function applyConfig(defaults, conf) {
 }
 
 /**
+ * Make a button element with the specified attributes and contents.
+ * @param {string} name - the button name
+ * @param {string} [css = ""] - classes to apply to the button element
+ * @param {string} [text = ""] - the text content
+ * @param {string} [title = ""] - the title attribute
+ * @param {string} [icon = ""] - Add a span inside the button element with the given classes, if non-empty
+ * @param {function} [handler = null] - The object with eventHandler to attach to the click event.
+ * @param {string} [element = "button"] - The element to create (e.g. allows using an <a> instead).
+ * @return {HTMLButtonElement}
+ */
+function makeButton(name, css = "", text = "", title = "", icon = "", handler = null, element = "button") {
+    let el = document.createElement(element);
+    el.id = `btn-${name}`;
+    el.className = css;
+    el.textContent = text;
+    el.setAttribute("title", title);
+    if (icon) {
+        let i = document.createElement("span");
+        i.className = icon;
+        el.append(i);
+    }
+    if (element === "button") el.setAttribute("type", "button");
+    if (handler) el.addEventListener("click", handler);
+    return el;    
+}
+
+/**
  * @typedef {Object} scrollerConfig
  * @property {object} [classes = {}]
  * @property {string} [classes.left = 'scroller-left']
@@ -47,8 +74,11 @@ function applyConfig(defaults, conf) {
  * @property {string} [texts.left = '⮈']
  * @property {string} [texts.right = '⮊']
  * @property {object} [icons = {}]
- * @property {string} [icons.left = ''] !TODO: not implemented
- * @property {string} [icons.right = ''] !TODO: not implemented
+ * @property {string} [icons.left = '']
+ * @property {string} [icons.right = '']
+ * @property {object} [titles = {}]
+ * @property {string} [titles.left = '']
+ * @property {string} [titles.right = '']
  * @property {[number, number][]} [breakpoints = [ [0, 4], [768, 4], [992, 6], [1200, 8] ]]
  */
 
@@ -67,6 +97,10 @@ const defaultScrollerConfig = {
 	icons: {
 		left: "",
 		right: "",
+	},
+	titles: {
+		left: "Scroll back",
+		right: "Scroll forward"
 	},
 	breakpoints: [ [0, 4], [768, 4], [992, 6], [1200, 8] ]
 };
@@ -92,28 +126,24 @@ class Scroller {
 	create() {
 		if (this._container.parentNode == this._wrapper && this._wrapper.style.overflow == 'hidden') return;		
 		
-		const left = document.createElement("button");
-		left.className = this._config.classes.left;
-		left.textContent = this._config.texts.left;
-		left.disabled = true;
-		left.addEventListener("click", () => this.left());
-		
-		const right = document.createElement("button");
-		right.className = this._config.classes.right;
-		right.textContent = this._config.texts.right;
-		right.addEventListener("click", () => this.right());
+		this._leftBtn = makeButton("left", this._config.classes.left, this._config.texts.left, this._config.titles.left, this._config.icons.left, this);
+		this._rightBtn = makeButton("right", this._config.classes.right, this._config.texts.right, this._config.titles.right, this._config.icons.right, this);
 		
 		this._wrap();
 		
 		this._wrapper.style.overflow = "hidden";
-		this._wrapper.append(left, right);
+		this._wrapper.append(this._leftBtn, this._rightBtn);
+		this._container.style.left = "0px";
 
 		window.addEventListener('resize', e => this._resizeHandler());
-		
-		this._leftBtn = left;
-		this._rightBtn = right;
-		
-		this._container.style.left = "0px";
+	}
+	
+	handleEvent(e) {
+		if (e.type === "click") this[e.currentTarget.id.replace("btn-","")](e);
+		if (e.type === "resize") {
+			console.debug(e.target);
+			this._resizeHandler();
+		}
 	}
 	
 	_resizeHandler() {
@@ -347,6 +377,10 @@ class ImageViewer {
 		if (Number.isInteger(n)) this._showImage(n);
 	}
 	
+	handleEvent(e) {
+		if (e.type == "click") this[e.currentTarget.id.replace("btn-","")](e);
+	}
+	
 	/**
 	 * @param {number} n The index number of the image to display
 	 */
@@ -356,7 +390,7 @@ class ImageViewer {
 		
 		//If panzoom is still on for last image, switch it off
 		if (this._config.panzoom && this._imgDisplay.classList.contains("pan")) { 
-			this.btnToggle(document.getElementById("btnZoom"), false);
+			this.btnToggle(document.getElementById("btn-zoom"), false);
 			this.zoomToggle(false);
 		}
 		
@@ -377,8 +411,7 @@ class ImageViewer {
 	 * @param {HTMLElement} e The click event
 	 */
 	zoom(e) {
-		const state = !this._imgDisplay.classList.contains("pan");
-		
+		const state = !this._imgDisplay.classList.contains("pan");		
 		this.zoomToggle(state);
 		this.btnToggle(e.currentTarget, state);		
 		e.currentTarget.classList.toggle("zoomed");
@@ -388,7 +421,7 @@ class ImageViewer {
 	 * @param {boolean} [switchOn = true]
 	 */
 	btnToggle(btn, switchOn = true) {
-		const btnName = btn.id.replace("btn", "").toLowerCase();
+		const btnName = btn.id.replace("btn-", "");
 		const btnTextNode = [...btn.childNodes].filter( n => n.nodeType === Node.TEXT_NODE)[0];
 		const txt = switchOn ? this._config.texts[`${btnName}Active`] : this._config.texts[btnName];
 		const icon = switchOn ? this._config.icons[`${btnName}Active`] : this._config.icons[btnName];
@@ -484,50 +517,36 @@ class ImageViewer {
 			wrap.append(cue);
 			
 			wrap.addEventListener("click",
-								  e => {
-									  e.preventDefault();
-									  this.show(i);
-								  }
+				e => {
+					e.preventDefault();
+					this.show(i);
+				}
 			);
 		}
 	}
 	
 	/**
-	 * @return {Node}
+	 * @return {HTMLElement}
 	 */
 	_createControls() {
 		const controls = document.createElement("nav");
 		controls.classList.add("image-viewer-controls");
 		controls.setAttribute("aria-label", "Image Viewer Controls");
 		
-		const btns = [ "Hide", "Prev", "Next" ];
-		const anchors = [ "Download", "Link" ];
+		const btns = [ "hide", "prev", "next" ];
+		const anchors = [ "download", "link" ];
 		
 		for (const b of btns) {
-			controls.append(this._makeButton(b));
+			controls.append(makeButton(b, "", this._config.texts[b], this._config.titles[b], this._config.icons[b], this));
 		}
 		
-		if (this._config.panzoom) controls.append(this._makeButton("Zoom"));
+		if (this._config.panzoom) controls.append(makeButton("zoom", "", this._config.texts.zoom, this._config.titles.zoom, this._config.icons.zoom, this));
 		
 		for (const a of anchors) {
-			if (this._config[`show${a}`]) {
-				let el = document.createElement("a");
-				el.id = `btn${a}`;
-				controls.append(el);
+			if (this._config[`show${a.charAt(0).toUpperCase() + a.slice(1)}`]) {
+				controls.append(makeButton(a, "", this._config.texts[a], this._config.titles[a], this._config.icons[a], undefined, "a"));
 			}
-		}
-		
-		for (const el of controls.children) {
-			const btnName = el.id.replace("btn", "").toLowerCase();
-			el.textContent = this._config.texts[btnName];
-			if (this._config.icons[btnName]) {
-				this._insertIcon(this._config.icons[btnName], el);
-			}
-			if (this._config.titles[btnName]) {
-				el.setAttribute("title", this._config.titles[btnName]);
-			}
-		}
-		
+		}		
 		return controls;
 	}
 	
@@ -536,13 +555,13 @@ class ImageViewer {
 		const i = this._activeIndex;
 		
 		if (this._config.showDownload) {
-			const dl = document.getElementById("btnDownload");
+			const dl = document.getElementById("btn-download");
 			dl.href = img.src;
 			dl.setAttribute("download", "");
 		}
 		
 		if (this._config.showLink) {
-			const btnLink = document.getElementById("btnLink");
+			const btnLink = document.getElementById("btn-link");
 			const link = this._images[i].dataset.link ? this._images[i].dataset.link : this._images[i].parentElement.href;
 			if (link) {
 				btnLink.href = link;
@@ -554,7 +573,7 @@ class ImageViewer {
 		}
 		
 		if (this._config.panzoom) {
-			const btnZoom = document.getElementById("btnZoom");
+			const btnZoom = document.getElementById("btn-zoom");
 			if(img.width < img.naturalWidth) {
 				btnZoom.disabled = false;
 				btnZoom.setAttribute("title", this._config.titles.zoom);
@@ -563,18 +582,6 @@ class ImageViewer {
 				btnZoom.setAttribute("title", this._config.titles.zoomDisabled);
 			}
 		}
-	}
-		
-	/**
-	 * @param {string} b
-	 * @return {HTMLButtonElement}
-	 */
-	_makeButton(b) {
-		let el = document.createElement("button");
-		el.id = `btn${b}`;
-		el.setAttribute("type", "button");
-		if (typeof this[b.toLowerCase()] === "function") el.addEventListener("click", (e) => this[b.toLowerCase()](e));
-		return el;
 	}
 	
 	/**
