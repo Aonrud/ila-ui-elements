@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="stylesheet" href="../dist/ila-ui.min.css" />
-		<link rel="stylesheet" href="https://unpkg.com/microns@1.0.11/fonts/microns.css" />
+		<link rel="stylesheet" href="https://unpkg.com/iconoir@5.2.0/css/iconoir.css" />
 		<style type="text/css">
 			main {
 				max-width: 1200px;
@@ -14,8 +14,13 @@
 				max-width: 100%;
 				margin: 0 auto;
 			}
-			figcaption {
+			figcaption, .caption {
 				text-align: center;
+			}
+			pre {
+				background: #eee;
+				padding: 1em;
+				font-size: 1.2em;
 			}
 		</style>
 		<title>ILA UI Elements Demo</title>
@@ -24,7 +29,7 @@
 	<main>
 		<header>
 			<h1>ILA UI Elements Demo</h1>
-			<p>Each element in the package is demonstrated below. Please refer to the README.md file for instructions for use.</p>
+			<p>Each element in the package is demonstrated below. Please refer to the README file for instructions for use.</p>
 		</header>
 		<nav>
 			<ul>
@@ -33,40 +38,102 @@
 			</ul>
 		</nav>
 		
+		<p><strong>Note:</strong> The demo also makes use of the following packages, which are not bundled with this module:</p>
+		<ul>
+			<li><a href="https://github.com/timmywil/panzoom">Panzoom</a> (MIT licence)</li>
+			<li><a href="https://github.com/iconoir-icons/iconoir">Iconoir</a> (MIT licence)</li>
+		</ul>
+		
 		<section id="scroller">
 			<h2>Scroller</h2>
 			
+			<p>A scroller with default settings and an uneven number of entries (demonstrating partial scroll)</p>
 			<div class="scroller">
-				<ul class="list-inline">
+				<ul>
 					<li><a href="#"><img src="1.png" alt=""><div class="caption">1st scroller image</div></a></li>
-					
 					<li><a href="#"><img src="2.png" alt=""><div class="caption">2nd scroller image has a longer caption taking up more space</div></a></li>
-					
 					<li><a href="#"><img src="3.png" alt=""><div class="caption">3rd scroller image</div></a></li>
-					
 					<li><a href="#"><img src="4.png" alt=""><div class="caption">4th scroller image has shorter height</div></a></li>
-					
 					<li><a href="#"><img src="5.png" alt=""><div class="caption">5th scroller image</div></a></li>
-					
 					<li><a href="#"><img src="6.png" alt=""><div class="caption">6th scroller image is scaled from a bigger width</div></a></li>
-					
 					<li><a href="#"><img src="7.png" alt=""><div class="caption">7th scroller image</div></a></li>
-					
 					<li><a href="#"><img src="8.png" alt=""><div class="caption">8th scroller image</div></a></li>
-					
 					<li><a href="#"><img src="9.png" alt=""><div class="caption">9th scroller image</div></a></li>
-					
 					<li><a href="#"><img src="10.png" alt=""><div class="caption">10th scroller image</div></a></li>
-					
 					<li><a href="#"><img src="11.png" alt=""><div class="caption">11th scroller image</div></a></li>
-					
-<!-- 					<li><a href="#"><img src="12.png" alt=""><div class="caption">12th scroller image</div></a></li> -->
+				</ul>
+			</div>
+			
+			<p>A scroller applying icons to the buttons and removing the text and title content.</p>
+			<code><pre>
+new ila.Scroller(
+	document.querySelectorAll(".scroller")[1],
+	{
+		texts: {
+			left: '',
+			right:'',
+		},
+		icons: {
+			left: "mu mu-arrow-left",
+			right: "mu mu-arrow-right",
+		},
+		titles: {
+			left: "",
+			right: ""
+		}
+	}
+);
+			</pre></code>
+			<div class="scroller">
+				<ul>
+					<li><a href="#"><img src="1.png" alt=""><div class="caption">1st scroller image</div></a></li>
+					<li><a href="#"><img src="2.png" alt=""><div class="caption">2nd scroller image has a longer caption taking up more space</div></a></li>
+					<li><a href="#"><img src="3.png" alt=""><div class="caption">3rd scroller image</div></a></li>
+					<li><a href="#"><img src="4.png" alt=""><div class="caption">4th scroller image has shorter height</div></a></li>
+					<li><a href="#"><img src="5.png" alt=""><div class="caption">5th scroller image</div></a></li>
+					<li><a href="#"><img src="6.png" alt=""><div class="caption">6th scroller image is scaled from a bigger width</div></a></li>
+					<li><a href="#"><img src="7.png" alt=""><div class="caption">7th scroller image</div></a></li>
+					<li><a href="#"><img src="8.png" alt=""><div class="caption">8th scroller image</div></a></li>
+					<li><a href="#"><img src="9.png" alt=""><div class="caption">9th scroller image</div></a></li>
+					<li><a href="#"><img src="10.png" alt=""><div class="caption">10th scroller image</div></a></li>
+					<li><a href="#"><img src="11.png" alt=""><div class="caption">11th scroller image</div></a></li>
 				</ul>
 			</div>
 		</section>
 		
 		<section id="image-viewer">
 			<h2>Image Viewer</h2>
+			<p>The image viewer on this page is instantiated with the button text symbols replaced with icons, and the close button title altered.</p>
+			<code><pre>
+const iv = new ila.ImageViewer({
+	showDownload: true,
+	panzoom: true,
+	texts: {
+		cue: "",
+		hide: "",
+		download: "",
+		prev: "",
+		next: "",
+		link: "",
+		zoom: "",
+		zoomActive: "",
+	},
+	icons: {
+		cue: "iconoir-add-circled-outline",
+		hide: "iconoir-delete-circled-outline",
+		download: "iconoir-download-circled-outline",
+		prev: "iconoir-arrow-left-circled",
+		next: "iconoir-arrow-right-circled",
+		link: "iconoir-link",
+		zoom: "iconoir-expand",
+		zoomActive: "iconoir-collapse",
+	},
+	titles: {
+		hide: "Close this image"
+	}
+});
+iv.create();
+			</pre></code>
 			<p>
 			The image below is in a <code>figure</code> element and has a link around it. It uses the <code>data-full</code> attribute to specify a different image source for the full screen view.
 			</p>
@@ -89,9 +156,25 @@
 		
 		<script src="../dist/ila-ui.js"></script>
 		<script src="https://unpkg.com/@panzoom/panzoom@4.5.0/dist/panzoom.min.js"></script>
-		<script>
-			//Scroller
-			const s = new ila.Scroller(document.querySelector(".scroller"));
+		<script>			
+			new ila.Scroller(document.querySelectorAll(".scroller")[0]);
+			new ila.Scroller(
+				document.querySelectorAll(".scroller")[1],
+				{
+					texts: {
+						left: '',
+						right:'',
+					},
+					icons: {
+						left: "iconoir-nav-arrow-left",
+						right: "iconoir-nav-arrow-right",
+					},
+					titles: {
+						left: "",
+						right: ""
+					}
+				}
+			);
 			
 			//Image Viewer
 			const iv = new ila.ImageViewer({
@@ -108,14 +191,14 @@
 					zoomActive: "",
 				},
 				icons: {
-					cue: "mu mu-i-plus",
-					hide: "mu mu-cancel",
-					download: "mu mu-download",
-					prev: "mu mu-arrow-left",
-					next: "mu mu-arrow-right",
-					link: "mu mu-link",
-					zoom: "mu mu-expand",
-					zoomActive: "mu mu-contract",
+					cue: "iconoir-add-circled-outline",
+					hide: "iconoir-delete-circled-outline",
+					download: "iconoir-download-circled-outline",
+					prev: "iconoir-arrow-left-circled",
+					next: "iconoir-arrow-right-circled",
+					link: "iconoir-link",
+					zoom: "iconoir-expand",
+					zoomActive: "iconoir-collapse",
 				},
 				titles: {
 					hide: "Close this image"
