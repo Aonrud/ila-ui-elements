@@ -46,10 +46,15 @@
 
 	/**
 	 * @typedef {Object} scrollerConfig
-	 * @property {string} [leftButtonClass = "scroller-left btn btn-scroller"]
-	 * @property {string} [rightButtonClass = "scroller-right btn btn-scroller"]
-	 * @property {string} [leftButtonContent = "⮈"]
-	 * @property {string} [rightButtonContent = "⮊"]
+	 * @property {object} [classes = {}]
+	 * @property {string} [classes.left = 'scroller-left']
+	 * @property {string} [classes.right = 'scroller-right']
+	 * @property {object} [texts = {}]
+	 * @property {string} [texts.left = '⮈']
+	 * @property {string} [texts.right = '⮊']
+	 * @property {object} [icons = {}]
+	 * @property {string} [icons.left = ''] !TODO: not implemented
+	 * @property {string} [icons.right = ''] !TODO: not implemented
 	 * @property {[number, number][]} [breakpoints = [ [0, 4], [768, 4], [992, 6], [1200, 8] ]]
 	 */
 
@@ -57,10 +62,18 @@
 	 * @type scrollerConfig
 	 */
 	const defaultScrollerConfig = {
-		leftButtonClass: 'scroller-left btn btn-scroller',
-		rightButtonClass: 'scroller-right btn btn-scroller',
-		leftButtonContent: '⮈',
-		rightButtonContent: '⮊',
+		classes: {
+			left: 'scroller-left',
+			right: 'scroller-right',
+		},
+		texts: {
+			left: '⮈',
+			right:'⮊',
+		},
+		icons: {
+			left: "",
+			right: "",
+		},
 		breakpoints: [ [0, 4], [768, 4], [992, 6], [1200, 8] ]
 	};
 
@@ -85,23 +98,28 @@
 		create() {
 			if (this._container.parentNode == this._wrapper && this._wrapper.style.overflow == 'hidden') return;		
 			
-			const buttons = '<button class="' + this._config.leftButtonClass + ' disabled">' + this._config.leftButtonContent + '</button><button class="' + this._config.rightButtonClass + '">' + this._config.rightButtonContent + '</button>';
+			const left = document.createElement("button");
+			left.className = this._config.classes.left;
+			left.textContent = this._config.texts.left;
+			left.disabled = true;
+			left.addEventListener("click", () => this.left());
+			
+			const right = document.createElement("button");
+			right.className = this._config.classes.right;
+			right.textContent = this._config.texts.right;
+			right.addEventListener("click", () => this.right());
 			
 			this._wrap();
 			
 			this._wrapper.style.overflow = "hidden";
-			this._wrapper.insertAdjacentHTML('beforeend', buttons);	
-			this._wrapper.addEventListener("click", (e) => this._scroll(e));
+			this._wrapper.append(left, right);
 
 			window.addEventListener('resize', e => this._resizeHandler());
 			
-			this._leftBtn = this._wrapper.querySelector(".scroller-left");
-			this._rightBtn = this._wrapper.querySelector(".scroller-right");
+			this._leftBtn = left;
+			this._rightBtn = right;
 			
-			//Initial state
 			this._container.style.left = "0px";
-			this._leftBtn.disabled = true;
-			this._leftBtn.classList.add("disabled");
 		}
 		
 		_resizeHandler() {
@@ -113,43 +131,50 @@
 			this._container.style.left = "0px";
 			this._leftBtn.remove();
 			this._rightBtn.remove();
-			
 			window.removeEventListener("resize", this._resizeHandler);
-			
 			this._unwrap();
 		}
 		
-		scrollLeft() {
-			const current = parseInt(this._container.style.left);
-			let scrollTo = current + this._step;
-			
-			if (this._rightBtn.classList.contains("disabled")) {
-					scrollTo = current + (this._maxScroll % this._step);
-			}
-			if (scrollTo >= 0) {
-				scrollTo = 0;
-				this._leftBtn.disabled = true;
-				this._leftBtn.classList.add("disabled");
-			}
-			
-			this._container.style.left = scrollTo + "px";
-			this._rightBtn.disabled = false;
-			this._rightBtn.classList.remove("disabled");
+		left() {
+			this._setBtnStatus(this.scroll(false));
 		}
 		
-		scrollRight() {
+		right() {
+			this._setBtnStatus(this.scroll(true));
+		}
+		
+		/**
+		 * Set the active/disabled status of the scroller buttons depending on the scroll position.
+		 * @param {number} pos
+		 */
+		_setBtnStatus(pos) {
+			this._leftBtn.disabled = pos === 0;
+			this._rightBtn.disabled = pos === -this._maxScroll;
+		}
+		
+		/**
+		 * @param {boolean} [forward = true] Whether to scroll forward or not (i.e., if false, scroll back)
+		 * @return {number}
+		 */
+		scroll(forward = true) {
 			const current = parseInt(this._container.style.left);
-			let scrollTo = current - this._step;
+			const change = forward ? -this._displayWidth : this._displayWidth;
+			let scrollTo = current + change;
 			
-			if (scrollTo < -this._maxScroll) {
-				scrollTo = -this._maxScroll;
-				this._rightBtn.disabled = true;
-				this._rightBtn.classList.add("disabled");
-			}
+			//We're back at the start.
+			if (scrollTo > 0) scrollTo = 0;
+			
+			//We're at the end.
+			if (scrollTo < -this._maxScroll) scrollTo = -this._maxScroll;
+			
+			//If stepping back from the end and the scroller has a partial-length last step,
+			//only step back by that partial step.
+			if (!forward && this._rightBtn.disabled) scrollTo = current + (this._maxScroll % this._displayWidth);
 			
 			this._container.style.left = scrollTo + "px";
-			this._leftBtn.disabled = false;
-			this._leftBtn.classList.remove("disabled");
+			
+			console.log(`Scrolling. Starting position: ${current}; New position: ${scrollTo}; Step size: ${this._displayWidth}; Display width: ${this._displayWidth}; Content width: ${this._contentWidth}; Max scroll: ${this._maxScroll}`);
+			return scrollTo;
 		}
 		
 		_wrap() {
@@ -180,8 +205,6 @@
 			this._contentWidth = this._container.scrollWidth - padding;
 			this._displayWidth = this._container.offsetWidth - padding;
 			this._itemWidth = this._container.querySelector("li").offsetWidth;
-			this._perStep = Math.floor(this._displayWidth / this._itemWidth);
-			this._step = this._itemWidth * this._perStep;
 			this._maxScroll = this._contentWidth - this._displayWidth;
 		}
 		
@@ -200,11 +223,6 @@
 			for (const item of items) {
 				item.style.flexBasis = basis;
 			}
-		}
-		
-		_scroll(e) {
-			if (e.target.classList.contains("scroller-left")) this.scrollLeft();
-			if (e.target.classList.contains("scroller-right")) this.scrollRight();
 		}
 	}
 
