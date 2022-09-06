@@ -113,10 +113,10 @@ class Scroller {
 	 */
 	constructor(el, config = {} ) {
 		this._container = el;
-		this._config = applyConfig(defaultScrollerConfig, config);
-		
+		this._config = applyConfig(defaultScrollerConfig, config);		
 		this._sizes();
-		this._timer = null;
+		
+		this._timerID = undefined;
 		
 		if(this._contentWidth > this._displayWidth) {
 			this.create();
@@ -135,21 +135,24 @@ class Scroller {
 		this._wrapper.append(this._leftBtn, this._rightBtn);
 		this._container.style.left = "0px";
 
-		window.addEventListener('resize', e => this._resizeHandler());
+		window.addEventListener('resize', this);
 	}
 	
 	handleEvent(e) {
 		if (e.type === "click") this[e.currentTarget.id.replace("btn-","")](e);
+		
 		if (e.type === "resize") {
-			console.debug(e.target);
-			this._resizeHandler();
+			if (this._timerID === undefined) {
+				this._timerID = setTimeout(
+					() => {
+						this._sizes();
+						this._timerID = undefined;
+					},
+					500);
+			}
 		}
 	}
-	
-	_resizeHandler() {
-		clearTimeout(this._timer);
-		this._timer = setTimeout(this._sizes(), 1000);
-	}
+
 	
 	destroy() {
 		this._container.style.left = "0px";
