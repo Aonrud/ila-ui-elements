@@ -1,6 +1,5 @@
 import {applyConfig} from './util.js';
 
-
 /**
  * @typedef {Object} scrollerConfig
  * @property {object} [classes = {}]
@@ -115,7 +114,7 @@ class Scroller {
 	 */
 	scroll(forward = true) {
 		const current = parseInt(this._container.style.left);
-		const change = forward ? -this._displayWidth : this._displayWidth;
+		const change = forward ? -this._step : this._step;
 		let scrollTo = current + change;
 		
 		//We're back at the start.
@@ -126,11 +125,11 @@ class Scroller {
 		
 		//If stepping back from the end and the scroller has a partial-length last step,
 		//only step back by that partial step.
-		if (!forward && this._rightBtn.disabled) scrollTo = current + (this._maxScroll % this._displayWidth);
+		if (!forward && this._rightBtn.disabled) scrollTo = current + (this._maxScroll % this._step);
 		
 		this._container.style.left = scrollTo + "px";
 		
-		console.log(`Scrolling. Starting position: ${current}; New position: ${scrollTo}; Step size: ${this._displayWidth}; Display width: ${this._displayWidth}; Content width: ${this._contentWidth}; Max scroll: ${this._maxScroll}`);
+		console.log(`Scrolling. Starting position: ${current}; New position: ${scrollTo}; Step size: ${this._step}; Display width: ${this._displayWidth}; Content width: ${this._contentWidth}; Max scroll: ${this._maxScroll}`);
 		return scrollTo;
 	}
 	
@@ -163,6 +162,8 @@ class Scroller {
 		this._displayWidth = this._container.offsetWidth - padding;
 		this._itemWidth = this._container.querySelector("li").offsetWidth;
 		this._maxScroll = this._contentWidth - this._displayWidth;
+		this._perStep = Math.floor(this._displayWidth / this._itemWidth);
+		this._step = this._itemWidth * this._perStep;
 	}
 	
 	_checkBreakpoint(w, breakpoints) {		
@@ -175,10 +176,10 @@ class Scroller {
 		if (isNaN(x)) throw new Error(`Invalid number provided for row count: ${x}`);
 		
 		const items = this._container.querySelectorAll(".scroller li");
-		const basis = 100/x + "%";
+		const basis = Math.round(10000 * 100/(x+0.5) / 10000);
 		
 		for (const item of items) {
-			item.style.flexBasis = basis;
+			item.style.flexBasis = basis + "%";
 		}
 	}
 }
