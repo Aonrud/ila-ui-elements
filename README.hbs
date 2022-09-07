@@ -1,0 +1,134 @@
+This is a set of UI elements created for the [Irish Left Archive](https://www.leftarchive.ie) website. They are provided here under the [GPLv3 licence](./licence).
+
+For live examples of each component, see the [demos page](https://irish-left-archive.gitlab.io/ila-ui-elements/).
+
+[[_TOC_]]
+
+## Use
+
+For the most simple use, include `dist/ila-ui.min.js` and `dist/ila-ui.min.css` in your HTML file then refer to the examples below to use each component.
+
+The package is bundled as an ES6 module (`dist/ila-ui.esm.js`) or a UMD (`dist/timeline.min.js`), depending on your preferred development tools.
+
+## Components
+
+### Scroller
+
+The scroller turns a list of linked images into a configurable horizontal scroller.
+
+#### Example
+
+The below HTML and Javascript will create a scroller with the default settings.
+
+```html
+<div class="scroller">
+    <ul>
+        <li>
+            <a href="https://example.com">
+                <img src="example.png" alt="First image" />
+                <div class="caption">This is the caption</div>
+            </a>
+        </li>
+    </ul>
+</div>
+```
+
+```javascript
+new ila.Scroller(document.querySelectorAll(".scroller")[0]);
+```
+
+#### Configuration
+
+The scroller configuration allows modifying the buttons and changing the number of items shown at each screen width.
+
+To make changes to the defaults, pass a config object when instantiating the scroller. All properties are optional - any provided will be used to over-ride the defaults.
+
+See the [scrollerConfig](#scrollerConfig) definition for the available options.
+
+### Image Viewer
+
+Creates an image viewer overlay from selected images for viewing them in larger size, with options to allow downloading, include panning large images and include links.
+
+**Note:** Full size panning requires the inclusion of the [@panzoom/panzoom](https://github.com/timmywil/panzoom) module.  This is not bundled here, but can be included either via a CDN or bundled in your own build tools.  This setting is disabled by default.
+
+#### Example
+
+The below HTML and Javascript will instatiate the image viewer with default settings. Any images, however positioned in the page, will be included in the viewer if they have the selected class.
+
+ * **Full size image** - To provide a full-size version of the image for use in the viewer, include the URL in a `data-full` attribute.  Otherwise, the `src` URL will be used.
+ * **Captions** - Captions can be included by following the image with an element with the class `caption`, or with a `<figcaption>` element.
+ * **Links** - If an image is wrapped in a link (and linking is enabled - see Configuration below), then a link button will be added to the viewer controls leading to that URL.
+
+
+```html
+<img class="viewer" src="example.png" />
+<p class="caption">This is the caption.</p>
+
+...
+
+<img src="example.png" alt="This image isn't used in the viewer" />
+
+...
+
+<figure>
+    <a href="https://www.example.com/">
+        <img class="viewer" alt="This is the image alt" data-full="example.png" src="example.png" />
+    </a>
+    <figcaption>This image will have a link button and this caption will be picked up</figcaption>
+</figure>
+```
+
+```javascript
+const iv = new ila.ImageViewer();
+iv.create();
+```
+
+
+#### Configuration
+
+The image viewer configuration is used to change the following settings:
+
+* The target class of images to be included
+* Whether to enable the download and link buttons
+* Whether to use Panzoom (requires the inclusion of the `@panzoom/panzoom module`).
+* The text, icons and title attributes for the control buttons.
+
+To make changes to the defaults, pass a config object when instantiating the image viewer. All properties are optional - any provided will be used to over-ride the defaults.
+
+See the [imageViewerConfig](#imageViewerConfig) definition for the available options.
+
+## Javascript documentation
+
+{{>global-index-kinds kind="class" title="Classes" ~}}
+
+{{>global-index-kinds kind="typedef" title="Typedefs" ~}}
+
+{{#classes}}
+{{>header~}}
+{{>body}}
+
+{{!--  The constructor doesn't get listed in public children, and access undefined doesn't seem to work, so add it manually--}}
+{{>index-indent}}* {{>sig-link-parent}}
+{{#indexChildren kind="constructor" ~}}
+{{>member-index-list~}}
+{{/indexChildren}}
+{{#indexChildren inherited=undefined access="public" ~}}
+{{>member-index-list~}}
+{{/indexChildren}}
+
+{{>separator~}}
+{{#children kind="constructor" ~}}
+{{>docs~}}
+{{/children~}}
+{{#children inherited=undefined access="public" ~}}
+{{>docs~}}
+{{/children~}}
+{{/classes}}
+
+{{#globals kind="typedef"}}
+{{>docs~}}
+{{/globals}}
+
+* * *
+
+&copy; 2021-2022 [licence](./licence)

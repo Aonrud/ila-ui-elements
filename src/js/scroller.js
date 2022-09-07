@@ -2,23 +2,31 @@ import {applyConfig} from './utils/applyConfig.js';
 import {makeButton} from './utils/makeButton.js';
 
 /**
- * @typedef {Object} scrollerConfig
- * @property {object} [classes = {}]
- * @property {string} [classes.left = 'scroller-left']
- * @property {string} [classes.right = 'scroller-right']
- * @property {object} [texts = {}]
- * @property {string} [texts.left = '⮈']
- * @property {string} [texts.right = '⮊']
- * @property {object} [icons = {}]
- * @property {string} [icons.left = '']
- * @property {string} [icons.right = '']
- * @property {object} [titles = {}]
- * @property {string} [titles.left = '']
- * @property {string} [titles.right = '']
- * @property {[number, number][]} [breakpoints = [ [0, 4], [768, 4], [992, 6], [1200, 8] ]]
+ * The configuration object for the Scroller.
+ * @typedef {object} scrollerConfig
+ * @property {scrollerButtons} [classes] - Classes to apply to each button
+ * @property {string} [classes.left = scroller-left]
+ * @property {string} [classes.right = scroller-right]
+ * @property {scrollerButtons} [texts] - Text content of each button
+ * @property {string} [texts.left = ⮈]
+ * @property {string} [texts.right = ⮊]
+ * @property {scrollerButtons} [icons] - Icon classes to apply to a span inside each button
+ * @property {scrollerButtons} [titles] - The title attribute for each button
+ * @property {number[][]} [breakpoints = [ [0, 4], [768, 4], [992, 6], [1200, 8] ]]
+ * An array of number pairs. Each array entry should be an array containing two numbers, the first representing 
+ * a screen width in px and the second representing the number of scroller items to fit at that width and above 
+ * (up to the width of the next pair).
  */
 
 /**
+ * The buttons available for configuration in the Scroller config object.
+ * @typedef {object} scrollerButtons
+ * @property {string} [left] The left/back button
+ * @property {string} [right] The right/forward button
+ */
+
+/**
+ * The default configuration for the Scroller.
  * @type scrollerConfig
  */
 const defaultScrollerConfig = {
@@ -31,19 +39,23 @@ const defaultScrollerConfig = {
 		right:'⮊',
 	},
 	icons: {
-		left: "",
-		right: "",
+		left: '',
+		right: '',
 	},
 	titles: {
-		left: "Scroll back",
-		right: "Scroll forward"
+		left: 'Scroll back',
+		right: 'Scroll forward'
 	},
 	breakpoints: [ [0, 4], [768, 4], [992, 6], [1200, 8] ]
 }
 
+/**
+ * Creates an image scroller from a list of images.
+ */
 class Scroller {
 	
 	/**
+	 * @public
 	 * @param {HTMLElement} el
 	 * @param {scrollerConfig} [config = {}]
 	 */
@@ -59,6 +71,10 @@ class Scroller {
 		}
 	}
 	
+	/**
+	 * Create the scroller after instantiation.
+	 * @public
+	 */
 	create() {
 		if (this._container.parentNode == this._wrapper && this._wrapper.style.overflow == 'hidden') return;		
 		
@@ -71,9 +87,16 @@ class Scroller {
 		this._wrapper.append(this._leftBtn, this._rightBtn);
 		this._container.style.left = "0px";
 
+		//Recalculate sizes (wrapper changes width)
+		this._sizes();
+		
 		window.addEventListener('resize', this);
 	}
 	
+	/**
+	 * @protected
+	 * @parameter {Event} e
+	 */
 	handleEvent(e) {
 		if (e.type === "click") this[e.currentTarget.id.replace("btn-","")](e);
 		
@@ -89,7 +112,10 @@ class Scroller {
 		}
 	}
 
-	
+	/**
+	 * Destroy the scroller.
+	 * @public
+	 */
 	destroy() {
 		this._container.style.left = "0px";
 		this._leftBtn.remove();
@@ -98,16 +124,25 @@ class Scroller {
 		this._unwrap();
 	}
 	
+	/**
+	 * Scroll to the left.
+	 * @public
+	 */
 	left() {
 		this._setBtnStatus(this.scroll(false));
 	}
 	
+	/**
+	 * Scroll to the right.
+	 * @public
+	 */
 	right() {
 		this._setBtnStatus(this.scroll(true));
 	}
 	
 	/**
 	 * Set the active/disabled status of the scroller buttons depending on the scroll position.
+	 * @protected
 	 * @param {number} pos
 	 */
 	_setBtnStatus(pos) {
@@ -116,8 +151,10 @@ class Scroller {
 	}
 	
 	/**
-	 * @param {boolean} [forward = true] Whether to scroll forward or not (i.e., if false, scroll back)
-	 * @return {number}
+	 * Scroll in the provided direction and return the pixel offset from origin after scrolling.
+	 * @public
+	 * @param {boolean} [forward = true] Scroll forward (true) or back (false)
+	 * @return {number} The pixel offset
 	 */
 	scroll(forward = true) {
 		const current = parseInt(this._container.style.left);
@@ -140,22 +177,31 @@ class Scroller {
 		return scrollTo;
 	}
 	
+	/**
+	 * Add the wrapper element around the scroller.
+	 * @protected
+	 */
 	_wrap() {
 		const parent = document.createElement("div");
 		parent.classList.add("scroller-wrapper");
 		this._container.parentNode.insertBefore(parent, this._container);
 		parent.append(this._container);
 		this._wrapper = parent;
-		
-		//Recalculate sizes (wrapper changes width)
-		this._sizes();
 	}
 	
+	/**
+	 * Remove the wrapper element around the scroller.
+	 * @protected
+	 */
 	_unwrap() {
 		this._wrapper.parentNode.insertBefore(this._container, this._wrapper.previousSibling);
 		this._wrapper.remove();
 	}
 	
+	/**
+	 * Set the size properties and number of scroller items shown depending on screen size.
+	 * @protected
+	 */
 	_sizes() {
 		//Set number per row based on screen width
 		const w = window.innerWidth;
@@ -173,12 +219,24 @@ class Scroller {
 		this._step = this._itemWidth * this._perStep;
 	}
 	
+	/**
+	 * Check which breakpoint applies to the given width
+	 * @protected
+	 * @param {number} w - The width in pixels to check
+	 * @param {number[][]} breakpoints - The array of breakpoint configurations
+	 * @return {number} The number of items to show at the given width
+	 */
 	_checkBreakpoint(w, breakpoints) {		
 		for (let i = 0; i < breakpoints.length; i++) {
 			if(breakpoints[i][0] <= w && (i == breakpoints.length - 1 || breakpoints[i+1][0] > w)) return breakpoints[i][1];
 		}
 	}
 	
+	/**
+	 * Set the flex basis of the scroller items to show the given number.
+	 * @protected
+	 * @param {number} x - The number of items to show per width
+	 */
 	_setFlexBasis(x) {
 		if (isNaN(x)) throw new Error(`Invalid number provided for row count: ${x}`);
 		

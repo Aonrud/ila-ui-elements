@@ -1,5 +1,6 @@
 /**
  * Make a button element with the specified attributes and contents.
+ * @protected
  * @param {string} name - the button name
  * @param {string} [css = ""] - classes to apply to the button element
  * @param {string} [text = ""] - the text content

@@ -2,42 +2,53 @@ import {applyConfig} from './utils/applyConfig.js';
 import {makeButton} from './utils/makeButton.js';
 
 /**
- * @typedef imageViewerConfig
- * @property {string} [targetClass = "viewer"]
+ * The configuration object for the ImageViewer.
+ * @typedef {object} imageViewerConfig
+ * @property {string} [targetClass = viewer]
  * @property {boolean} [panzoom = false]
- * @property {boolean} [showDownload = false]
- * @property {boolean} [showLink = true]
- * @property {object} [texts = {}]
- * @property {string} [texts.cue = "⨁"]
- * @property {string} [texts.hide = "ⓧ"]
- * @property {string} [texts.download = "⮋"]
- * @property {string} [texts.prev = "⮈"]
- * @property {string} [texts.next = "⮊"]
- * @property {string} [texts.link = "⛓"]
- * @property {string} [texts.zoom = "🞕"]
- * @property {string} [texts.zoomActive = "🞔"]
- * @property {object} [icons = {}]
- * @property {string} [icons.cue = ""]
- * @property {string} [icons.hide = ""]
- * @property {string} [icons.download = ""]
- * @property {string} [icons.prev = ""]
- * @property {string} [icons.next = ""]
- * @property {string} [icons.link = ""]
- * @property {string} [icons.zoom = ""]
- * @property {string} [icons.zoomActive = ""]
- * @property {object} [titles = {}]
- * @property {string} [titles.cue = ""]
- * @property {string} [titles.hide = "Close"]
- * @property {string} [titles.download = "Download this image"]
- * @property {string} [titles.prev = "Previous image"]
- * @property {string} [titles.next = "Next image"]
- * @property {string} [titles.link = "More information"]
- * @property {string} [titles.zoom = "Enlarge image (drag to move the image around)"]
- * @property {string} [titles.zoomActive = "Reset image to fit screen"] 
- * @property {string} [titles.zoomDisabled = "Zoom disabled (the image is already full size)]
+ * Activate the zoom button, which toggles the image's full size and allows panning around.
+ * Requires @panzoom/panzoom module to be available.
+ * @property {boolean} [showDownload = false] Show a button to download the image
+ * @property {boolean} [showLink = true] Show a link button for any images with a link associated
+ * @property {imageViewerButtons} [texts] The inner text of the buttons
+ * @property {string} [texts.cue = ⨁]
+ * @property {string} [texts.hide = ⓧ]
+ * @property {string} [texts.download = ⮋]
+ * @property {string} [texts.prev = ⮈]
+ * @property {string} [texts.next = ⮊]
+ * @property {string} [texts.link = ⛓]
+ * @property {string} [texts.zoom = 🞕]
+ * @property {string} [texts.zoomActive = 🞔]
+ * @property {imageViewerButtons} [icons = {}] Classes to add to a span inside each button (for icon display)
+ * @property {imageViewerButtons} [titles] Strings to include as title attributes for each button
+ * @property {string} [titles.cue]
+ * @property {string} [titles.hide = Close]
+ * @property {string} [titles.download = Download this image]
+ * @property {string} [titles.prev = Previous image]
+ * @property {string} [titles.next = Next image]
+ * @property {string} [titles.link = More information]
+ * @property {string} [titles.zoom = Enlarge image (drag to move the image around)]
+ * @property {string} [titles.zoomActive = Reset image to fit screen] 
+ * @property {string} [titles.zoomDisabled = Zoom disabled (the image is already full size)]
  */
 
 /**
+ * The available buttons which can be set in the Image Viewer configuration.
+ * Note that zoom has an additional 'active' and 'disabled' state setting.
+ * @typedef {object} imageViewerButtons
+ * @property {string} [cue] - The cue shown when hovering over an image to indicate the viewer is available.
+ * @property {string} [hide] - The button to hide/close the viewer
+ * @property {string} [download] - The button to download the current image in the viewer
+ * @property {string} [prev] - The button to show the previous image
+ * @property {string} [next] - The button to show the next image 
+ * @property {string} [link] - The button for the image's link
+ * @property {string} [zoom] - The button to zoom the image to full size and activate panning
+ * @property {string} [zoomActive] - Properties for the zoom button when it's active
+ * @property {string} [zoomDisabled] - Properties for the zoom button when it's disabled
+ */
+
+/**
+ * The default image viewer configuration.
  * @type imageViewerConfig
  */
 const defaultImageViewerConfig = {
@@ -78,31 +89,50 @@ const defaultImageViewerConfig = {
 	}
 }
 
+/**
+ * Creates an image viewer overlay.
+ * @public
+ * @param {imageViewerConfig} [config = defaultImageViewerConfig]
+ */
 class ImageViewer {
-	
-	/**
-	 * @param {imageViewerConfig} [config = defaultImageViewerConfig]
-	 */
+
 	constructor(config = {}) {
 		this._config = applyConfig(defaultImageViewerConfig, config);
 		this._images = document.querySelectorAll('img.' + this._config.targetClass);
 	}
 	
+	/**
+	 * Create the viewer.
+	 * This method should be called after instantiation to activate the viewer.
+	 * @public
+	 */
 	create() {
 		this._setupImages();
 		this._createOverlay();
 	}
 	
+	/**
+	 * Show the next image.
+	 * @public
+	 */
 	next() {
 		const n = this._activeIndex === this._images.length - 1 ? 0 : this._activeIndex + 1;
 		this.show(n);
 	}
 	
+	/**
+	 * Show the previous image.
+	 * @public
+	 */
 	prev() {
 		const n = this._activeIndex === 0 ? this._images.length - 1 : this._activeIndex - 1;
 		this.show(n);
 	}
-		
+	
+	/**
+	 * Hide the viewer and return to the page.
+	 * @public
+	 */
 	hide() {
 		if (this._active) {
 			this._overlay.style.display = "none";
@@ -113,6 +143,8 @@ class ImageViewer {
 	}
 	
 	/**
+	 * Show the viewer with the image specified by the given index
+	 * @public
 	 * @param {number} [n = 0] Index of image to show
 	 */
 	show(n = 0) {
@@ -126,11 +158,16 @@ class ImageViewer {
 		if (Number.isInteger(n)) this._showImage(n);
 	}
 	
+	/**
+	 * @protected
+	 */
 	handleEvent(e) {
 		if (e.type == "click") this[e.currentTarget.id.replace("btn-","")](e);
 	}
 	
 	/**
+	 * Switch the viewer to display the image specified by the index
+	 * @protected
 	 * @param {number} n The index number of the image to display
 	 */
 	_showImage(n) {
@@ -157,6 +194,8 @@ class ImageViewer {
 	}
 	
 	/** 
+	 * Handle click events for toggling the panzoom status
+	 * @protected
 	 * @param {HTMLElement} e The click event
 	 */
 	zoom(e) {
@@ -167,6 +206,8 @@ class ImageViewer {
 	}
 	
 	/**
+	 * Toggle the specified button on or off as specified
+	 * @protected
 	 * @param {boolean} [switchOn = true]
 	 */
 	btnToggle(btn, switchOn = true) {
@@ -189,6 +230,8 @@ class ImageViewer {
 	}
 	
 	/**
+	 * Set the panzoom status 
+	 * @public
 	 * @param {boolean} [switchOn = true]
 	 */
 	zoomToggle(switchOn = true) {
@@ -207,7 +250,8 @@ class ImageViewer {
 	}
 
 	/**
-	 * Create the overlay, but don't insert in document
+	 * Create the overlay and insert in the document
+	 * @protected
 	 */
 	_createOverlay() {
 		const imgWrap = document.createElement("div");
@@ -244,6 +288,10 @@ class ImageViewer {
 		}
 	}
 	
+	/**
+	 * Setup the images on the page for activating the viewer.
+	 * @protected
+	 */
 	_setupImages() {
 		for (const [i, img] of this._images.entries()) {
 			
@@ -275,6 +323,8 @@ class ImageViewer {
 	}
 	
 	/**
+	 * Create the viewer controls.
+	 * @protected
 	 * @return {HTMLElement}
 	 */
 	_createControls() {
@@ -299,6 +349,10 @@ class ImageViewer {
 		return controls;
 	}
 	
+	/**
+	 * Update the viewer controls based on the currently shown image.
+	 * @protected
+	 */
 	_updateControls() {
 		const img = this._imgDisplay;
 		const i = this._activeIndex;
@@ -334,6 +388,8 @@ class ImageViewer {
 	}
 	
 	/**
+	 * Event listener for keyboard shortcuts
+	 * @protected
 	 * @param {Event} e
 	 */
 	_shortcutsEventListener(e) {
@@ -349,7 +405,9 @@ class ImageViewer {
 	}
 	
 	/**
-	 * @param {Array} classes
+	 * Insert an icon (<span>) with the given classes into the given element
+	 * @protected
+	 * @param {string} classes
 	 * @param {HTMLElement} element
 	 */
 	_insertIcon(classes, element) {

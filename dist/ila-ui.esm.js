@@ -17,6 +17,7 @@
 /**
  * Takes a config object and a default config object and returns a final config with all config modifications applied.
  * Ensures no unwanted properties are passed in config.
+ * @protected
  * @param {object} defaults - The default config object with all allowed properties
  * @param {object} conf - The config object to apply
  * @return {object}
@@ -40,6 +41,7 @@ function applyConfig(defaults, conf) {
 
 /**
  * Make a button element with the specified attributes and contents.
+ * @protected
  * @param {string} name - the button name
  * @param {string} [css = ""] - classes to apply to the button element
  * @param {string} [text = ""] - the text content
@@ -66,23 +68,31 @@ function makeButton(name, css = "", text = "", title = "", icon = "", handler = 
 }
 
 /**
- * @typedef {Object} scrollerConfig
- * @property {object} [classes = {}]
- * @property {string} [classes.left = 'scroller-left']
- * @property {string} [classes.right = 'scroller-right']
- * @property {object} [texts = {}]
- * @property {string} [texts.left = '⮈']
- * @property {string} [texts.right = '⮊']
- * @property {object} [icons = {}]
- * @property {string} [icons.left = '']
- * @property {string} [icons.right = '']
- * @property {object} [titles = {}]
- * @property {string} [titles.left = '']
- * @property {string} [titles.right = '']
- * @property {[number, number][]} [breakpoints = [ [0, 4], [768, 4], [992, 6], [1200, 8] ]]
+ * The configuration object for the Scroller.
+ * @typedef {object} scrollerConfig
+ * @property {scrollerButtons} [classes] - Classes to apply to each button
+ * @property {string} [classes.left = scroller-left]
+ * @property {string} [classes.right = scroller-right]
+ * @property {scrollerButtons} [texts] - Text content of each button
+ * @property {string} [texts.left = ⮈]
+ * @property {string} [texts.right = ⮊]
+ * @property {scrollerButtons} [icons] - Icon classes to apply to a span inside each button
+ * @property {scrollerButtons} [titles] - The title attribute for each button
+ * @property {number[][]} [breakpoints = [ [0, 4], [768, 4], [992, 6], [1200, 8] ]]
+ * An array of number pairs. Each array entry should be an array containing two numbers, the first representing 
+ * a screen width in px and the second representing the number of scroller items to fit at that width and above 
+ * (up to the width of the next pair).
  */
 
 /**
+ * The buttons available for configuration in the Scroller config object.
+ * @typedef {object} scrollerButtons
+ * @property {string} [left] The left/back button
+ * @property {string} [right] The right/forward button
+ */
+
+/**
+ * The default configuration for the Scroller.
  * @type scrollerConfig
  */
 const defaultScrollerConfig = {
@@ -95,19 +105,23 @@ const defaultScrollerConfig = {
 		right:'⮊',
 	},
 	icons: {
-		left: "",
-		right: "",
+		left: '',
+		right: '',
 	},
 	titles: {
-		left: "Scroll back",
-		right: "Scroll forward"
+		left: 'Scroll back',
+		right: 'Scroll forward'
 	},
 	breakpoints: [ [0, 4], [768, 4], [992, 6], [1200, 8] ]
 };
 
+/**
+ * Creates an image scroller from a list of images.
+ */
 class Scroller {
 	
 	/**
+	 * @public
 	 * @param {HTMLElement} el
 	 * @param {scrollerConfig} [config = {}]
 	 */
@@ -123,6 +137,10 @@ class Scroller {
 		}
 	}
 	
+	/**
+	 * Create the scroller after instantiation.
+	 * @public
+	 */
 	create() {
 		if (this._container.parentNode == this._wrapper && this._wrapper.style.overflow == 'hidden') return;		
 		
@@ -135,9 +153,16 @@ class Scroller {
 		this._wrapper.append(this._leftBtn, this._rightBtn);
 		this._container.style.left = "0px";
 
+		//Recalculate sizes (wrapper changes width)
+		this._sizes();
+		
 		window.addEventListener('resize', this);
 	}
 	
+	/**
+	 * @protected
+	 * @parameter {Event} e
+	 */
 	handleEvent(e) {
 		if (e.type === "click") this[e.currentTarget.id.replace("btn-","")](e);
 		
@@ -153,7 +178,10 @@ class Scroller {
 		}
 	}
 
-	
+	/**
+	 * Destroy the scroller.
+	 * @public
+	 */
 	destroy() {
 		this._container.style.left = "0px";
 		this._leftBtn.remove();
@@ -162,16 +190,25 @@ class Scroller {
 		this._unwrap();
 	}
 	
+	/**
+	 * Scroll to the left.
+	 * @public
+	 */
 	left() {
 		this._setBtnStatus(this.scroll(false));
 	}
 	
+	/**
+	 * Scroll to the right.
+	 * @public
+	 */
 	right() {
 		this._setBtnStatus(this.scroll(true));
 	}
 	
 	/**
 	 * Set the active/disabled status of the scroller buttons depending on the scroll position.
+	 * @protected
 	 * @param {number} pos
 	 */
 	_setBtnStatus(pos) {
@@ -180,8 +217,10 @@ class Scroller {
 	}
 	
 	/**
-	 * @param {boolean} [forward = true] Whether to scroll forward or not (i.e., if false, scroll back)
-	 * @return {number}
+	 * Scroll in the provided direction and return the pixel offset from origin after scrolling.
+	 * @public
+	 * @param {boolean} [forward = true] Scroll forward (true) or back (false)
+	 * @return {number} The pixel offset
 	 */
 	scroll(forward = true) {
 		const current = parseInt(this._container.style.left);
@@ -204,22 +243,31 @@ class Scroller {
 		return scrollTo;
 	}
 	
+	/**
+	 * Add the wrapper element around the scroller.
+	 * @protected
+	 */
 	_wrap() {
 		const parent = document.createElement("div");
 		parent.classList.add("scroller-wrapper");
 		this._container.parentNode.insertBefore(parent, this._container);
 		parent.append(this._container);
 		this._wrapper = parent;
-		
-		//Recalculate sizes (wrapper changes width)
-		this._sizes();
 	}
 	
+	/**
+	 * Remove the wrapper element around the scroller.
+	 * @protected
+	 */
 	_unwrap() {
 		this._wrapper.parentNode.insertBefore(this._container, this._wrapper.previousSibling);
 		this._wrapper.remove();
 	}
 	
+	/**
+	 * Set the size properties and number of scroller items shown depending on screen size.
+	 * @protected
+	 */
 	_sizes() {
 		//Set number per row based on screen width
 		const w = window.innerWidth;
@@ -237,12 +285,24 @@ class Scroller {
 		this._step = this._itemWidth * this._perStep;
 	}
 	
+	/**
+	 * Check which breakpoint applies to the given width
+	 * @protected
+	 * @param {number} w - The width in pixels to check
+	 * @param {number[][]} breakpoints - The array of breakpoint configurations
+	 * @return {number} The number of items to show at the given width
+	 */
 	_checkBreakpoint(w, breakpoints) {		
 		for (let i = 0; i < breakpoints.length; i++) {
 			if(breakpoints[i][0] <= w && (i == breakpoints.length - 1 || breakpoints[i+1][0] > w)) return breakpoints[i][1];
 		}
 	}
 	
+	/**
+	 * Set the flex basis of the scroller items to show the given number.
+	 * @protected
+	 * @param {number} x - The number of items to show per width
+	 */
 	_setFlexBasis(x) {
 		if (isNaN(x)) throw new Error(`Invalid number provided for row count: ${x}`);
 		
@@ -256,42 +316,53 @@ class Scroller {
 }
 
 /**
- * @typedef imageViewerConfig
- * @property {string} [targetClass = "viewer"]
+ * The configuration object for the ImageViewer.
+ * @typedef {object} imageViewerConfig
+ * @property {string} [targetClass = viewer]
  * @property {boolean} [panzoom = false]
- * @property {boolean} [showDownload = false]
- * @property {boolean} [showLink = true]
- * @property {object} [texts = {}]
- * @property {string} [texts.cue = "⨁"]
- * @property {string} [texts.hide = "ⓧ"]
- * @property {string} [texts.download = "⮋"]
- * @property {string} [texts.prev = "⮈"]
- * @property {string} [texts.next = "⮊"]
- * @property {string} [texts.link = "⛓"]
- * @property {string} [texts.zoom = "🞕"]
- * @property {string} [texts.zoomActive = "🞔"]
- * @property {object} [icons = {}]
- * @property {string} [icons.cue = ""]
- * @property {string} [icons.hide = ""]
- * @property {string} [icons.download = ""]
- * @property {string} [icons.prev = ""]
- * @property {string} [icons.next = ""]
- * @property {string} [icons.link = ""]
- * @property {string} [icons.zoom = ""]
- * @property {string} [icons.zoomActive = ""]
- * @property {object} [titles = {}]
- * @property {string} [titles.cue = ""]
- * @property {string} [titles.hide = "Close"]
- * @property {string} [titles.download = "Download this image"]
- * @property {string} [titles.prev = "Previous image"]
- * @property {string} [titles.next = "Next image"]
- * @property {string} [titles.link = "More information"]
- * @property {string} [titles.zoom = "Enlarge image (drag to move the image around)"]
- * @property {string} [titles.zoomActive = "Reset image to fit screen"] 
- * @property {string} [titles.zoomDisabled = "Zoom disabled (the image is already full size)]
+ * Activate the zoom button, which toggles the image's full size and allows panning around.
+ * Requires @panzoom/panzoom module to be available.
+ * @property {boolean} [showDownload = false] Show a button to download the image
+ * @property {boolean} [showLink = true] Show a link button for any images with a link associated
+ * @property {imageViewerButtons} [texts] The inner text of the buttons
+ * @property {string} [texts.cue = ⨁]
+ * @property {string} [texts.hide = ⓧ]
+ * @property {string} [texts.download = ⮋]
+ * @property {string} [texts.prev = ⮈]
+ * @property {string} [texts.next = ⮊]
+ * @property {string} [texts.link = ⛓]
+ * @property {string} [texts.zoom = 🞕]
+ * @property {string} [texts.zoomActive = 🞔]
+ * @property {imageViewerButtons} [icons = {}] Classes to add to a span inside each button (for icon display)
+ * @property {imageViewerButtons} [titles] Strings to include as title attributes for each button
+ * @property {string} [titles.cue]
+ * @property {string} [titles.hide = Close]
+ * @property {string} [titles.download = Download this image]
+ * @property {string} [titles.prev = Previous image]
+ * @property {string} [titles.next = Next image]
+ * @property {string} [titles.link = More information]
+ * @property {string} [titles.zoom = Enlarge image (drag to move the image around)]
+ * @property {string} [titles.zoomActive = Reset image to fit screen] 
+ * @property {string} [titles.zoomDisabled = Zoom disabled (the image is already full size)]
  */
 
 /**
+ * The available buttons which can be set in the Image Viewer configuration.
+ * Note that zoom has an additional 'active' and 'disabled' state setting.
+ * @typedef {object} imageViewerButtons
+ * @property {string} [cue] - The cue shown when hovering over an image to indicate the viewer is available.
+ * @property {string} [hide] - The button to hide/close the viewer
+ * @property {string} [download] - The button to download the current image in the viewer
+ * @property {string} [prev] - The button to show the previous image
+ * @property {string} [next] - The button to show the next image 
+ * @property {string} [link] - The button for the image's link
+ * @property {string} [zoom] - The button to zoom the image to full size and activate panning
+ * @property {string} [zoomActive] - Properties for the zoom button when it's active
+ * @property {string} [zoomDisabled] - Properties for the zoom button when it's disabled
+ */
+
+/**
+ * The default image viewer configuration.
  * @type imageViewerConfig
  */
 const defaultImageViewerConfig = {
@@ -332,31 +403,50 @@ const defaultImageViewerConfig = {
 	}
 };
 
+/**
+ * Creates an image viewer overlay.
+ * @public
+ * @param {imageViewerConfig} [config = defaultImageViewerConfig]
+ */
 class ImageViewer {
-	
-	/**
-	 * @param {imageViewerConfig} [config = defaultImageViewerConfig]
-	 */
+
 	constructor(config = {}) {
 		this._config = applyConfig(defaultImageViewerConfig, config);
 		this._images = document.querySelectorAll('img.' + this._config.targetClass);
 	}
 	
+	/**
+	 * Create the viewer.
+	 * This method should be called after instantiation to activate the viewer.
+	 * @public
+	 */
 	create() {
 		this._setupImages();
 		this._createOverlay();
 	}
 	
+	/**
+	 * Show the next image.
+	 * @public
+	 */
 	next() {
 		const n = this._activeIndex === this._images.length - 1 ? 0 : this._activeIndex + 1;
 		this.show(n);
 	}
 	
+	/**
+	 * Show the previous image.
+	 * @public
+	 */
 	prev() {
 		const n = this._activeIndex === 0 ? this._images.length - 1 : this._activeIndex - 1;
 		this.show(n);
 	}
-		
+	
+	/**
+	 * Hide the viewer and return to the page.
+	 * @public
+	 */
 	hide() {
 		if (this._active) {
 			this._overlay.style.display = "none";
@@ -367,6 +457,8 @@ class ImageViewer {
 	}
 	
 	/**
+	 * Show the viewer with the image specified by the given index
+	 * @public
 	 * @param {number} [n = 0] Index of image to show
 	 */
 	show(n = 0) {
@@ -380,11 +472,16 @@ class ImageViewer {
 		if (Number.isInteger(n)) this._showImage(n);
 	}
 	
+	/**
+	 * @protected
+	 */
 	handleEvent(e) {
 		if (e.type == "click") this[e.currentTarget.id.replace("btn-","")](e);
 	}
 	
 	/**
+	 * Switch the viewer to display the image specified by the index
+	 * @protected
 	 * @param {number} n The index number of the image to display
 	 */
 	_showImage(n) {
@@ -411,6 +508,8 @@ class ImageViewer {
 	}
 	
 	/** 
+	 * Handle click events for toggling the panzoom status
+	 * @protected
 	 * @param {HTMLElement} e The click event
 	 */
 	zoom(e) {
@@ -421,6 +520,8 @@ class ImageViewer {
 	}
 	
 	/**
+	 * Toggle the specified button on or off as specified
+	 * @protected
 	 * @param {boolean} [switchOn = true]
 	 */
 	btnToggle(btn, switchOn = true) {
@@ -443,6 +544,8 @@ class ImageViewer {
 	}
 	
 	/**
+	 * Set the panzoom status 
+	 * @public
 	 * @param {boolean} [switchOn = true]
 	 */
 	zoomToggle(switchOn = true) {
@@ -461,7 +564,8 @@ class ImageViewer {
 	}
 
 	/**
-	 * Create the overlay, but don't insert in document
+	 * Create the overlay and insert in the document
+	 * @protected
 	 */
 	_createOverlay() {
 		const imgWrap = document.createElement("div");
@@ -498,6 +602,10 @@ class ImageViewer {
 		}
 	}
 	
+	/**
+	 * Setup the images on the page for activating the viewer.
+	 * @protected
+	 */
 	_setupImages() {
 		for (const [i, img] of this._images.entries()) {
 			
@@ -529,6 +637,8 @@ class ImageViewer {
 	}
 	
 	/**
+	 * Create the viewer controls.
+	 * @protected
 	 * @return {HTMLElement}
 	 */
 	_createControls() {
@@ -553,6 +663,10 @@ class ImageViewer {
 		return controls;
 	}
 	
+	/**
+	 * Update the viewer controls based on the currently shown image.
+	 * @protected
+	 */
 	_updateControls() {
 		const img = this._imgDisplay;
 		const i = this._activeIndex;
@@ -588,6 +702,8 @@ class ImageViewer {
 	}
 	
 	/**
+	 * Event listener for keyboard shortcuts
+	 * @protected
 	 * @param {Event} e
 	 */
 	_shortcutsEventListener(e) {
@@ -603,7 +719,9 @@ class ImageViewer {
 	}
 	
 	/**
-	 * @param {Array} classes
+	 * Insert an icon (<span>) with the given classes into the given element
+	 * @protected
+	 * @param {string} classes
 	 * @param {HTMLElement} element
 	 */
 	_insertIcon(classes, element) {

@@ -1,6 +1,7 @@
 /**
  * Takes a config object and a default config object and returns a final config with all config modifications applied.
  * Ensures no unwanted properties are passed in config.
+ * @protected
  * @param {object} defaults - The default config object with all allowed properties
  * @param {object} conf - The config object to apply
  * @return {object}
