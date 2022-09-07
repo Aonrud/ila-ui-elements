@@ -64,7 +64,7 @@
 				</ul>
 			</div>
 			
-			<p>A scroller applying icons to the buttons and removing the text and title content.</p>
+			<p>A scroller applying some configuration settings and changing the number of items shown at each breakpoint.</p>
 			<code><pre>
 new ila.Scroller(
 	document.querySelectorAll(".scroller")[1],
@@ -80,7 +80,8 @@ new ila.Scroller(
 		titles: {
 			left: "",
 			right: ""
-		}
+		},
+		breakpoints: [ [0, 2], [768, 4], [992, 6], [1200, 6] ]
 	}
 );
 			</pre></code>
@@ -172,7 +173,8 @@ iv.create();
 					titles: {
 						left: "",
 						right: ""
-					}
+					},
+					breakpoints: [ [0, 2], [768, 4], [992, 6], [1200, 6] ]
 				}
 			);
 			

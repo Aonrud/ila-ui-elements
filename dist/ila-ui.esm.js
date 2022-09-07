@@ -29,7 +29,7 @@ function applyConfig(defaults, conf) {
 			console.warn(`Config option ${prop} has the wrong type of value. Skipping`);
 			continue;
 		}
-		if (typeof defaults[prop] === "object" && conf[prop]) {
+		if (typeof defaults[prop] === "object" && !(defaults[prop] instanceof Array) && conf[prop]) {
 			c[prop] = applyConfig(defaults[prop], conf[prop]);
 		} else {
 			c[prop] = conf[prop] ?? defaults[prop];
