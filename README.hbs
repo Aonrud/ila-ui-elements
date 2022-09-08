@@ -6,9 +6,11 @@ For live examples of each component, see the [demos page](https://irish-left-arc
 
 ## Use
 
-For the most simple use, include `dist/ila-ui.min.js` and `dist/ila-ui.min.css` in your HTML file then refer to the examples below to use each component.
+For the most simple use, include [`dist/ila-ui.min.js`](dist/ila-ui.min.js) and [`dist/ila-ui.min.css`](dist/ila-ui.min.css) in your HTML file then refer to the examples below to use each component.
 
-The package is bundled as an ES6 module (`dist/ila-ui.esm.js`) or a UMD (`dist/timeline.min.js`), depending on your preferred development tools.
+The package is bundled as an ES6 module [`dist/ila-ui.esm.js`](dist/ila-ui.esm.js) or a UMD [`dist/ila-ui.min.js`](dist/ila-ui.min.js), depending on your preferred development tools.
+
+The CSS is compiled from [SASS]() files. If including the module in your build environment, the file [`src/scss/_variables.scss`](src/scss/_variables.scss) sets the colour variables as defaults so they can be over-ridden if required.
 
 ## Components
 
@@ -29,6 +31,9 @@ The below HTML and Javascript will create a scroller with the default settings.
                 <div class="caption">This is the caption</div>
             </a>
         </li>
+        
+        …
+        
     </ul>
 </div>
 ```
@@ -42,6 +47,8 @@ new ila.Scroller(document.querySelectorAll(".scroller")[0]);
 The scroller configuration allows modifying the buttons and changing the number of items shown at each screen width.
 
 To make changes to the defaults, pass a config object when instantiating the scroller. All properties are optional - any provided will be used to over-ride the defaults.
+
+**Note:** The default classes applied to the scroller buttons include `scroller-button` for the visual style and `scroller-left` and `scroller-right` for the position. If using custom classes and excluding the latter classes, the `left` and `right` CSS properties should be set in your custom class to position the buttons at either end of the scroller.
 
 See the [scrollerConfig](#scrollerConfig) definition for the available options.
 
@@ -64,11 +71,11 @@ The below HTML and Javascript will instatiate the image viewer with default sett
 <img class="viewer" src="example.png" />
 <p class="caption">This is the caption.</p>
 
-...
+…
 
 <img src="example.png" alt="This image isn't used in the viewer" />
 
-...
+…
 
 <figure>
     <a href="https://www.example.com/">
