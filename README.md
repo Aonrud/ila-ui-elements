@@ -23,19 +23,17 @@ The scroller turns a list of linked images into a configurable horizontal scroll
 The below HTML and Javascript will create a scroller with the default settings.
 
 ```html
-<div class="scroller">
-    <ul>
-        <li>
-            <a href="https://example.com">
-                <img src="example.png" alt="First image" />
-                <div class="caption">This is the caption</div>
-            </a>
-        </li>
-        
-        …
-        
-    </ul>
-</div>
+<ul class="scroller">
+    <li>
+        <a href="https://example.com">
+            <img src="example.png" alt="First image" />
+            <div class="caption">This is the caption</div>
+        </a>
+    </li>
+    
+    …
+    
+</ul>
 ```
 
 ```javascript
