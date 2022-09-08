@@ -1,6 +1,6 @@
 {
   "name": "ila_ui_elements",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "UI elements for the Irish Left Archive website",
   "main": "dist/ila-ui.js",
   "scripts": {
