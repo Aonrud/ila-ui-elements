@@ -71,8 +71,8 @@ function makeButton(name, css = "", text = "", title = "", icon = "", handler = 
  * The configuration object for the Scroller.
  * @typedef {object} scrollerConfig
  * @property {scrollerButtons} [classes] - Classes to apply to each button
- * @property {string} [classes.left = scroller-left]
- * @property {string} [classes.right = scroller-right]
+ * @property {string} [classes.left = scroller-left scroller-button]
+ * @property {string} [classes.right = scroller-right scroller-button]
  * @property {scrollerButtons} [texts] - Text content of each button
  * @property {string} [texts.left = ⮈]
  * @property {string} [texts.right = ⮊]
@@ -97,8 +97,8 @@ function makeButton(name, css = "", text = "", title = "", icon = "", handler = 
  */
 const defaultScrollerConfig = {
 	classes: {
-		left: 'scroller-left',
-		right: 'scroller-right',
+		left: 'scroller-left scroller-button',
+		right: 'scroller-right scroller-button',
 	},
 	texts: {
 		left: '⮈',

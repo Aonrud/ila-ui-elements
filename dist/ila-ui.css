@@ -60,45 +60,63 @@
   padding: 0 1.5em;
 }
 .scroller-wrapper button {
-  color: #fff;
-  box-sizing: border-box;
   cursor: pointer;
   text-decoration: none;
   line-height: 1em;
-  background-color: #3c3c3c;
-  border-color: #2f2f2f;
   position: absolute;
-  width: 1em;
   z-index: 10;
   height: 100%;
-  font-size: 1.5em;
   padding: 0;
-  cursor: pointer;
-}
-.scroller-wrapper button:visited {
-  color: #fff;
+  width: 1.5em;
+  top: 0;
 }
 .scroller-wrapper button:hover, .scroller-wrapper button:hover:visited {
-  color: #428bca;
   text-decoration: none;
 }
 .scroller-wrapper button:disabled, .scroller-wrapper button.disabled {
-  color: #555;
   cursor: auto;
 }
 
 button.scroller-left {
-  top: 0;
   left: 0;
-  box-shadow: -5px 0px 2px 0px #ccc;
-  border-radius: 4px 0 0 4px;
 }
 
 button.scroller-right {
-  top: 0;
   right: 0;
-  box-shadow: 5px 0px 2px 0px #ccc;
+}
+
+button.scroller-button {
+  box-sizing: border-box;
+  color: #fff;
+  background-color: #3c3c3c;
+  border-color: #2f2f2f;
+  font-size: 1.5em;
+  width: 1em;
+}
+button.scroller-button:visited {
+  color: #fff;
+}
+button.scroller-button:hover, button.scroller-button:hover:visited {
+  color: #428bca;
+}
+button.scroller-button:disabled, button.scroller-button.disabled {
+  color: #555;
+}
+
+button.scroller-left.scroller-button {
+  box-shadow: 5px 0px 10px 0px #888;
+  border-radius: 4px 0 0 4px;
+}
+button.scroller-left.scroller-button:disabled, button.scroller-left.scroller-button.disabled {
+  box-shadow: none;
+}
+
+button.scroller-right.scroller-button {
+  box-shadow: -5px 0px 10px 0px #888;
   border-radius: 0 4px 4px 0;
+}
+button.scroller-right.scroller-button:disabled, button.scroller-right.scroller-button.disabled {
+  box-shadow: none;
 }
 
 #overlay {
@@ -153,29 +171,33 @@ button.scroller-right {
   box-sizing: border-box;
 }
 .image-viewer-controls a, .image-viewer-controls button {
-  color: #fff;
-  box-sizing: border-box;
   cursor: pointer;
   text-decoration: none;
   line-height: 1em;
+  box-sizing: border-box;
+  color: #fff;
+  background: none;
   font-size: 2em;
   width: 1.2em;
   margin: 0.2em 0.1em;
-  background: none;
   border: 0;
   padding: 0;
   display: block;
+}
+.image-viewer-controls a:hover, .image-viewer-controls a:hover:visited, .image-viewer-controls button:hover, .image-viewer-controls button:hover:visited {
+  text-decoration: none;
+}
+.image-viewer-controls a:disabled, .image-viewer-controls a.disabled, .image-viewer-controls button:disabled, .image-viewer-controls button.disabled {
+  cursor: auto;
 }
 .image-viewer-controls a:visited, .image-viewer-controls button:visited {
   color: #fff;
 }
 .image-viewer-controls a:hover, .image-viewer-controls a:hover:visited, .image-viewer-controls button:hover, .image-viewer-controls button:hover:visited {
   color: #428bca;
-  text-decoration: none;
 }
 .image-viewer-controls a:disabled, .image-viewer-controls a.disabled, .image-viewer-controls button:disabled, .image-viewer-controls button.disabled {
   color: #555;
-  cursor: auto;
 }
 
 @media screen and (min-width: 768px) {

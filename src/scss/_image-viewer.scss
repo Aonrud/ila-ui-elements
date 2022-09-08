@@ -56,10 +56,11 @@ $color-controls-bg: color.adjust($colour-bg, $lightness: -15%) !default;
     box-sizing: border-box;
     a, button {
         @include ila-button;
+        @include ila-button-defaults;
+        background: none;
         font-size: 2em;
         width: 1.2em;
         margin: 0.2em 0.1em;
-        background: none;
         border: 0;
         padding: 0;
         display: block;

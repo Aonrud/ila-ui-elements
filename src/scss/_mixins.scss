@@ -1,26 +1,33 @@
 @use 'variables' as *;
 
 @mixin ila-button {
-    color: $colour-button-text;
-    box-sizing: border-box;
     cursor: pointer;
     text-decoration: none;
     line-height: 1em;
+    &:hover, &:hover:visited {
+        text-decoration: none;
+    }
+    &:disabled, &.disabled {
+        cursor: auto;
+    }
+}
+
+@mixin ila-button-defaults {
+    box-sizing: border-box;
+    color: $colour-button-text;
     &:visited {
         color: $colour-button-text;
     }
     &:hover, &:hover:visited {
         color: $colour-link;
-        text-decoration: none;
     }
     &:disabled, &.disabled {
         color: $colour-button-disabled-text;
-        cursor: auto;
     }
 }
 
 @mixin ila-button-boxed {
-    @include ila-button;
+    @include ila-button-defaults;
     background-color: $colour-button-bg;
     border-color: $colour-button-border;
 }
@@ -29,4 +36,4 @@
     background-color: $colour-caption-bg;
     color: $colour-caption-text;
     box-sizing: border-box;
-} 
+}
