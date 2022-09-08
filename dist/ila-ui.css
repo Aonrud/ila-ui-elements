@@ -34,8 +34,7 @@ ul.scroller li img {
   width: 100%;
   max-height: 100%;
 }
-
-.caption {
+ul.scroller .caption {
   background-color: #484848;
   color: #fff;
   box-sizing: border-box;
@@ -49,7 +48,7 @@ ul.scroller li img {
   transition: opacity 0.2s linear;
   opacity: 0;
 }
-.caption:hover {
+ul.scroller .caption:hover {
   opacity: 1;
 }
 
