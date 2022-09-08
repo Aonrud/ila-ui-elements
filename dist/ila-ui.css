@@ -27,7 +27,7 @@ ul.scroller li a {
   height: 100%;
   position: relative;
 }
-ul.scroller li a img:hover, ul.scroller li a:hover .caption {
+ul.scroller li a img:hover, ul.scroller li a:hover {
   opacity: 1;
 }
 ul.scroller li img {
@@ -43,14 +43,6 @@ ul.scroller li img {
   width: 100%;
   bottom: 0;
   padding: 10px;
-  -moz-transition: opacity 0.2s linear;
-  -webkit-transition: opacity 0.2s linear;
-  -o-transition: opacity 0.2s linear;
-  transition: opacity 0.2s linear;
-  opacity: 0;
-}
-.caption:hover {
-  opacity: 1;
 }
 
 .scroller-wrapper {
