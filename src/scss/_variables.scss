@@ -14,6 +14,7 @@ $colour-border:                 color.adjust($colour-bg, $lightness: -5%);
 
 $colour-button-bg:              color.adjust($colour-bg, $lightness: -10%) !default;
 $colour-button-border:          color.adjust($colour-bg, $lightness: -15%) !default;
+$colour-button-outline:         color.adjust($colour-bg, $lightness: -25%) !default;
 $colour-button-text:            #fff !default;
 $colour-button-disabled-text:   $colour-secondary !default;
 

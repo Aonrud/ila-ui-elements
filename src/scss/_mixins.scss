@@ -24,6 +24,9 @@
     &:disabled, &.disabled {
         color: $colour-button-disabled-text;
     }
+    &:focus {
+        outline-color: $colour-button-outline;
+    }
 }
 
 @mixin ila-button-boxed {

@@ -100,6 +100,9 @@ button.scroller-button:hover, button.scroller-button:hover:visited {
 button.scroller-button:disabled, button.scroller-button.disabled {
   color: #555;
 }
+button.scroller-button:focus {
+  outline-color: #151515;
+}
 
 button.scroller-left.scroller-button {
   box-shadow: 5px 0px 10px 0px #888;
@@ -194,6 +197,9 @@ button.scroller-right.scroller-button:disabled, button.scroller-right.scroller-b
 }
 .image-viewer-controls a:disabled, .image-viewer-controls a.disabled, .image-viewer-controls button:disabled, .image-viewer-controls button.disabled {
   color: #555;
+}
+.image-viewer-controls a:focus, .image-viewer-controls button:focus {
+  outline-color: #151515;
 }
 
 @media screen and (min-width: 768px) {

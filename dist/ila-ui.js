@@ -168,6 +168,7 @@
 		/**
 		 * @protected
 		 * @parameter {Event} e
+		 * @todo On resize, check if current scroll position is greater than the new maximum and reduce it.
 		 */
 		handleEvent(e) {
 			if (e.type === "click") this[e.currentTarget.id.replace("btn-","")](e);
