@@ -1,6 +1,8 @@
 This is a set of UI elements created for the [Irish Left Archive](https://www.leftarchive.ie) website. They are provided here under the [GPLv3 licence](./licence).
 
-For live examples of each component, see the [demos page](https://irish-left-archive.gitlab.io/ila-ui-elements/).
+For examples of each component, see the [demos page](https://irish-left-archive.gitlab.io/ila-ui-elements/).
+
+They are also in use on the Irish Left Archive website - for a live example see [this document collection](https://www.leftarchive.ie/collection/2041/).
 
 [[_TOC_]]
 
