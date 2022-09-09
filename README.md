@@ -22,6 +22,8 @@ The scroller turns a list of linked images into a configurable horizontal scroll
 
 The below HTML and Javascript will create a scroller with the default settings.
 
+**Note:** To allow the use of margins, the styling of the scroller items is applied to `ul.scroller li a`.
+
 ```html
 <ul class="scroller">
     <li>
