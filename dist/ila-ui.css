@@ -144,7 +144,6 @@ button.scroller-right.scroller-button:disabled, button.scroller-right.scroller-b
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 2em 5em 2em 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -162,9 +161,9 @@ button.scroller-right.scroller-button:disabled, button.scroller-right.scroller-b
   position: absolute;
   top: 0;
   left: 0;
-  padding: 0.3em;
+  padding: 0.5em;
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   background: #2f2f2f;
   width: 100%;
   box-sizing: border-box;
@@ -176,11 +175,9 @@ button.scroller-right.scroller-button:disabled, button.scroller-right.scroller-b
   box-sizing: border-box;
   color: #fff;
   background: none;
-  font-size: 2em;
-  width: 1.2em;
-  margin: 0.2em 0.1em;
+  font-size: 2.5em;
+  padding: 0 0.125em;
   border: 0;
-  padding: 0;
   display: block;
 }
 .image-viewer-controls a:hover, .image-viewer-controls a:hover:visited, .image-viewer-controls button:hover, .image-viewer-controls button:hover:visited {
@@ -207,16 +204,15 @@ button.scroller-right.scroller-button:disabled, button.scroller-right.scroller-b
     left: auto;
     right: 0;
     flex-direction: column;
-    padding: 0.5em;
     width: auto;
     height: 100%;
+    padding: 0.75em;
   }
   .image-viewer-controls a, .image-viewer-controls button {
-    font-size: 2em;
+    padding: 0.125em 0;
   }
-  .image-viewer-list {
-    padding-top: 0;
-    padding-right: 3.8em;
+  .image-wrap {
+    padding: 2em 4em 2em 0;
   }
 }
 @media screen and (min-width: 1200px) {
@@ -225,9 +221,10 @@ button.scroller-right.scroller-button:disabled, button.scroller-right.scroller-b
   }
   .image-viewer-controls a, .image-viewer-controls button {
     font-size: 3em;
+    padding: 0.25em 0;
   }
-  .image-viewer-list {
-    padding-right: 6.2em;
+  .image-wrap {
+    padding-right: 5em;
   }
 }
 /* On-page dynamically added classes */

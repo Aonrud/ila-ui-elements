@@ -29,7 +29,6 @@ $color-controls-bg: color.adjust($colour-bg, $lightness: -15%) !default;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    padding: 2em 5em 2em 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,9 +47,9 @@ $color-controls-bg: color.adjust($colour-bg, $lightness: -15%) !default;
     position: absolute;
     top: 0;
     left: 0;
-    padding: 0.3em;
+    padding: 0.5em;
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     background: $color-controls-bg;
     width: 100%;
     box-sizing: border-box;
@@ -58,11 +57,9 @@ $color-controls-bg: color.adjust($colour-bg, $lightness: -15%) !default;
         @include ila-button;
         @include ila-button-defaults;
         background: none;
-        font-size: 2em;
-        width: 1.2em;
-        margin: 0.2em 0.1em;
+        font-size: 2.5em;
+        padding: 0 0.125em;
         border: 0;
-        padding: 0;
         display: block;
     }
 }
@@ -73,16 +70,16 @@ $color-controls-bg: color.adjust($colour-bg, $lightness: -15%) !default;
         left: auto;
         right: 0;
         flex-direction: column;
-        padding: 0.5em;
         width: auto;
         height: 100%;
+        padding: 0.75em;
         a, button {
-            font-size: 2em;
+            padding: 0.125em 0;
         }
     }
-    .image-viewer-list {
-        padding-top: 0;
-        padding-right: 3.8em;
+    
+    .image-wrap {
+        padding: 2em 4em 2em 0;
     }
 }
 
@@ -91,10 +88,11 @@ $color-controls-bg: color.adjust($colour-bg, $lightness: -15%) !default;
         padding: 1em;
         a, button {
             font-size: 3em;
+            padding: 0.25em 0;
         }
     }
-    .image-viewer-list {
-        padding-right: 6.2em;
+    .image-wrap {
+        padding-right: 5em;
     }
 }
 
