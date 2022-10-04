@@ -58,6 +58,8 @@ See the [scrollerConfig](#scrollerConfig) definition for the available options.
 
 Creates an image viewer overlay from selected images for viewing them in larger size, with options to allow downloading, include panning large images and include links.
 
+The image viewer also enables keyboard navigation when active. Use <kbd>Esc</kbd> to close the viewer, and the arrow keys (<kbd>←</kbd> and <kbd>→</kbd>) to switch to the previous and next images respectively.
+
 **Note:** Full size panning requires the inclusion of the [@panzoom/panzoom](https://github.com/timmywil/panzoom) module.  This is not bundled here, but can be included either via a CDN or bundled in your own build tools.  This setting is disabled by default.
 
 #### Example
