@@ -332,7 +332,10 @@ class ImageViewer {
 		controls.classList.add("image-viewer-controls");
 		controls.setAttribute("aria-label", "Image Viewer Controls");
 		
-		const btns = [ "hide", "next", "prev" ];
+		const btns = [ "hide" ];
+		if (this._images.length > 1) {
+			btns.push("next", "prev");
+		}
 		const anchors = [ "download", "link" ];
 		
 		for (const b of btns) {
