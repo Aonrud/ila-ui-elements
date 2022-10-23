@@ -13,7 +13,6 @@ $color-controls-bg: color.adjust($colour-bg, $lightness: -15%) !default;
     background-color: color.adjust($colour-bg, $alpha: -0.1);
     z-index: 20;
     text-align: center;
-
     .caption {
         @include ila-caption;
         position: absolute;
@@ -35,11 +34,13 @@ $color-controls-bg: color.adjust($colour-bg, $lightness: -15%) !default;
     img {
         max-width: 100%;
         max-height: 100%;
-        //margin: 0 auto;
         &.pan {
             max-width: none;
             max-height: none;
         }
+    }
+    .loader {
+        position: absolute;
     }
 }
 
@@ -65,7 +66,6 @@ $color-controls-bg: color.adjust($colour-bg, $lightness: -15%) !default;
 }
 
 @media screen and (min-width: 768px) {
-    
     .image-viewer-controls {
         left: auto;
         right: 0;
@@ -77,7 +77,6 @@ $color-controls-bg: color.adjust($colour-bg, $lightness: -15%) !default;
             padding: 0.125em 0;
         }
     }
-    
     .image-wrap {
         padding: 2em 4em 2em 0;
     }

@@ -1,6 +1,25 @@
 /**
  * General use colours
  */
+@keyframes loader {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.loader {
+  width: 2em;
+  height: 2em;
+  border: 3px solid #fff;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: 1.5s linear infinite loader;
+}
+
+@media (prefers-reduced-motion) {
+  .loader {
+    animation: none;
+  }
+}
 ul.scroller {
   position: relative;
   max-width: 100%;
@@ -155,6 +174,9 @@ button.scroller-right.scroller-button:disabled, button.scroller-right.scroller-b
 .image-wrap img.pan {
   max-width: none;
   max-height: none;
+}
+.image-wrap .loader {
+  position: absolute;
 }
 
 .image-viewer-controls {

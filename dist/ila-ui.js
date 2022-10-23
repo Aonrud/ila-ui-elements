@@ -491,19 +491,68 @@
 		 * @protected
 		 * @param {number} n The index number of the image to display
 		 */
-		_showImage(n) {
+		async _showImage(n) {
 			const img = this._images[n];
+			const el = this._imgDisplay;
+			const path = img.dataset.full ?? img.src;
 			this._activeIndex = n;
 			
 			//If panzoom is still on for last image, switch it off
-			if (this._config.panzoom && this._imgDisplay.classList.contains("pan")) { 
+			if (this._config.panzoom && el.classList.contains("pan")) { 
 				this.btnToggle(document.getElementById("btn-zoom"), false);
 				this.zoomToggle(false);
 			}
 			
-			this._imgDisplay.src = img.dataset.full ?? img.src;
-			this._imgDisplay.setAttribute("alt", img.getAttribute("alt"));
+			this._loader.style.visibility = "visible";
+			this._resetImage();
+			el.dataset.loading = path;
 			
+			const url = await this._loadImage(path);
+			
+			//Condition prevents jumping back if display has moved on to another image before this one is loaded.
+			if(el.dataset.loading == url) {
+				el.src = url;
+				el.alt = img.getAttribute("alt");
+				this._updateCaption(n);
+				this._updateControls();
+				el.dataset.loading = null;
+				this._loader.style.visibility = "hidden";
+			}
+		}
+		
+		/**
+		 * Load the image and return a promise that resolves when complete.
+		 * @protected
+		 * @param {HTMLImageElement} el The image element
+		 * @param {string} url The image source
+		 * @param {string} alt The image alt.
+		 * @return Promise
+		 */
+		_loadImage(url) {
+			return new Promise((resolve) => {
+				const i = new Image();
+				i.addEventListener('load', () => { resolve(url); });
+				i.src = url;
+				i.remove();
+			});
+		}
+		
+		/**
+		 * Empty the overlay display image and remove its alt and caption.
+		 * @protected
+		 */
+		_resetImage() {
+			this._imgDisplay.src = "";
+			this._imgDisplay.alt = "";
+			this._overlay.querySelector(".caption").style.display = "none";
+		}
+		
+		/**
+		 * Set the overlay caption for the given image number.
+		 * @protected
+		 * @param {number} n The number of the image from which to take the caption.
+		 */
+		_updateCaption(n) {
 			const caption = this._overlay.querySelector(".caption");
 			const nextEl = this._images[n].parentElement.nextElementSibling;
 			if (nextEl && (nextEl.tagName === "FIGCAPTION" || nextEl.classList.contains("caption"))){
@@ -578,8 +627,12 @@
 			const imgWrap = document.createElement("div");
 			imgWrap.classList.add("image-wrap");
 			
+			const loader = document.createElement("div");
+			loader.classList.add("loader");
+			imgWrap.append(loader);
+			
 			const activeImg = document.createElement("img");
-			activeImg.addEventListener("load", () => this._updateControls());
+			// activeImg.addEventListener("load", () => this._updateControls());
 			imgWrap.append(activeImg);
 			
 			
@@ -597,6 +650,7 @@
 			
 			this._overlay = overlay;
 			this._imgDisplay = activeImg;
+			this._loader = loader;
 			this._active = false;
 					
 			document.body.append(this._overlay);
