@@ -517,9 +517,7 @@ class ImageViewer {
 	/**
 	 * Load the image and return a promise that resolves when complete.
 	 * @protected
-	 * @param {HTMLImageElement} el The image element
 	 * @param {string} url The image source
-	 * @param {string} alt The image alt.
 	 * @return Promise
 	 */
 	_loadImage(url) {
