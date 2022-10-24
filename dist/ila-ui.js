@@ -509,14 +509,16 @@
 			
 			const url = await this._loadImage(path);
 			
-			//Condition prevents jumping back if display has moved on to another image before this one is loaded.
+			//Prevent jumping back if display has moved on to another image before this one is loaded.
 			if(el.dataset.loading == url) {
-				el.src = url;
+				console.log(url);
+				//Put the loaded image into the visible <img> element.
+				//The promise is awaited again to prevent the controls update checking the width before the image is in position.
+				await this._loadImage(url, this._imgDisplay);
 				el.alt = img.getAttribute("alt");
+				this._loader.style.visibility = "hidden";
 				this._updateCaption(n);
 				this._updateControls();
-				el.dataset.loading = null;
-				this._loader.style.visibility = "hidden";
 			}
 		}
 		
@@ -524,14 +526,15 @@
 		 * Load the image and return a promise that resolves when complete.
 		 * @protected
 		 * @param {string} url The image source
+		 * @param {HTMLImageElement} [i = new Image()] The image element in which to load the image. If unspecified a new Image is created on the DOM.
 		 * @return Promise
 		 */
-		_loadImage(url) {
+		_loadImage(url, i = new Image()) {
+			console.log(`Loading ${url}`);
 			return new Promise((resolve) => {
-				const i = new Image();
 				i.addEventListener('load', () => { resolve(url); });
 				i.src = url;
-				i.remove();
+				i.dataset.loading = null;
 			});
 		}
 		
@@ -752,6 +755,7 @@
 			}
 			
 			if (this._config.panzoom) {
+				console.log(`Shown: ${img.width}; Actual: ${img.naturalWidth}`);
 				const btnZoom = document.getElementById("btn-zoom");
 				if(img.width < img.naturalWidth) {
 					btnZoom.disabled = false;
