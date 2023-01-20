@@ -149,6 +149,13 @@ iv.create();
 			</p>
 			<img class="viewer" alt="This is the image alt" data-full="sample_2500x500.png" src="sample_1000x200.png" />
 			<div class="caption">This image is an awkward size.</div>
+			<p>If you have a different HTML structure, you can specify a selector, relative to the parent anchor of the image, which contains the text.</p>
+			<div>
+				<div>
+					<p id="custom-caption">This caption is awkwardly positioned before the image in a div wrapper. It is selected by adding a `data-caption-id` element to the target image.</p>
+				</div>
+				<img class="viewer" alt="This is the image alt" src="sample_600x338.png" data-caption-id="custom-caption" />
+			</div>
 		</section>
 		
 		<script src="../dist/ila-ui.js"></script>
@@ -178,6 +185,7 @@ iv.create();
 			const iv = new ila.ImageViewer({
 				showDownload: true,
 				panzoom: true,
+				// captions: [ "& + figcaption", "& + .caption", ":scope .awkward-caption" ],
 				texts: {
 					cue: "",
 					hide: "",

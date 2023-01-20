@@ -331,6 +331,7 @@
 	 * Requires @panzoom/panzoom module to be available.
 	 * @property {boolean} [showDownload = false] Show a button to download the image
 	 * @property {boolean} [showLink = true] Show a link button for any images with a link associated
+	 * @property {Array} [captions = [ "& + figcaption", "& + .caption" ]] CSS selectors for the captions. '&' will be replaced with the automatically assigned ID of the anchor around the image. If ':scope' is included, the selector scope is the `<img>` grandparent.
 	 * @property {imageViewerButtons} [texts] The inner text of the buttons
 	 * @property {string} [texts.cue = ⨁]
 	 * @property {string} [texts.hide = ⓧ]
@@ -377,6 +378,7 @@
 		panzoom: false,
 		showDownload: false,
 		showLink: true,
+		captions: [ "& + figcaption", "& + .caption" ],
 		texts: {
 			cue: "⨁",
 			hide: "ⓧ",
@@ -550,14 +552,43 @@
 		
 		/**
 		 * Set the overlay caption for the given image number.
+		 * The caption will be determined with this order of priority:
+		 * 1. The content of the element matched by `data-caption-id` attribute
+		 * 2. The content of the `data-caption` attribute
+		 * 3. The content of elements matching config.captions. Note: multiple matches will be concatenated.
+		 * 
 		 * @protected
 		 * @param {number} n The number of the image from which to take the caption.
 		 */
 		_updateCaption(n) {
 			const caption = this._overlay.querySelector(".caption");
-			const nextEl = this._images[n].parentElement.nextElementSibling;
-			if (nextEl && (nextEl.tagName === "FIGCAPTION" || nextEl.classList.contains("caption"))){
-				caption.textContent = nextEl.textContent;
+			caption.textContent = '';
+			
+			//First use the selectors
+			const scope = this._images[n].parentNode.parentNode; //The element which contains the .viewer-wrap anchor
+			for (let selector of this._config.captions) {
+				let node;
+				selector = selector.replace("&", `#iv-${n}`);
+				if (selector.includes(":scope")) {
+					selector.replace(":scope", "");
+					node = scope.querySelector(selector);
+				} else {
+					node = document.querySelector(selector);
+				}
+				if (node) caption.textContent += node.textContent;
+			}
+			
+			//Caption in data-caption attribute
+			if (this._images[n].dataset.caption) {
+				caption.textContent = this._images.dataset.caption;
+			}
+			
+			//Caption element ID in data-caption-id attribute
+			if (this._images[n].dataset.captionId && document.querySelector('#' + this._images[n].dataset.captionId)) {
+				caption.textContent = document.querySelector('#' + this._images[n].dataset.captionId).textContent;
+			}
+			
+			if (caption.textContent !== '') {
 				caption.style.display = "block";
 			} else {
 				caption.style.display = "none";
@@ -679,6 +710,7 @@
 					wrap.append(img);
 				}
 				
+				wrap.id = `iv-${i}`;
 				wrap.classList.add("viewer-wrap");
 				
 				const cue = document.createElement("div");

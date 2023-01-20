@@ -65,8 +65,11 @@ The image viewer also enables keyboard navigation when active. Use <kbd>Esc</kbd
 The below HTML and Javascript will instatiate the image viewer with default settings. Any images, however positioned in the page, will be included in the viewer if they have the selected class.
 
  * **Full size image** - To provide a full-size version of the image for use in the viewer, include the URL in a `data-full` attribute.  Otherwise, the `src` URL will be used.
- * **Captions** - Captions can be included by following the image with an element with the class `caption`, or with a `<figcaption>` element.
- * **Links** - If an image is wrapped in a link (and linking is enabled - see Configuration below), then a link button will be added to the viewer controls leading to that URL.
+ * **Captions** - Captions can be included in three ways, in this order of priority:
+    1. The content of an element whose id matches the `data-caption-id` attribute of the `<img>`
+    2. The content of the `data-caption` attribute of the `<img>`
+    3. The config.captions CSS selectors. By default this will match a `<figcaption>` or element with `.caption` class, positioned after the `<img>` element or its wrapping `<a>`. (See also the [ImageViewer Config](#imageViewerConfig)).
+ * **Links** - If an image is wrapped in a link (and linking is enabled - see [Configuration](#configuration-1) below), then a link button will be added to the viewer controls leading to that URL.
 
 
 ```html
@@ -74,8 +77,8 @@ The below HTML and Javascript will instatiate the image viewer with default sett
 <p class="caption">This is the caption.</p>
 
 …
-
-<img src="example.png" alt="This image isn't used in the viewer" />
+<p id="special-caption">This caption is set using data-caption-id.</p>
+<img src="example.png" alt="This image isn't used in the viewer" data-caption-id="special-caption" />
 
 …
 
@@ -100,6 +103,7 @@ The image viewer configuration is used to change the following settings:
 * The target class of images to be included
 * Whether to enable the download and link buttons
 * Whether to use Panzoom (requires the inclusion of the `@panzoom/panzoom module`).
+* CSS selectors used to find the image caption.
 * The text, icons and title attributes for the control buttons.
 
 To make changes to the defaults, pass a config object when instantiating the image viewer. All properties are optional - any provided will be used to over-ride the defaults.
@@ -296,6 +300,7 @@ The configuration object for the ImageViewer.
 | [panzoom] | <code>boolean</code> | <code>false</code> | Activate the zoom button, which toggles the image's full size and allows panning around. Requires @panzoom/panzoom module to be available. |
 | [showDownload] | <code>boolean</code> | <code>false</code> | Show a button to download the image |
 | [showLink] | <code>boolean</code> | <code>true</code> | Show a link button for any images with a link associated |
+| [captions] | <code>Array</code> | <code>[ &quot;&amp; + figcaption&quot;, &quot;&amp; + .caption&quot; ]</code> | CSS selectors for the captions. '&' will be replaced with the automatically assigned ID of the anchor around the image. If ':scope' is included, the selector scope is the `<img>` grandparent. |
 | [texts] | [<code>imageViewerButtons</code>](#imageViewerButtons) |  | The inner text of the buttons |
 | [texts.cue] | <code>string</code> | <code>&quot;⨁&quot;</code> |  |
 | [texts.hide] | <code>string</code> | <code>&quot;ⓧ&quot;</code> |  |
