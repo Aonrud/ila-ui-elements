@@ -19,7 +19,7 @@ $color-controls-bg: color.adjust($colour-bg, $lightness: -15%) !default;
         bottom: 0;
         text-align: center;
         width: 100%;
-        padding: 10px;
+        padding: 0.5em;
         display: none;
     }
 }
@@ -80,6 +80,9 @@ $color-controls-bg: color.adjust($colour-bg, $lightness: -15%) !default;
     .image-wrap {
         padding: 2em 4em 2em 0;
     }
+    #overlay .caption {
+        padding-right: 4.5em;
+    }
 }
 
 @media screen and (min-width: 1200px) {
@@ -92,6 +95,9 @@ $color-controls-bg: color.adjust($colour-bg, $lightness: -15%) !default;
     }
     .image-wrap {
         padding-right: 5em;
+    }
+    #overlay .caption {
+        padding-right: 5.5em;
     }
 }
 
