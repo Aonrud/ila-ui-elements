@@ -832,6 +832,4 @@
 	exports.ImageViewer = ImageViewer;
 	exports.Scroller = Scroller;
 
-	Object.defineProperty(exports, '__esModule', { value: true });
-
 }));

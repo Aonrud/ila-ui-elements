@@ -1,5 +1,5 @@
 //import resolve from '@rollup/plugin-node-resolve';
-import {terser} from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import header from './src/js/license-header.js';
 
 export default {
@@ -17,7 +17,6 @@ export default {
 			format: 'umd',
 			plugins: [terser( { 
 				mangle: { properties: { regex: /^_/ } },
-				format: { comments: `/^\/*!/` }
 			} )],
 			banner: header
 		},
