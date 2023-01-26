@@ -33,6 +33,7 @@
 		</header>
 		<nav>
 			<ul>
+				<li><a href="#toggler">Toggler</a></li>
 				<li><a href="#scroller">Scroller</a></li>
 				<li><a href="#image-viewer">Image Viewer</a></li>
 			</ul>
@@ -43,6 +44,23 @@
 			<li><a href="https://github.com/timmywil/panzoom">Panzoom</a> (MIT licence)</li>
 			<li><a href="https://github.com/iconoir-icons/iconoir">Iconoir</a> (MIT licence)</li>
 		</ul>
+		
+		
+		<section id="toggler">
+			<h2>Toggler</h2>
+			
+			<p>Use a link or button to toggle the visibility of another element.</p>
+			<button data-toggle-target="toggle-target" data-toggle-text="Hide text ↑">Show text ↓</button>
+			<div id="toggle-target">
+				<p>
+				Et labore dolores aut repudiandae neque. Quos quaerat accusamus et qui qui sit. Commodi magnam aut ipsam eveniet ipsam reprehenderit qui enim.
+				</p><p>
+				Repudiandae voluptatem fugiat dolores quia consectetur sit. Nemo perspiciatis mollitia quia perferendis. Eius quo qui et laborum eveniet sed. Atque autem harum aut sit error incidunt quas.
+				</p><p>
+				Ratione ea aliquid dolorem magni voluptatibus tempore molestiae. Distinctio asperiores nesciunt explicabo ut et rerum ipsam. Sequi earum est distinctio corrupti. Nihil alias corrupti dolore illo. Ratione laborum sed possimus nihil id velit. Nostrum nihil minus ea minus est beatae dolorem quo.
+				</p>
+			</div>
+		</section>
 		
 		<section id="scroller">
 			<h2>Scroller</h2>
@@ -160,7 +178,9 @@ iv.create();
 		
 		<script src="../dist/ila-ui.js"></script>
 		<script src="https://unpkg.com/@panzoom/panzoom@4.5.0/dist/panzoom.min.js"></script>
-		<script>			
+		<script>
+			document.querySelectorAll("[data-toggle-target]").forEach( (el) => new ila.Toggler(el) );
+			
 			new ila.Scroller(document.querySelectorAll(".scroller")[0]);
 			new ila.Scroller(
 				document.querySelectorAll(".scroller")[1],

@@ -272,3 +272,14 @@ a.viewer-wrap .cue {
 a.viewer-wrap:hover .cue {
   display: block;
 }
+
+.toggle-view {
+  display: none;
+  height: 0;
+  overflow: hidden;
+  transition: height 250ms ease-in-out;
+}
+.toggle-view.visible {
+  display: block;
+  height: auto;
+}

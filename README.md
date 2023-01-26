@@ -14,6 +14,37 @@ The CSS is compiled from SASS files. If including the module in your build envir
 
 ## Components
 
+### Toggler
+
+Use a link or button to toggle the visibility of another element.
+
+The target element to be hidden can be set either directly by passing a `HTMLElement` at instantiation, or by setting the data attribute `data-toggle-target` on the source link/button, containing the ID of the target element.
+
+The button or link text can be changed depending on state -- text provided either directly at instantiation or in the `data-toggle-text` attribute of the button or link will be applied when in the visible/shown state.
+
+#### Example
+
+The below HTML and Javascript will create a button to show/hide the target text using `data-` attributes to set the target and button text.
+
+````html
+<<button data-toggle-target="toggle-target" data-toggle-text="Hide text ↑">Show text ↓</button>
+
+<p id="toggle-target">
+Et labore dolores aut repudiandae neque. Quos quaerat accusamus et qui qui sit.
+Commodi magnam aut ipsam eveniet ipsam reprehenderit qui enim.
+</p>
+
+````
+
+Note the below will instantiate all elements that have a `data-toggle-target` attribute, allowing for multiple use.
+
+````javascript
+document.querySelectorAll("[data-toggle-target]").forEach( (el) => new ila.Toggler(el) );
+````
+
+#### Configuration
+
+
 ### Scroller
 
 The scroller turns a list of linked images into a configurable horizontal scroller.
@@ -120,6 +151,9 @@ See the [imageViewerConfig](#imageViewerConfig) definition for the available opt
 </dd>
 <dt><a href="#Scroller">Scroller</a></dt>
 <dd><p>Creates an image scroller from a list of images.</p>
+</dd>
+<dt><a href="#Toggler">Toggler</a></dt>
+<dd><p>A simple animated visibility toggler.</p>
 </dd>
 </dl>
 
@@ -285,6 +319,51 @@ Scroll in the provided direction and return the pixel offset from origin after s
 | --- | --- | --- | --- |
 | [forward] | <code>boolean</code> | <code>true</code> | Scroll forward (true) or back (false) |
 
+<a name="Toggler"></a>
+
+### Toggler
+A simple animated visibility toggler.
+
+**Kind**: global class  
+**Access**: public  
+
+* [Toggler](#Toggler)
+    * [new Toggler(source, [target], [toggleText])](#new_Toggler_new)
+    * [toggler.toggle()](#Toggler+toggle)
+    * [toggler.show()](#Toggler+show)
+    * [toggler.hide()](#Toggler+hide)
+
+<a name="new_Toggler_new"></a>
+
+#### new Toggler(source, [target], [toggleText])
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| source | <code>HTMLElement</code> |  | The element which triggers the toggle, e.g. a `<button>` |
+| [target] | <code>HTMLElement</code> \| <code>null</code> | <code></code> | The element of which to toggle the visibility. 						If omitted, the `data-toggle-target` attribute of the source will be checked for an ID. 						If neither is provided, an error is thrown. |
+| [toggleText] | <code>string</code> | <code>&quot;&#x27;&#x27;&quot;</code> | The replacement text for the source when its state is toggled. 						If omitted, the `data-toggle-text` attribute of the source will be used. 						If neither is provided, the source text remains static. |
+
+<a name="Toggler+toggle"></a>
+
+#### toggler.toggle()
+Toggle the state of the target.
+
+**Kind**: instance method of [<code>Toggler</code>](#Toggler)  
+**Access**: public  
+<a name="Toggler+show"></a>
+
+#### toggler.show()
+Show the target.
+
+**Kind**: instance method of [<code>Toggler</code>](#Toggler)  
+**Access**: public  
+<a name="Toggler+hide"></a>
+
+#### toggler.hide()
+Hide the target.
+
+**Kind**: instance method of [<code>Toggler</code>](#Toggler)  
+**Access**: public  
 
 <a name="imageViewerConfig"></a>
 
