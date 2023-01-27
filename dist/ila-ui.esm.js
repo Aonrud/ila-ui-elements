@@ -611,8 +611,6 @@ class ImageViewer {
 		
 		const url = await this._loadImage(path);
 		
-		this.revealToggle(!img.dataset.hasOwnProperty("reveal") || !img.dataset.reveal == 'true');
-		
 		//Prevent jumping back if display has moved on to another image before this one is loaded.
 		if(el.dataset.loading == url) {
 			console.log(url);
@@ -622,6 +620,7 @@ class ImageViewer {
 			el.alt = img.getAttribute("alt");
 			this._loader.style.visibility = "hidden";
 			this._updateCaption(n);
+			this.revealToggle(!img.dataset.hasOwnProperty("reveal") || !img.dataset.reveal == 'true');
 			this._updateControls();
 		}
 	}
@@ -770,10 +769,14 @@ class ImageViewer {
 	 * @param {boolean} [reveal = true]
 	 */
 	revealToggle(reveal = true) {
+		const caption = this._overlay.querySelector(".caption");
+		
 		if (reveal) {
 			this._imgDisplay.style.filter = "";
+			caption.style.color = "";
 		} else {
 			this._imgDisplay.style.filter = "blur(1em)";
+			caption.style.color = getComputedStyle(caption).getPropertyValue('background-color');
 		}
 	}
 
@@ -813,6 +816,7 @@ class ImageViewer {
 				
 		this._overlay = overlay;
 		this._imgDisplay = activeImg;
+		this._caption = caption;
 		this._loader = loader;
 		this._active = false;
 				
