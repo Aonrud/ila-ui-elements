@@ -74,6 +74,8 @@ new ila.Scroller(document.querySelectorAll(".scroller")[0]);
 
 #### Configuration
 
+##### Javascript
+
 The scroller configuration allows modifying the buttons and changing the number of items shown at each screen width.
 
 To make changes to the defaults, pass a config object when instantiating the scroller. All properties are optional - any provided will be used to over-ride the defaults.
@@ -127,6 +129,19 @@ iv.create();
 
 
 #### Configuration
+
+##### HTML
+
+The `<img>` elements in your HTML can have the following configuration attributes.
+
+|Attribute|Required|Description|
+|---------|--------|-----------|
+|`data-full`|No|The URL for the full size image to use. If omitted, the image `src` will be used.|
+|`data-caption-id`|No|A value matching the ID of another element which contains the caption text.|
+|`data-caption`|No|The caption text. **Note:** If `data-caption-id` is set it will take precedence.|
+|`data-reveal`|No|If set to `true`, the image will be blurred in the viewer and a button to view it will be included in the controls. **Note:** This applies only to the image visibility when viewed in the overlay.|
+
+##### Javascript
 
 The image viewer configuration is used to change the following settings:
 

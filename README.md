@@ -74,6 +74,8 @@ new ila.Scroller(document.querySelectorAll(".scroller")[0]);
 
 #### Configuration
 
+##### Javascript
+
 The scroller configuration allows modifying the buttons and changing the number of items shown at each screen width.
 
 To make changes to the defaults, pass a config object when instantiating the scroller. All properties are optional - any provided will be used to over-ride the defaults.
@@ -128,6 +130,19 @@ iv.create();
 
 #### Configuration
 
+##### HTML
+
+The `<img>` elements in your HTML can have the following configuration attributes.
+
+|Attribute|Required|Description|
+|---------|--------|-----------|
+|`data-full`|No|The URL for the full size image to use. If omitted, the image `src` will be used.|
+|`data-caption-id`|No|A value matching the ID of another element which contains the caption text.|
+|`data-caption`|No|The caption text. **Note:** If `data-caption-id` is set it will take precedence.|
+|`data-reveal`|No|If set to `true`, the image will be blurred in the viewer and a button to view it will be included in the controls. **Note:** This applies only to the image visibility when viewed in the overlay.|
+
+##### Javascript
+
 The image viewer configuration is used to change the following settings:
 
 * The target class of images to be included
@@ -175,7 +190,7 @@ A <code>swiped</code> event is also dispatched with the direction in the customE
 </dd>
 <dt><a href="#imageViewerButtons">imageViewerButtons</a> : <code>object</code></dt>
 <dd><p>The available buttons which can be set in the Image Viewer configuration.
-Note that zoom has an additional &#39;active&#39; and &#39;disabled&#39; state setting.</p>
+Note that reveal and zoom have additional &#39;active&#39; states, and zoom also has a &#39;disabled&#39; state.</p>
 </dd>
 </dl>
 
@@ -376,6 +391,7 @@ Creates an image viewer overlay.
     * [imageViewer.hide()](#ImageViewer+hide)
     * [imageViewer.show([n])](#ImageViewer+show)
     * [imageViewer.zoomToggle([switchOn])](#ImageViewer+zoomToggle)
+    * [imageViewer.revealToggle([reveal])](#ImageViewer+revealToggle)
 
 <a name="new_ImageViewer_new"></a>
 
@@ -438,6 +454,18 @@ Set the panzoom status
 | --- | --- | --- |
 | [switchOn] | <code>boolean</code> | <code>true</code> | 
 
+<a name="ImageViewer+revealToggle"></a>
+
+#### imageViewer.revealToggle([reveal])
+Set the reveal state.
+
+**Kind**: instance method of [<code>ImageViewer</code>](#ImageViewer)  
+**Access**: public  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [reveal] | <code>boolean</code> | <code>true</code> | 
+
 
 <a name="scrollerConfig"></a>
 
@@ -493,6 +521,8 @@ The configuration object for the ImageViewer.
 | [texts.download] | <code>string</code> | <code>&quot;⮋&quot;</code> |  |
 | [texts.prev] | <code>string</code> | <code>&quot;⮈&quot;</code> |  |
 | [texts.next] | <code>string</code> | <code>&quot;⮊&quot;</code> |  |
+| [texts.reveal] | <code>string</code> | <code>&quot;ᴑ&quot;</code> |  |
+| [texts.revealActive] | <code>string</code> | <code>&quot;ᴓ&quot;</code> |  |
 | [texts.link] | <code>string</code> | <code>&quot;⛓&quot;</code> |  |
 | [texts.zoom] | <code>string</code> | <code>&quot;🞕&quot;</code> |  |
 | [texts.zoomActive] | <code>string</code> | <code>&quot;🞔&quot;</code> |  |
@@ -503,6 +533,8 @@ The configuration object for the ImageViewer.
 | [titles.download] | <code>string</code> | <code>&quot;Download this image&quot;</code> |  |
 | [titles.prev] | <code>string</code> | <code>&quot;Previous image&quot;</code> |  |
 | [titles.next] | <code>string</code> | <code>&quot;Next image&quot;</code> |  |
+| [titles.reveal] | <code>string</code> | <code>&quot;Reveal image&quot;</code> |  |
+| [titles.revealActive] | <code>string</code> | <code>&quot;Re-hide image&quot;</code> |  |
 | [titles.link] | <code>string</code> | <code>&quot;More information&quot;</code> |  |
 | [titles.zoom] | <code>string</code> | <code>&quot;Enlarge image (drag to move the image around)&quot;</code> |  |
 | [titles.zoomActive] | <code>string</code> | <code>&quot;Reset image to fit screen&quot;</code> |  |
@@ -512,7 +544,7 @@ The configuration object for the ImageViewer.
 
 ### imageViewerButtons : <code>object</code>
 The available buttons which can be set in the Image Viewer configuration.
-Note that zoom has an additional 'active' and 'disabled' state setting.
+Note that reveal and zoom have additional 'active' states, and zoom also has a 'disabled' state.
 
 **Kind**: global typedef  
 **Properties**
@@ -524,6 +556,8 @@ Note that zoom has an additional 'active' and 'disabled' state setting.
 | [download] | <code>string</code> | The button to download the current image in the viewer |
 | [prev] | <code>string</code> | The button to show the previous image |
 | [next] | <code>string</code> | The button to show the next image |
+| [reveal] | <code>string</code> | The button to reveal a blurred image |
+| [revealActive] | <code>string</code> | The button to hide turn off reveal - i.e. re-blur the image. |
 | [link] | <code>string</code> | The button for the image's link |
 | [zoom] | <code>string</code> | The button to zoom the image to full size and activate panning |
 | [zoomActive] | <code>string</code> | Properties for the zoom button when it's active |

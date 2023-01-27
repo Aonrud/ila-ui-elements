@@ -154,25 +154,25 @@ iv.create();
 			</p>
 			<figure>
 				<a href="https://www.example.com/">
-					<img class="viewer" alt="This is the image alt" data-full="sample_1920x1080.png" src="sample_600x338.png" />
+					<img class="viewer" alt="This is the image alt" data-full="1920x1080.png" src="800x450.png" />
 				</a>
 				<figcaption>This is the image caption.</figcaption>
 			</figure>
 			<p>
 			This image is a bare <code>img</code> element - no figure, caption, link or alternative full-size image.
 			</p>
-			<img class="viewer" alt="This is the image alt" src="sample_600x338.png" />
+			<img class="viewer" alt="This is the image alt" src="432x768.png" data-reveal="true" />
 			<p>
 			Another example using no <code>figure</code> and a <code>div</code> caption, with an awkward sized image to demonstrate scaling and panning in the viewer.
 			</p>
-			<img class="viewer" alt="This is the image alt" data-full="sample_2500x500.png" src="sample_1000x200.png" />
+			<img class="viewer" alt="This is the image alt" data-full="2500x1500.png" src="1000x400.png" />
 			<div class="caption">This image is an awkward size.</div>
 			<p>If you have a different HTML structure, you can specify a selector, relative to the parent anchor of the image, which contains the text.</p>
 			<div>
 				<div>
 					<p id="custom-caption">This caption is awkwardly positioned before the image in a div wrapper. It is selected by adding a `data-caption-id` element to the target image.</p>
 				</div>
-				<img class="viewer" alt="This is the image alt" src="sample_600x338.png" data-caption-id="custom-caption" />
+				<img class="viewer" alt="This is the image alt" src="800x450.png" data-caption-id="custom-caption" />
 			</div>
 		</section>
 		
@@ -212,6 +212,8 @@ iv.create();
 					download: "",
 					prev: "",
 					next: "",
+					reveal: "",
+					revealActive: "",
 					link: "",
 					zoom: "",
 					zoomActive: "",
@@ -222,6 +224,8 @@ iv.create();
 					download: "iconoir-download-circled-outline",
 					prev: "iconoir-arrow-left-circled",
 					next: "iconoir-arrow-right-circled",
+					reveal: "iconoir-eye-empty",
+					revealActive: "iconoir-eye-off",
 					link: "iconoir-link",
 					zoom: "iconoir-expand",
 					zoomActive: "iconoir-collapse",
