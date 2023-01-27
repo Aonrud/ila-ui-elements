@@ -1,5 +1,6 @@
 import {applyConfig} from './utils/applyConfig.js';
 import {makeButton} from './utils/makeButton.js';
+import {Swipe} from './utils/Swipe.js';
 
 /**
  * The configuration object for the Scroller.
@@ -91,6 +92,10 @@ class Scroller {
 		this._sizes();
 		
 		window.addEventListener('resize', this);
+		
+		new Swipe(this._wrapper);
+		this._wrapper.addEventListener('swiped-right', () => this.left() );
+		this._wrapper.addEventListener('swiped-left', e => this.right() );
 	}
 	
 	/**

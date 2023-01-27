@@ -1,5 +1,6 @@
 import {applyConfig} from './utils/applyConfig.js';
 import {makeButton} from './utils/makeButton.js';
+import {Swipe} from './utils/Swipe.js';
 
 /**
  * The configuration object for the ImageViewer.
@@ -359,6 +360,11 @@ class ImageViewer {
 		overlay.append(this._createControls());
 		overlay.addEventListener("keydown", (e) => this._shortcutsEventListener(e));
 		
+		new Swipe(overlay);
+		overlay.addEventListener('swiped-right', () => this.prev() );
+		overlay.addEventListener('swiped-left', e => this.next() );
+		overlay.addEventListener('swiped-up', e => this.hide() );
+				
 		this._overlay = overlay;
 		this._imgDisplay = activeImg;
 		this._loader = loader;
