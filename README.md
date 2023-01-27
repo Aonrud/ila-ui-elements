@@ -145,20 +145,31 @@ See the [imageViewerConfig](#imageViewerConfig) definition for the available opt
 ### Classes
 
 <dl>
-<dt><a href="#ImageViewer">ImageViewer</a></dt>
-<dd><p>Creates an image viewer overlay.</p>
+<dt><a href="#Toggler">Toggler</a></dt>
+<dd><p>A simple animated visibility toggler.</p>
+</dd>
+<dt><a href="#Swipe">Swipe</a></dt>
+<dd><p>Adds custom swipe events to a given element.</p>
+<p>When instantiated, a <code>swiped-[DIRECTION]</code> event will be dispatched when that element is swiped.
+A <code>swiped</code> event is also dispatched with the direction in the customEvent.detail, to allow for a single listener if needed.</p>
 </dd>
 <dt><a href="#Scroller">Scroller</a></dt>
 <dd><p>Creates an image scroller from a list of images.</p>
 </dd>
-<dt><a href="#Toggler">Toggler</a></dt>
-<dd><p>A simple animated visibility toggler.</p>
+<dt><a href="#ImageViewer">ImageViewer</a></dt>
+<dd><p>Creates an image viewer overlay.</p>
 </dd>
 </dl>
 
 ### Typedefs
 
 <dl>
+<dt><a href="#scrollerConfig">scrollerConfig</a> : <code>object</code></dt>
+<dd><p>The configuration object for the Scroller.</p>
+</dd>
+<dt><a href="#scrollerButtons">scrollerButtons</a> : <code>object</code></dt>
+<dd><p>The buttons available for configuration in the Scroller config object.</p>
+</dd>
 <dt><a href="#imageViewerConfig">imageViewerConfig</a> : <code>object</code></dt>
 <dd><p>The configuration object for the ImageViewer.</p>
 </dd>
@@ -166,13 +177,141 @@ See the [imageViewerConfig](#imageViewerConfig) definition for the available opt
 <dd><p>The available buttons which can be set in the Image Viewer configuration.
 Note that zoom has an additional &#39;active&#39; and &#39;disabled&#39; state setting.</p>
 </dd>
-<dt><a href="#scrollerConfig">scrollerConfig</a> : <code>object</code></dt>
-<dd><p>The configuration object for the Scroller.</p>
-</dd>
-<dt><a href="#scrollerButtons">scrollerButtons</a> : <code>object</code></dt>
-<dd><p>The buttons available for configuration in the Scroller config object.</p>
-</dd>
 </dl>
+
+<a name="Toggler"></a>
+
+### Toggler
+A simple animated visibility toggler.
+
+**Kind**: global class  
+**Access**: public  
+
+* [Toggler](#Toggler)
+    * [new Toggler(source, [target], [toggleText])](#new_Toggler_new)
+    * [toggler.toggle()](#Toggler+toggle)
+    * [toggler.show()](#Toggler+show)
+    * [toggler.hide()](#Toggler+hide)
+
+<a name="new_Toggler_new"></a>
+
+#### new Toggler(source, [target], [toggleText])
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| source | <code>HTMLElement</code> |  | The element which triggers the toggle, e.g. a `<button>` |
+| [target] | <code>HTMLElement</code> \| <code>null</code> | <code></code> | The element of which to toggle the visibility. 						If omitted, the `data-toggle-target` attribute of the source will be checked for an ID. 						If neither is provided, an error is thrown. |
+| [toggleText] | <code>string</code> | <code>&quot;&#x27;&#x27;&quot;</code> | The replacement text for the source when its state is toggled. 						If omitted, the `data-toggle-text` attribute of the source will be used. 						If neither is provided, the source text remains static. |
+
+<a name="Toggler+toggle"></a>
+
+#### toggler.toggle()
+Toggle the state of the target.
+
+**Kind**: instance method of [<code>Toggler</code>](#Toggler)  
+**Access**: public  
+<a name="Toggler+show"></a>
+
+#### toggler.show()
+Show the target.
+
+**Kind**: instance method of [<code>Toggler</code>](#Toggler)  
+**Access**: public  
+<a name="Toggler+hide"></a>
+
+#### toggler.hide()
+Hide the target.
+
+**Kind**: instance method of [<code>Toggler</code>](#Toggler)  
+**Access**: public  
+<a name="Swipe"></a>
+
+### Swipe
+Adds custom swipe events to a given element.
+
+When instantiated, a `swiped-[DIRECTION]` event will be dispatched when that element is swiped.
+A `swiped` event is also dispatched with the direction in the customEvent.detail, to allow for a single listener if needed.
+
+**Kind**: global class  
+**Emits**: [<code>swiped</code>](#Swipe+event_swiped), <code>Swipe#event:swiped-up</code>, <code>Swipe#event:swiped-down</code>, <code>Swipe#event:swiped-left</code>, <code>Swipe#event:swiped-right</code>  
+**Access**: public  
+
+* [Swipe](#Swipe)
+    * [new Swipe(el)](#new_Swipe_new)
+
+<a name="new_Swipe_new"></a>
+
+#### new Swipe(el)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| el | <code>HTMLElement</code> | The element on which to listen for swipe events. |
+
+<a name="Scroller"></a>
+
+### Scroller
+Creates an image scroller from a list of images.
+
+**Kind**: global class  
+**Access**: public  
+
+* [Scroller](#Scroller)
+    * [new Scroller(el, [config])](#new_Scroller_new)
+    * [scroller.create()](#Scroller+create)
+    * [scroller.destroy()](#Scroller+destroy)
+    * [scroller.left()](#Scroller+left)
+    * [scroller.right()](#Scroller+right)
+    * [scroller.scroll([forward])](#Scroller+scroll) ⇒ <code>number</code>
+
+<a name="new_Scroller_new"></a>
+
+#### new Scroller(el, [config])
+
+| Param | Type | Default |
+| --- | --- | --- |
+| el | <code>HTMLElement</code> |  | 
+| [config] | [<code>scrollerConfig</code>](#scrollerConfig) | <code>{}</code> | 
+
+<a name="Scroller+create"></a>
+
+#### scroller.create()
+Create the scroller after instantiation.
+
+**Kind**: instance method of [<code>Scroller</code>](#Scroller)  
+**Access**: public  
+<a name="Scroller+destroy"></a>
+
+#### scroller.destroy()
+Destroy the scroller.
+
+**Kind**: instance method of [<code>Scroller</code>](#Scroller)  
+**Access**: public  
+<a name="Scroller+left"></a>
+
+#### scroller.left()
+Scroll to the left.
+
+**Kind**: instance method of [<code>Scroller</code>](#Scroller)  
+**Access**: public  
+<a name="Scroller+right"></a>
+
+#### scroller.right()
+Scroll to the right.
+
+**Kind**: instance method of [<code>Scroller</code>](#Scroller)  
+**Access**: public  
+<a name="Scroller+scroll"></a>
+
+#### scroller.scroll([forward]) ⇒ <code>number</code>
+Scroll in the provided direction and return the pixel offset from origin after scrolling.
+
+**Kind**: instance method of [<code>Scroller</code>](#Scroller)  
+**Returns**: <code>number</code> - The pixel offset  
+**Access**: public  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [forward] | <code>boolean</code> | <code>true</code> | Scroll forward (true) or back (false) |
 
 <a name="ImageViewer"></a>
 
@@ -252,117 +391,39 @@ Set the panzoom status
 | --- | --- | --- |
 | [switchOn] | <code>boolean</code> | <code>true</code> | 
 
-<a name="Scroller"></a>
 
-### Scroller
-Creates an image scroller from a list of images.
+<a name="scrollerConfig"></a>
 
-**Kind**: global class  
-**Access**: public  
+### scrollerConfig : <code>object</code>
+The configuration object for the Scroller.
 
-* [Scroller](#Scroller)
-    * [new Scroller(el, [config])](#new_Scroller_new)
-    * [scroller.create()](#Scroller+create)
-    * [scroller.destroy()](#Scroller+destroy)
-    * [scroller.left()](#Scroller+left)
-    * [scroller.right()](#Scroller+right)
-    * [scroller.scroll([forward])](#Scroller+scroll) ⇒ <code>number</code>
+**Kind**: global typedef  
+**Properties**
 
-<a name="new_Scroller_new"></a>
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| [classes] | [<code>scrollerButtons</code>](#scrollerButtons) |  | Classes to apply to each button |
+| [classes.left] | <code>string</code> | <code>&quot;scroller-left scroller-button&quot;</code> |  |
+| [classes.right] | <code>string</code> | <code>&quot;scroller-right scroller-button&quot;</code> |  |
+| [texts] | [<code>scrollerButtons</code>](#scrollerButtons) |  | Text content of each button |
+| [texts.left] | <code>string</code> | <code>&quot;⮈&quot;</code> |  |
+| [texts.right] | <code>string</code> | <code>&quot;⮊&quot;</code> |  |
+| [icons] | [<code>scrollerButtons</code>](#scrollerButtons) |  | Icon classes to apply to a span inside each button |
+| [titles] | [<code>scrollerButtons</code>](#scrollerButtons) |  | The title attribute for each button |
+| [breakpoints] | <code>Array.&lt;Array.&lt;number&gt;&gt;</code> | <code>[ [0, 4], [768, 4], [992, 6], [1200, 8] ]</code> | An array of number pairs. Each array entry should be an array containing two numbers, the first representing  a screen width in px and the second representing the number of scroller items to fit at that width and above  (up to the width of the next pair). |
 
-#### new Scroller(el, [config])
+<a name="scrollerButtons"></a>
 
-| Param | Type | Default |
+### scrollerButtons : <code>object</code>
+The buttons available for configuration in the Scroller config object.
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
 | --- | --- | --- |
-| el | <code>HTMLElement</code> |  | 
-| [config] | [<code>scrollerConfig</code>](#scrollerConfig) | <code>{}</code> | 
-
-<a name="Scroller+create"></a>
-
-#### scroller.create()
-Create the scroller after instantiation.
-
-**Kind**: instance method of [<code>Scroller</code>](#Scroller)  
-**Access**: public  
-<a name="Scroller+destroy"></a>
-
-#### scroller.destroy()
-Destroy the scroller.
-
-**Kind**: instance method of [<code>Scroller</code>](#Scroller)  
-**Access**: public  
-<a name="Scroller+left"></a>
-
-#### scroller.left()
-Scroll to the left.
-
-**Kind**: instance method of [<code>Scroller</code>](#Scroller)  
-**Access**: public  
-<a name="Scroller+right"></a>
-
-#### scroller.right()
-Scroll to the right.
-
-**Kind**: instance method of [<code>Scroller</code>](#Scroller)  
-**Access**: public  
-<a name="Scroller+scroll"></a>
-
-#### scroller.scroll([forward]) ⇒ <code>number</code>
-Scroll in the provided direction and return the pixel offset from origin after scrolling.
-
-**Kind**: instance method of [<code>Scroller</code>](#Scroller)  
-**Returns**: <code>number</code> - The pixel offset  
-**Access**: public  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [forward] | <code>boolean</code> | <code>true</code> | Scroll forward (true) or back (false) |
-
-<a name="Toggler"></a>
-
-### Toggler
-A simple animated visibility toggler.
-
-**Kind**: global class  
-**Access**: public  
-
-* [Toggler](#Toggler)
-    * [new Toggler(source, [target], [toggleText])](#new_Toggler_new)
-    * [toggler.toggle()](#Toggler+toggle)
-    * [toggler.show()](#Toggler+show)
-    * [toggler.hide()](#Toggler+hide)
-
-<a name="new_Toggler_new"></a>
-
-#### new Toggler(source, [target], [toggleText])
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| source | <code>HTMLElement</code> |  | The element which triggers the toggle, e.g. a `<button>` |
-| [target] | <code>HTMLElement</code> \| <code>null</code> | <code></code> | The element of which to toggle the visibility. 						If omitted, the `data-toggle-target` attribute of the source will be checked for an ID. 						If neither is provided, an error is thrown. |
-| [toggleText] | <code>string</code> | <code>&quot;&#x27;&#x27;&quot;</code> | The replacement text for the source when its state is toggled. 						If omitted, the `data-toggle-text` attribute of the source will be used. 						If neither is provided, the source text remains static. |
-
-<a name="Toggler+toggle"></a>
-
-#### toggler.toggle()
-Toggle the state of the target.
-
-**Kind**: instance method of [<code>Toggler</code>](#Toggler)  
-**Access**: public  
-<a name="Toggler+show"></a>
-
-#### toggler.show()
-Show the target.
-
-**Kind**: instance method of [<code>Toggler</code>](#Toggler)  
-**Access**: public  
-<a name="Toggler+hide"></a>
-
-#### toggler.hide()
-Hide the target.
-
-**Kind**: instance method of [<code>Toggler</code>](#Toggler)  
-**Access**: public  
+| [left] | <code>string</code> | The left/back button |
+| [right] | <code>string</code> | The right/forward button |
 
 <a name="imageViewerConfig"></a>
 
@@ -420,39 +481,6 @@ Note that zoom has an additional 'active' and 'disabled' state setting.
 | [zoom] | <code>string</code> | The button to zoom the image to full size and activate panning |
 | [zoomActive] | <code>string</code> | Properties for the zoom button when it's active |
 | [zoomDisabled] | <code>string</code> | Properties for the zoom button when it's disabled |
-
-<a name="scrollerConfig"></a>
-
-### scrollerConfig : <code>object</code>
-The configuration object for the Scroller.
-
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| [classes] | [<code>scrollerButtons</code>](#scrollerButtons) |  | Classes to apply to each button |
-| [classes.left] | <code>string</code> | <code>&quot;scroller-left scroller-button&quot;</code> |  |
-| [classes.right] | <code>string</code> | <code>&quot;scroller-right scroller-button&quot;</code> |  |
-| [texts] | [<code>scrollerButtons</code>](#scrollerButtons) |  | Text content of each button |
-| [texts.left] | <code>string</code> | <code>&quot;⮈&quot;</code> |  |
-| [texts.right] | <code>string</code> | <code>&quot;⮊&quot;</code> |  |
-| [icons] | [<code>scrollerButtons</code>](#scrollerButtons) |  | Icon classes to apply to a span inside each button |
-| [titles] | [<code>scrollerButtons</code>](#scrollerButtons) |  | The title attribute for each button |
-| [breakpoints] | <code>Array.&lt;Array.&lt;number&gt;&gt;</code> | <code>[ [0, 4], [768, 4], [992, 6], [1200, 8] ]</code> | An array of number pairs. Each array entry should be an array containing two numbers, the first representing  a screen width in px and the second representing the number of scroller items to fit at that width and above  (up to the width of the next pair). |
-
-<a name="scrollerButtons"></a>
-
-### scrollerButtons : <code>object</code>
-The buttons available for configuration in the Scroller config object.
-
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| [left] | <code>string</code> | The left/back button |
-| [right] | <code>string</code> | The right/forward button |
 
 
 * * *

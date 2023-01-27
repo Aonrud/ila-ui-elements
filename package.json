@@ -10,7 +10,7 @@
     "css": "npm-run-all css-*",
     "css-dev": "sass --style expanded src/scss/styles.scss > dist/ila-ui.css",
     "css-dist": "sass --style compressed src/scss/styles.scss > dist/ila-ui.min.css",
-    "docs": "npx jsdoc2md -d 3 -t README.hbs src/js/*.js > README.md"
+    "docs": "npx jsdoc2md -d 3 -t README.hbs $(find src/ -name '*.js')  > README.md"
   },
   "author": "Aonghus Storey",
   "license": "GPL-3.0-or-later",
