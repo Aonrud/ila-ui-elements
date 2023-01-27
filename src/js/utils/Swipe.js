@@ -30,11 +30,36 @@ class Swipe {
 	}
 	
 	/**
-	 * swiped event.
+	 * Event dispatched by any swipe.
+	 * @public
 	 * @event Swipe#swiped
 	 * @type {object}
-	 * @property {object} details
-	 * @property {string} details.direction - The direction of the swipe action.
+	 * @property {object} detail
+	 * @property {string} detail.direction - The direction of the swipe action.
+	 */
+	
+	/**
+	 * Event dispatched on swipe up.
+	 * @public
+	 * @event Swipe#swiped-up
+	 */
+	
+	/**
+	 * Event dispatched on swipe down.
+	 * @public
+	 * @event Swipe#swiped-down
+	 */
+	
+	/**
+	 * Event dispatched on swipe left.
+	 * @public
+	 * @event Swipe#swiped-left
+	 */
+	
+	/**
+	 * Event dispatched on swipe right.
+	 * @public
+	 * @event Swipe#swiped-right
 	 */
 	
 	/**

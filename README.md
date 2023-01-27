@@ -233,11 +233,16 @@ When instantiated, a `swiped-[DIRECTION]` event will be dispatched when that ele
 A `swiped` event is also dispatched with the direction in the customEvent.detail, to allow for a single listener if needed.
 
 **Kind**: global class  
-**Emits**: [<code>swiped</code>](#Swipe+event_swiped), <code>Swipe#event:swiped-up</code>, <code>Swipe#event:swiped-down</code>, <code>Swipe#event:swiped-left</code>, <code>Swipe#event:swiped-right</code>  
+**Emits**: [<code>swiped</code>](#Swipe+event_swiped), [<code>swiped-up</code>](#Swipe+event_swiped-up), [<code>swiped-down</code>](#Swipe+event_swiped-down), [<code>swiped-left</code>](#Swipe+event_swiped-left), [<code>swiped-right</code>](#Swipe+event_swiped-right)  
 **Access**: public  
 
 * [Swipe](#Swipe)
     * [new Swipe(el)](#new_Swipe_new)
+    * ["swiped"](#Swipe+event_swiped)
+    * ["swiped-up"](#Swipe+event_swiped-up)
+    * ["swiped-down"](#Swipe+event_swiped-down)
+    * ["swiped-left"](#Swipe+event_swiped-left)
+    * ["swiped-right"](#Swipe+event_swiped-right)
 
 <a name="new_Swipe_new"></a>
 
@@ -247,6 +252,48 @@ A `swiped` event is also dispatched with the direction in the customEvent.detail
 | --- | --- | --- |
 | el | <code>HTMLElement</code> | The element on which to listen for swipe events. |
 
+<a name="Swipe+event_swiped"></a>
+
+#### "swiped"
+Event dispatched by any swipe.
+
+**Kind**: event emitted by [<code>Swipe</code>](#Swipe)  
+**Access**: public  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| detail | <code>object</code> |  |
+| detail.direction | <code>string</code> | The direction of the swipe action. |
+
+<a name="Swipe+event_swiped-up"></a>
+
+#### "swiped-up"
+Event dispatched on swipe up.
+
+**Kind**: event emitted by [<code>Swipe</code>](#Swipe)  
+**Access**: public  
+<a name="Swipe+event_swiped-down"></a>
+
+#### "swiped-down"
+Event dispatched on swipe down.
+
+**Kind**: event emitted by [<code>Swipe</code>](#Swipe)  
+**Access**: public  
+<a name="Swipe+event_swiped-left"></a>
+
+#### "swiped-left"
+Event dispatched on swipe left.
+
+**Kind**: event emitted by [<code>Swipe</code>](#Swipe)  
+**Access**: public  
+<a name="Swipe+event_swiped-right"></a>
+
+#### "swiped-right"
+Event dispatched on swipe right.
+
+**Kind**: event emitted by [<code>Swipe</code>](#Swipe)  
+**Access**: public  
 <a name="Scroller"></a>
 
 ### Scroller
@@ -481,6 +528,7 @@ Note that zoom has an additional 'active' and 'disabled' state setting.
 | [zoom] | <code>string</code> | The button to zoom the image to full size and activate panning |
 | [zoomActive] | <code>string</code> | Properties for the zoom button when it's active |
 | [zoomDisabled] | <code>string</code> | Properties for the zoom button when it's disabled |
+
 
 
 * * *
