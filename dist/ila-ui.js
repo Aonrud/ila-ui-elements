@@ -279,7 +279,8 @@
 			
 			window.addEventListener('resize', this);
 			
-			new Swipe(this._wrapper);
+			const swipe = new Swipe(this._wrapper);
+			swipe.attach();
 			this._wrapper.addEventListener('swiped-right', () => this.left() );
 			this._wrapper.addEventListener('swiped-left', e => this.right() );
 		}
