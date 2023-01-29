@@ -90,7 +90,7 @@ Creates an image viewer overlay from selected images for viewing them in larger 
 
 The image viewer enables keyboard and touchscreen navigation when active. Use <kbd>Esc</kbd> or swipe up to close the viewer, and the arrow keys (<kbd>←</kbd> and <kbd>→</kbd>) or left and right swipe to switch to the previous and next images respectively.
 
-**Note:** Full size panning requires the inclusion of the [@panzoom/panzoom](https://github.com/timmywil/panzoom) module.  This is not bundled here, but can be included either via a CDN or bundled in your own build tools.  This setting is disabled by default.
+**Note:** Full size panning requires the inclusion of the [@panzoom/panzoom](https://github.com/timmywil/panzoom) module.  This is not bundled here, but can be included either via a CDN or bundled in your own build tools.  This setting is disabled by default. Swipe actions are disabled while Panzoom is active on an image, to prevent them interfering with panning functionality.
 
 #### Example
 
