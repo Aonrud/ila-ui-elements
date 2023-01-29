@@ -844,11 +844,11 @@
 			overlay.append(this._createControls());
 			overlay.addEventListener("keydown", (e) => this._shortcutsEventListener(e));
 			
-			this._swipe = new Swipe(overlay);
+			this._swipe = new Swipe(imgWrap);
 			this._swipe.attach();
-			overlay.addEventListener('swiped-right', () => this.prev() );
-			overlay.addEventListener('swiped-left', () => this.next() );
-			overlay.addEventListener('swiped-up', () => this.hide() );
+			imgWrap.addEventListener('swiped-right', () => this.prev() );
+			imgWrap.addEventListener('swiped-left', () => this.next() );
+			imgWrap.addEventListener('swiped-up', () => this.hide() );
 					
 			this._overlay = overlay;
 			this._imgDisplay = activeImg;
