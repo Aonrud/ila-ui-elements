@@ -1,7 +1,8 @@
 /**
  * Adds custom swipe events to a given element.
+ * Call the attach() method to add the event listeners, and detach() to remove it.
  * 
- * When instantiated, a `swiped-[DIRECTION]` event will be dispatched when that element is swiped.
+ * When attached, a `swiped-[DIRECTION]` event will be dispatched when that element is swiped.
  * A `swiped` event is also dispatched with the direction in the customEvent.detail, to allow for a single listener if needed.
  * 
  * @public
@@ -16,17 +17,41 @@ class Swipe {
 	
 	constructor(el) {
 		this._el = el;
-		el.addEventListener('touchstart',
-			e => {
-				this.startX = e.changedTouches[0].clientX;
-				this.startY = e.changedTouches[0].clientY;
-			});
-		el.addEventListener('touchend',
-			e => {
-				this.endX = e.changedTouches[0].clientX;
-				this.endY = e.changedTouches[0].clientY;
-				this._sendEvents();
-			});
+	}
+	
+	/**
+	 * Attach the event listeners
+	 * @public
+	 */
+	attach() {
+		this._el.addEventListener('touchstart', this);
+		this._el.addEventListener('touchend', this);
+	}
+	
+	/**
+	 * Detach the event listeners
+	 * @public
+	 */
+	detach() {
+		this._el.removeEventListener('touchstart', this);
+		this._el.removeEventListener('touchend', this);
+	}
+	
+	/**
+	 * Handle touchstart and touchend events
+	 * @protected
+	 * @param {Event} e
+	 */
+	handleEvent(e) {
+		if (e.type == 'touchstart') {
+			this.startX = e.changedTouches[0].clientX;
+			this.startY = e.changedTouches[0].clientY;
+		}
+		if (e.type == 'touchend') {
+			this.endX = e.changedTouches[0].clientX;
+			this.endY = e.changedTouches[0].clientY;
+			this._sendEvents();
+		}
 	}
 	
 	/**

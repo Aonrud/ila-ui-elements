@@ -164,8 +164,9 @@ See the [imageViewerConfig](#imageViewerConfig) definition for the available opt
 <dd><p>A simple animated visibility toggler.</p>
 </dd>
 <dt><a href="#Swipe">Swipe</a></dt>
-<dd><p>Adds custom swipe events to a given element.</p>
-<p>When instantiated, a <code>swiped-[DIRECTION]</code> event will be dispatched when that element is swiped.
+<dd><p>Adds custom swipe events to a given element.
+Call the attach() method to add the event listeners, and detach() to remove it.</p>
+<p>When attached, a <code>swiped-[DIRECTION]</code> event will be dispatched when that element is swiped.
 A <code>swiped</code> event is also dispatched with the direction in the customEvent.detail, to allow for a single listener if needed.</p>
 </dd>
 <dt><a href="#Scroller">Scroller</a></dt>
@@ -243,8 +244,9 @@ Hide the target.
 
 ### Swipe
 Adds custom swipe events to a given element.
+Call the attach() method to add the event listeners, and detach() to remove it.
 
-When instantiated, a `swiped-[DIRECTION]` event will be dispatched when that element is swiped.
+When attached, a `swiped-[DIRECTION]` event will be dispatched when that element is swiped.
 A `swiped` event is also dispatched with the direction in the customEvent.detail, to allow for a single listener if needed.
 
 **Kind**: global class  
@@ -253,6 +255,8 @@ A `swiped` event is also dispatched with the direction in the customEvent.detail
 
 * [Swipe](#Swipe)
     * [new Swipe(el)](#new_Swipe_new)
+    * [swipe.attach()](#Swipe+attach)
+    * [swipe.detach()](#Swipe+detach)
     * ["swiped"](#Swipe+event_swiped)
     * ["swiped-up"](#Swipe+event_swiped-up)
     * ["swiped-down"](#Swipe+event_swiped-down)
@@ -267,6 +271,20 @@ A `swiped` event is also dispatched with the direction in the customEvent.detail
 | --- | --- | --- |
 | el | <code>HTMLElement</code> | The element on which to listen for swipe events. |
 
+<a name="Swipe+attach"></a>
+
+#### swipe.attach()
+Attach the event listeners
+
+**Kind**: instance method of [<code>Swipe</code>](#Swipe)  
+**Access**: public  
+<a name="Swipe+detach"></a>
+
+#### swipe.detach()
+Detach the event listeners
+
+**Kind**: instance method of [<code>Swipe</code>](#Swipe)  
+**Access**: public  
 <a name="Swipe+event_swiped"></a>
 
 #### "swiped"

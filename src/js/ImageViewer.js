@@ -344,11 +344,14 @@ class ImageViewer {
 		const pz = this._pzInstance;
 		
 		if (switchOn) {
+			//Turn off swipe actions when zoomed to prevent over-riding Panzoom movements
+			this._swipe.detach();
 			this._imgDisplay.classList.add("pan");
 			pz.bind();
 			pz.setStyle("cursor", "move");
 			return;
 		}
+		this._swipe.attach();
 		this._imgDisplay.classList.remove("pan");
 		pz.reset({ animate: false });
 		pz.setStyle("cursor", "auto");
@@ -401,10 +404,11 @@ class ImageViewer {
 		overlay.append(this._createControls());
 		overlay.addEventListener("keydown", (e) => this._shortcutsEventListener(e));
 		
-		new Swipe(overlay);
+		this._swipe = new Swipe(overlay);
+		this._swipe.attach();
 		overlay.addEventListener('swiped-right', () => this.prev() );
-		overlay.addEventListener('swiped-left', e => this.next() );
-		overlay.addEventListener('swiped-up', e => this.hide() );
+		overlay.addEventListener('swiped-left', () => this.next() );
+		overlay.addEventListener('swiped-up', () => this.hide() );
 				
 		this._overlay = overlay;
 		this._imgDisplay = activeImg;
