@@ -221,6 +221,11 @@ button.scroller-right.scroller-button:disabled, button.scroller-right.scroller-b
   outline-color: #151515;
 }
 
+/* Hide by default */
+#btn-reveal {
+  display: none;
+}
+
 @media screen and (min-width: 768px) {
   .image-viewer-controls {
     left: auto;
