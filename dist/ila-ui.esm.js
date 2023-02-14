@@ -565,6 +565,7 @@ class ImageViewer {
 	 * @public
 	 */
 	next() {
+		if (this._images.length < 2) return;
 		const n = this._activeIndex === this._images.length - 1 ? 0 : this._activeIndex + 1;
 		this.show(n);
 	}
@@ -574,6 +575,7 @@ class ImageViewer {
 	 * @public
 	 */
 	prev() {
+		if (this._images.length < 2) return;
 		const n = this._activeIndex === 0 ? this._images.length - 1 : this._activeIndex - 1;
 		this.show(n);
 	}
