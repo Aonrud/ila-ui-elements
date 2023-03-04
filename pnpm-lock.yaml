@@ -5,14 +5,14 @@ specifiers:
   '@rollup/plugin-terser': ^0.4.0
   jsdoc-to-markdown: ^8.0.0
   npm-run-all: ^4.1.5
-  rollup: ^3.11.0
+  rollup: ^3.18.0
 
 devDependencies:
   '@panzoom/panzoom': 4.5.1
-  '@rollup/plugin-terser': 0.4.0_rollup@3.11.0
+  '@rollup/plugin-terser': 0.4.0_rollup@3.18.0
   jsdoc-to-markdown: 8.0.0
   npm-run-all: 4.1.5
-  rollup: 3.11.0
+  rollup: 3.18.0
 
 packages:
 
@@ -91,7 +91,7 @@ packages:
     resolution: {integrity: sha512-QOr/t7314XTwgAUDazR+RDcTAWSbkpjDnZJddd9f56jSUA8ptUsyDblAb+sp/O5O1o5Fiu9KpWxVHKuhGUgp5w==}
     dev: true
 
-  /@rollup/plugin-terser/0.4.0_rollup@3.11.0:
+  /@rollup/plugin-terser/0.4.0_rollup@3.18.0:
     resolution: {integrity: sha512-Ipcf3LPNerey1q9ZMjiaWHlNPEHNU/B5/uh9zXLltfEQ1lVSLLeZSgAtTPWGyw8Ip1guOeq+mDtdOlEj/wNxQw==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -100,7 +100,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      rollup: 3.11.0
+      rollup: 3.18.0
       serialize-javascript: 6.0.1
       smob: 0.0.6
       terser: 5.16.1
@@ -1049,8 +1049,8 @@ packages:
       supports-preserve-symlinks-flag: 1.0.0
     dev: true
 
-  /rollup/3.11.0:
-    resolution: {integrity: sha512-+uWPPkpWQ2H3Qi7sNBcRfhhHJyUNgBYhG4wKe5wuGRj2m55kpo+0p5jubKNBjQODyPe6tSBE3tNpdDwEisQvAQ==}
+  /rollup/3.18.0:
+    resolution: {integrity: sha512-J8C6VfEBjkvYPESMQYxKHxNOh4A5a3FlP+0BETGo34HEcE4eTlgCrO2+eWzlu2a/sHs2QUkZco+wscH7jhhgWg==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
