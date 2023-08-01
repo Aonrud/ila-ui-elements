@@ -279,7 +279,7 @@
 			const swipe = new Swipe(this._wrapper);
 			swipe.attach();
 			this._wrapper.addEventListener('swiped-right', () => this.left() );
-			this._wrapper.addEventListener('swiped-left', e => this.right() );
+			this._wrapper.addEventListener('swiped-left', () => this.right() );
 		}
 		
 		/**
@@ -650,7 +650,7 @@
 				el.alt = img.getAttribute("alt");
 				this._loader.style.visibility = "hidden";
 				this._updateCaption(n);
-				this.revealToggle(!img.dataset.hasOwnProperty("reveal") || !img.dataset.reveal == 'true');
+				this.revealToggle(!Object.hasOwn(img.dataset, "reveal") || !img.dataset.reveal == 'true');
 				this._updateControls();
 			}
 		}
@@ -755,7 +755,7 @@
 		 */
 		btnToggle(btn, switchOn = true) {
 			const btnName = btn.id.replace("btn-", "");
-			const btnTextNode = [...btn.childNodes].filter( n => n.nodeType === Node.TEXT_NODE)[0];
+			let btnTextNode = [...btn.childNodes].filter( n => n.nodeType === Node.TEXT_NODE)[0];
 			const txt = switchOn ? this._config.texts[`${btnName}Active`] : this._config.texts[btnName];
 			const icon = switchOn ? this._config.icons[`${btnName}Active`] : this._config.icons[btnName];
 			const title = switchOn ? this._config.titles[`${btnName}Active`] : this._config.titles[btnName];
@@ -992,7 +992,7 @@
 				"ArrowLeft": "prev",
 				"ArrowRight": "next"
 			};
-			if (keys.hasOwnProperty(e.key) && typeof this[keys[e.key]] === "function") {
+			if (Object.hasOwn(keys, e.key) && typeof this[keys[e.key]] === "function") {
 				e.preventDefault();
 				this[keys[e.key]]();
 			}

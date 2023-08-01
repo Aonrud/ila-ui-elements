@@ -1,9 +1,12 @@
-//import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
+import eslint from '@rollup/plugin-eslint';
 import header from './src/js/license-header.js';
 
 export default {
 	input: 'src/js/ila-ui.js',
+	plugins: [
+		eslint()
+	],
 	output: [
 		{
 			name: 'ila',
