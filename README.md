@@ -529,7 +529,7 @@ The configuration object for the ImageViewer.
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | [targetClass] | <code>string</code> | <code>&quot;viewer&quot;</code> |  |
-| [panzoom] | <code>boolean</code> | <code>false</code> | Activate the zoom button, which toggles the image's full size and allows panning around. Requires @panzoom/panzoom module to be available. |
+| [panzoom] | <code>function</code> \| <code>null</code> | <code></code> | If the Panzoom function is passed, activate the zoom button, which toggles the image's full size and allows panning around. Requires @panzoom/panzoom module to be available. |
 | [showDownload] | <code>boolean</code> | <code>false</code> | Show a button to download the image |
 | [showLink] | <code>boolean</code> | <code>true</code> | Show a link button for any images with a link associated |
 | [captions] | <code>Array</code> | <code>[ &quot;&amp; + figcaption&quot;, &quot;&amp; + .caption&quot; ]</code> | CSS selectors for the captions. '&' will be replaced with the automatically assigned ID of the anchor around the image. If ':scope' is included, the selector scope is the `<img>` grandparent. |

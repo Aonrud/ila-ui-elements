@@ -10,11 +10,8 @@ function applyConfig(defaults, conf) {
 	let c = {};
 	
 	for (const prop in defaults) {
-		if (conf[prop] && typeof conf[prop] !== typeof defaults[prop]) {
-			console.warn(`Config option ${prop} has the wrong type of value. Skipping`);
-			continue;
-		}
-		if (typeof defaults[prop] === "object" && !(defaults[prop] instanceof Array) && conf[prop]) {
+		
+		if (typeof defaults[prop] === "object" && !(defaults[prop] instanceof Array) && conf[prop] && typeof conf[prop] !== "function") {
 			c[prop] = applyConfig(defaults[prop], conf[prop]);
 		} else {
 			c[prop] = conf[prop] ?? defaults[prop];
