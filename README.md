@@ -82,7 +82,7 @@ To make changes to the defaults, pass a config object when instantiating the scr
 
 **Note:** The default classes applied to the scroller buttons include `scroller-button` for the visual style and `scroller-left` and `scroller-right` for the position. If using custom classes and excluding the latter classes, the `left` and `right` CSS properties should be set in your custom class to position the buttons at either end of the scroller.
 
-See the [scrollerConfig](#scrollerConfig) definition for the available options.
+See the [scrollerConfig](#scrollerconfig--object) definition for the available options.
 
 ### Image Viewer
 
@@ -100,7 +100,7 @@ The below HTML and Javascript will instatiate the image viewer with default sett
  * **Captions** - Captions can be included in three ways, in this order of priority:
     1. The content of an element whose id matches the `data-caption-id` attribute of the `<img>`
     2. The content of the `data-caption` attribute of the `<img>`
-    3. The config.captions CSS selectors. By default this will match a `<figcaption>` or element with `.caption` class, positioned after the `<img>` element or its wrapping `<a>`. (See also the [ImageViewer Config](#imageViewerConfig)).
+    3. The config.captions CSS selectors. By default this will match a `<figcaption>` or element with `.caption` class, positioned after the `<img>` element or its wrapping `<a>`. (See also the [ImageViewer Config](#imageviewerconfig--object)).
  * **Links** - If an image is wrapped in a link (and linking is enabled - see [Configuration](#configuration-1) below), then a link button will be added to the viewer controls leading to that URL.
 
 
@@ -153,7 +153,7 @@ The image viewer configuration is used to change the following settings:
 
 To make changes to the defaults, pass a config object when instantiating the image viewer. All properties are optional - any provided will be used to over-ride the defaults.
 
-See the [imageViewerConfig](#imageViewerConfig) definition for the available options.
+See the [imageViewerConfig](#imageviewerconfig--object) definition for the available options.
 
 ## Javascript documentation
 
